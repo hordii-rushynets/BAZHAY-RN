@@ -8,6 +8,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 30,
         flex: 1,
+    },
+    submitButton: {
+        backgroundColor: "white",
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        elevation: 1,
+        justifyContent: "center",
+    },
+    submitButtonText: {
+        textAlign: "center",
     }
 })
 

@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
         width: "100%",
         textAlign: "right",
         marginTop: 8
+    },
+    submitButton: {
+        marginHorizontal: "auto",
     }
 })
 

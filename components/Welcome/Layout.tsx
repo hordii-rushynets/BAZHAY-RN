@@ -16,7 +16,7 @@ const Layout = ({ children, index }: LayoutProps) => {
     <ScreenContainer>
         <View>
             <ProgressBar index={index} />
-            <Link to="" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>
+            <Link to="Authentication" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>
         </View>
         {children}
     </ScreenContainer>

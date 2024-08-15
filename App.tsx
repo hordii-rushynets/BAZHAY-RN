@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import WelcomeScreen from './screens/welcome/WelcomeScreen';
+import WelcomeScreen1 from './screens/welcome/Welcome1Screen';
+import WelcomeScreen2 from './screens/welcome/Welcome2Screen';
+import WelcomeScreen3 from './screens/welcome/Welcome3Screen';
 import * as Font from 'expo-font';
 import { Text } from 'react-native';
 
@@ -27,7 +29,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Welcome1" component={WelcomeScreen1} options={{ headerShown: false }}/>
+        <Stack.Screen name="Welcome2" component={WelcomeScreen2} options={{ headerShown: false }}/>
+        <Stack.Screen name="Welcome3" component={WelcomeScreen3} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
