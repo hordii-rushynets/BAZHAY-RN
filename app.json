@@ -22,6 +22,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "assetBundlePatterns": [
+      "assets/**/*",
+      "node_modules/react-native-vector-icons/fonts/*"
+    ]
   }
 }
