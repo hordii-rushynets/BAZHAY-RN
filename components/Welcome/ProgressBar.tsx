@@ -1,27 +1,15 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import styles from '../../screens/welcome/styles'
 
 function ProgressBar({ index } : { index: number }) {
   return (
-    <View style={styles.container}>
+    <View style={styles.progressBarContainer}>
       {[...Array(3)].map((_, indx) => (
-        <View key={indx} style={styles.line}/>
+        indx <= index ? <View key={indx} style={[styles.line, styles.blackLine]}/> : <View key={indx} style={styles.line}/>
       ))}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: 104,
-    height: 1,
-    justifyContent: 'space-between'
-  },
-  line: {
-    width: 104,
-    height: 1,
-    backgroundColor: '#000000'
-  },
-});
 
 export default ProgressBar;

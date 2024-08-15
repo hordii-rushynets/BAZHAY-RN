@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleProp, StyleSheetProperties, Text, TextStyle } from "react-native";
+import React, { ReactNode } from 'react';
+import { StyleProp, Text, TextStyle } from "react-native";
 
 type TitleProps = {
-    children: string;
+    children: ReactNode | string;
     bold?: boolean;
     italic?: boolean;
     isLowercase?: boolean;
@@ -13,7 +13,7 @@ export default function Title({children, bold = false, italic = false, isLowerca
   const customStyle: TextStyle = {
     fontFamily: "Inter-V",
     textTransform: isLowercase ? "lowercase" : "uppercase",
-    fontWeight: bold ? "bold" : "normal",
+    fontWeight: bold ? 700 : 500,
     fontStyle: italic ? "italic" : "normal",
     fontSize: 24,
   };

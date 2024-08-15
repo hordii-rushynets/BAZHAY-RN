@@ -1,20 +1,20 @@
-import React from 'react';
-import { StyleProp, StyleSheetProperties, Text, TextStyle } from "react-native";
+import React, { ReactNode } from 'react';
+import { StyleProp, Text, TextStyle } from "react-native";
 
 type DesignedTextProps = {
-    children: string;
+    children: ReactNode | string;
     size?: "small" | "medium";
     bold?: boolean;
     italic?: boolean;
-    isLowercase?: boolean;
+    isUppercase?: boolean;
     style?: StyleProp<TextStyle>;
 }
 
-export default function DesignedText({children, size = "medium", bold = false, italic = false, isLowercase = false, style = null} : DesignedTextProps) {
+export default function DesignedText({children, size = "medium", bold = false, italic = false, isUppercase = true, style = null} : DesignedTextProps) {
   const customStyle: TextStyle = {
     fontFamily: "Inter-V",
-    textTransform: isLowercase ? "lowercase" : "uppercase",
-    fontWeight: bold ? "bold" : "normal",
+    textTransform: isUppercase ? "uppercase" : "none",
+    fontWeight: bold ? 700 : 500,
     fontStyle: italic ? "italic" : "normal",
     fontSize: size === "small" ? 12 : 16,
   };
