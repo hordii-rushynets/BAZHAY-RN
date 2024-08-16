@@ -78,6 +78,37 @@ const styles = StyleSheet.create({
     },
     underlined: {
         textDecorationLine: 'underline',
+    },
+    otpInputContainer: {
+        marginTop: 32,
+        width: 280,
+        marginHorizontal: "auto"
+    },
+    otpInputRoot: { minHeight: 40 },
+    otpInputCellRoot: {
+      width: 40,
+      height: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 30,
+      borderColor: '#0000000',
+      borderWidth: 1,
+    },
+    otpInputCellText: {
+      textAlign: 'center',
+    },
+    otpInputFocusCell: {
+
+    },
+    emailChangeButton: {
+        marginTop: 32,
+        marginHorizontal: "auto"
+    },
+    emailChangeButtonText: {
+        fontSize: 12
+    },
+    otpScreenBottomContainer: {
+        marginTop: 200
     }
 })
 

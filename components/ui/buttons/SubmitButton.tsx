@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { GestureResponderEvent, StyleProp, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
-import generalStyles from '../../generalStyles'
+import generalStyles from '../generalStyles'
 import DesignedText from '../DesignedText';
 
 type SubmitButtonProps = {

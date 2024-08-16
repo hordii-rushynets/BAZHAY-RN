@@ -10,12 +10,25 @@ import SocialLogin from '../../components/Auth/SocialLogin';
 import styles from './styles'
 import DesignStars from '../../components/ui/DesignStars';
 import BigLogo from '../../components/ui/BigLogo';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+  Authentication: undefined;
+  EmailConfirmation: undefined;
+};
+
+type AuthScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Authentication'>;
+
+interface AuthScreenProps {
+  navigation: AuthScreenNavigationProp;
+}
+
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
   });
 
-function AuthScreen() {
+function AuthScreen({ navigation }: AuthScreenProps) {
   return (
     <ScreenContainer>
         <View style={styles.logoContainer}>
@@ -48,7 +61,7 @@ function AuthScreen() {
                           value={values.email}
                           onChange={handleChange('email')}
                           onSubmit={() => {
-                            
+                            navigation.navigate("EmailConfirmation")
                           }}
                           />
                     </View>

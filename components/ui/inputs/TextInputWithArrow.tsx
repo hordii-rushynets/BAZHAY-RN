@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import { NativeSyntheticEvent, TextInput, TextInputChangeEventData, TouchableOpacity, View } from "react-native";
-import generalStyles from '../../generalStyles'
+import generalStyles from '../generalStyles'
 import DesignedText from '../DesignedText';
-import styles from '../../generalStyles'
+import styles from '../generalStyles'
 import ArrowRight from '../ArrowRight';
 
 type TextInputWithArrowProps = {
