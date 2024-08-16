@@ -5,6 +5,7 @@ import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
+import DesignStars from '../../components/ui/DesignStars';
 
 type RootStackParamList = {
   Welcome1: undefined;
@@ -30,6 +31,9 @@ function WelcomeScreen({ navigation }: WelcomeScreenProps) {
             <DesignedText bold={true}> БАЖАНІ ПОДАРУНКИ</DesignedText>
             . ЯК?
           </DesignedText>
+        </View>
+        <View style={styles.starsContainer}>
+          <DesignStars />
         </View>
       </TouchableOpacity>
     </Layout>

@@ -1,8 +1,18 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+    logoContainer: {
+        position: "absolute",
+        top: 64,
+        left: "10%"
+    },
+    starsContainer: {
+        position: "absolute",
+        top: 88,
+        left: "50%"
+    },
     contentContainer: {
-        marginTop: "70%",
+        marginTop: "50%",
         width: "100%",
         marginHorizontal: "auto",
         flex: 1,
@@ -49,10 +59,25 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         borderStyle: "solid",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    socialIcon: {
+        width: "90%",
+        height: "90%",
     },
     bottomContainer: {
-        marginBottom: 0,
-        marginTop: "auto"
+        marginTop: 56
+    },
+    guestButton: {
+        textAlign: "center",
+        marginBottom: 32,
+    },
+    bottomText: {
+        textAlign: "center",
+    },
+    underlined: {
+        textDecorationLine: 'underline',
     }
 })
 

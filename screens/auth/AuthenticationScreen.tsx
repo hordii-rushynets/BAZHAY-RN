@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import SocialLogin from '../../components/Auth/SocialLogin';
 import styles from './styles'
+import DesignStars from '../../components/ui/DesignStars';
+import BigLogo from '../../components/ui/BigLogo';
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -16,6 +18,12 @@ const validationSchema = Yup.object().shape({
 function AuthScreen() {
   return (
     <ScreenContainer>
+        <View style={styles.logoContainer}>
+          <BigLogo width={110} height={30}/>
+        </View>
+        <View style={styles.starsContainer}>
+          <DesignStars />
+        </View>
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -39,6 +47,9 @@ function AuthScreen() {
                           placeholder={"Продовжити з електронною поштою"}
                           value={values.email}
                           onChange={handleChange('email')}
+                          onSubmit={() => {
+                            
+                          }}
                           />
                     </View>
                   )}
@@ -52,12 +63,15 @@ function AuthScreen() {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity>
-                    <DesignedText>
-                        Продовжити як гість
+                    <DesignedText style={styles.guestButton}>
+                        Продовжити як <DesignedText italic={true}>гість</DesignedText>
                     </DesignedText>
                 </TouchableOpacity>
-                <DesignedText size="small">
-                Натискаючи “Продовжити”, ти приймаєш Політику конфеденційності та Правила користування
+                <DesignedText size="small" isUppercase={false} style={styles.bottomText}>
+                Натискаючи “Продовжити”, ти приймаєш {'\n'} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Політику конфеденційності</DesignedText> 
+                {" та "} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Правила користування</DesignedText>
                 </DesignedText>
             </View>
         </View>

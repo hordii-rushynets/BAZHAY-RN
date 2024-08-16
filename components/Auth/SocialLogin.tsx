@@ -1,15 +1,17 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import styles from '../../screens/auth/styles'
+import AppleIcon from './AppleIcon';
+import GoogleIcon from './GoogleIcon';
 
 function SocialLogin() {
   return (
     <View style={styles.socialLoginContainer}>
         <View style={styles.iconContainer}>
-            <Image src={"../../screens/auth/static/Apple.svg"}/>
+          <AppleIcon />
         </View>
         <View style={styles.iconContainer}>
-            <Image src={"../../screens/auth/static/Google.svg"}/>
+            <GoogleIcon />
         </View>
     </View>
   );

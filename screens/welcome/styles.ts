@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+    starsContainer: {
+      marginHorizontal: "auto",
+    },
     textContainer: {
         flex: 1,
         width: 290,

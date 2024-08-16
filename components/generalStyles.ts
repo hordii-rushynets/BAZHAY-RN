@@ -25,13 +25,34 @@ const styles = StyleSheet.create({
     submitButtonText: {
         textAlign: "center",
     },
+    textInputWithArrowContainer: {
+        flexDirection: "row",
+        width: "100%",
+        gap: 16
+    },
     textInputWithArrow: {
         borderRadius: 30,
         borderWidth: 1,
         borderColor: "black",
         borderStyle: "solid",
         height: 40,
-        paddingHorizontal: 24
+        textTransform: "uppercase",
+        fontFamily: "Inter-V",
+        paddingHorizontal: 24,
+        width: "100%",
+    },
+    textInputWithArrowFocused: {
+        width: "auto"
+    },
+    arrowContainer: {
+        width: 40,
+        height: 40,
+        borderRadius: 40,
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        alignItems: "center",
+        justifyContent: "center"
     }
 })
 
