@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen1 from './screens/welcome/Welcome1Screen';
 import WelcomeScreen2 from './screens/welcome/Welcome2Screen';
 import WelcomeScreen3 from './screens/welcome/Welcome3Screen';
+import AuthenticationScreen from './screens/auth/AuthenticationScreen'
 import * as Font from 'expo-font';
 import { Text } from 'react-native';
 
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="Welcome1" component={WelcomeScreen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Welcome2" component={WelcomeScreen2} options={{ headerShown: false }}/>
         <Stack.Screen name="Welcome3" component={WelcomeScreen3} options={{ headerShown: false }}/>
+        <Stack.Screen name="Authentication" component={AuthenticationScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

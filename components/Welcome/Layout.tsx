@@ -9,14 +9,15 @@ import DesignedText from '../ui/DesignedText';
 type LayoutProps = {
     children: ReactNode;
     index: number;
+    displaySkip?: boolean;
 }
 
-const Layout = ({ children, index }: LayoutProps) => {
+const Layout = ({ children, index, displaySkip = true }: LayoutProps) => {
   return (
     <ScreenContainer>
         <View>
             <ProgressBar index={index} />
-            <Link to="Authentication" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>
+            {displaySkip && <Link to="/Authentication" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>}
         </View>
         {children}
     </ScreenContainer>

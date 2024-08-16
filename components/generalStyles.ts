@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
     },
     submitButtonText: {
         textAlign: "center",
+    },
+    textInputWithArrow: {
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        height: 40,
+        paddingHorizontal: 24
     }
 })
 

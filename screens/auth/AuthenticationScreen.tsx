@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import SocialLogin from '../../components/Auth/SocialLogin';
+import styles from './styles'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -15,13 +16,13 @@ const validationSchema = Yup.object().shape({
 function AuthScreen() {
   return (
     <ScreenContainer>
-        <View>
+        <View style={styles.contentContainer}>
             <View>
-                <View>
-                    <Title>
-                    Створи обліковий запис або увійди до нього
+                <View style={styles.titleContainer}>
+                    <Title style={styles.title}>
+                      <Title italic={true}>Створи</Title>{'\n'} обліковий запис або <Title italic={true}>увійди</Title> до нього
                     </Title>
-                    <DesignedText>
+                    <DesignedText style={styles.titleSpan} size="small">
                     Зберігай свої дані в безпеці та використовуй на кількох пристроях
                     </DesignedText>
                 </View>
@@ -33,7 +34,7 @@ function AuthScreen() {
                   }}
                 >
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                    <View>
+                    <View style={styles.inputContainer}>
                         <TextInputWithArrow 
                           placeholder={"Продовжити з електронною поштою"}
                           value={values.email}
@@ -42,14 +43,14 @@ function AuthScreen() {
                     </View>
                   )}
                 </Formik>
-                <View>
-                    <View></View>
-                    <DesignedText size="small">або</DesignedText>
-                    <View></View>
+                <View style={styles.dividerContainer}>
+                    <View style={styles.line}></View>
+                    <DesignedText size="small" style={styles.dividerText}>або</DesignedText>
+                    <View style={styles.line}></View>
                 </View>
                 <SocialLogin />
             </View>
-            <View>
+            <View style={styles.bottomContainer}>
                 <TouchableOpacity>
                     <DesignedText>
                         Продовжити як гість

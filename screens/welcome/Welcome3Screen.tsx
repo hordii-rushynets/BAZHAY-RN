@@ -20,7 +20,7 @@ type RootStackParamList = {
 
 function WelcomeScreen({ navigation } : WelcomeScreenProps) {
   return (
-    <Layout index={2}>
+    <Layout index={2} displaySkip={false}>
       <View style={styles.textContainer}>
         <Title style={styles.title}>Розповідь про додаток</Title>
       </View>
