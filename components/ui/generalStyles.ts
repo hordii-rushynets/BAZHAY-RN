@@ -28,9 +28,11 @@ const styles = StyleSheet.create({
     textInputWithArrowContainer: {
         flexDirection: "row",
         width: "100%",
-        gap: 16
+        gap: 16,
+        justifyContent: "space-between",
     },
     textInputWithArrow: {
+        flex: 1,
         borderRadius: 30,
         borderWidth: 1,
         borderColor: "black",
@@ -41,9 +43,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         width: "100%",
     },
-    textInputWithArrowFocused: {
-        width: "auto"
-    },
     arrowContainer: {
         width: 40,
         height: 40,
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderStyle: "solid",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     }
 })
 

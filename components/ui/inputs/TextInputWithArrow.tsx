@@ -18,7 +18,7 @@ export default function TextInputWithArrow({ placeholder, value, onChange, onSub
   return (
     <View style={styles.textInputWithArrowContainer}>
       <TextInput 
-        style={[styles.textInputWithArrow, isInFocus ? styles.textInputWithArrowFocused : {}]}
+        style={styles.textInputWithArrow}
         placeholder={placeholder}
         value={value}
         onChangeText={onChange}

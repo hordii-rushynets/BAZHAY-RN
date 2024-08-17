@@ -8,6 +8,7 @@ import AuthenticationScreen from './screens/auth/AuthenticationScreen'
 import * as Font from 'expo-font';
 import { Text } from 'react-native';
 import EmailConfirmationScreen from './screens/auth/EmailConfirmationScreen';
+import ChangeEmailScreen from './screens/auth/ChangeEmailScreen';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +37,7 @@ export default function App() {
         <Stack.Screen name="Welcome3" component={WelcomeScreen3} options={{ headerShown: false }}/>
         <Stack.Screen name="Authentication" component={AuthenticationScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="EmailConfirmation" component={EmailConfirmationScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

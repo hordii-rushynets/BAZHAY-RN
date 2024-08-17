@@ -6,8 +6,20 @@ import Title from '../../components/ui/Title';
 import styles from './styles'
 import OtpInput from './OtpInput';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-function EmailConfirmationScreen() {
+type RootStackParamList = {
+    ChangeEmail: undefined;
+    EmailConfirmation: undefined;
+  };
+  
+  type EmailConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EmailConfirmation'>;
+  
+  interface EmailConfirmationScreenProps {
+    navigation: EmailConfirmationScreenNavigationProp;
+  }
+
+function EmailConfirmationScreen({ navigation }: EmailConfirmationScreenProps) {
   return (
     <ScreenContainer>
         <View style={styles.contentContainer}>
@@ -30,7 +42,9 @@ function EmailConfirmationScreen() {
                     <DesignedText size="small" isUppercase={false} style={styles.underlined}>Надіслати знову</DesignedText>
                 </DesignedText>
                 <SubmitButton 
-                    onPress={() => {}} 
+                    onPress={() => {
+                        navigation.navigate("ChangeEmail")
+                    }} 
                     width={280} 
                     height={32} 
                     style={styles.emailChangeButton}

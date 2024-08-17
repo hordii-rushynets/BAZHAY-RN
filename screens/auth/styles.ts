@@ -109,6 +109,9 @@ const styles = StyleSheet.create({
     },
     otpScreenBottomContainer: {
         marginTop: 200
+    },
+    changeEmailScreenBottomContainer: {
+        marginTop: 300
     }
 })
 
