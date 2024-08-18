@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         alignItems: "center",
         justifyContent: "center",
+    },
+    centerContainer: {
+        marginHorizontal: "auto",
+        marginVertical: "auto",
+        justifyContent: "center",
+        alignItems: "center",
     }
 })
 

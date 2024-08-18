@@ -112,6 +112,10 @@ const styles = StyleSheet.create({
     },
     changeEmailScreenBottomContainer: {
         marginTop: 300
+    },
+    accountConnectedText: {
+        textAlign: 'center',
+        marginTop: 16
     }
 })
 

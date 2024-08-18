@@ -11,6 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 type RootStackParamList = {
     ChangeEmail: undefined;
     EmailConfirmation: undefined;
+    AccountConnected: undefined;
   };
   
   type EmailConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EmailConfirmation'>;
@@ -33,7 +34,9 @@ function EmailConfirmationScreen({ navigation }: EmailConfirmationScreenProps) {
                     </DesignedText>
                 </View>
                 <View style={styles.otpInputContainer}>
-                    <OtpInput onSubmit={() => {}}/>
+                    <OtpInput onSubmit={() => {
+                      navigation.navigate("AccountConnected");
+                    }}/>
                 </View>
             </View>
             <View style={styles.otpScreenBottomContainer}>
