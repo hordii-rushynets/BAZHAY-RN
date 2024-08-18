@@ -6,11 +6,7 @@ import Title from '../../components/ui/Title';
 import styles from "./styles"
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-    Welcome3: undefined;
-    Authentication: undefined;
-  };
+import { RootStackParamList } from '../../App';
   
   type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome3'>;
   

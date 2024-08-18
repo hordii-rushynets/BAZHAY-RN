@@ -5,11 +5,7 @@ import Title from '../../components/ui/Title';
 import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  AccountConnected: undefined;
-  AccountFillMessage: undefined;
-};
+import { RootStackParamList } from '../../App';
 
 type AccountConnectedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountConnected'>;
 

@@ -11,8 +11,25 @@ import EmailConfirmationScreen from './screens/auth/EmailConfirmationScreen';
 import ChangeEmailScreen from './screens/auth/ChangeEmailScreen';
 import AccountConnectedScreen from './screens/auth/AccountConnectedScreen';
 import AccountFillMessageScreen from './screens/auth/AccountFillMessageScreen';
+import AccountFillNameScreen from './screens/auth/AccountFillNameScreen';
+import GreetingScreen from './screens/auth/GreetingScreen';
+import AccountFillNickNameScreen from './screens/auth/AccountFillNickNameScreen';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Welcome1: undefined;
+  Welcome2: undefined;
+  Welcome3: undefined;
+  Authentication: undefined;
+  Greeting: {name: string};
+  AccountFillName: undefined;
+  AccountConnected: undefined;
+  AccountFillMessage: undefined;
+  AccountFillNickName: undefined;
+  ChangeEmail: undefined;
+  EmailConfirmation: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -33,7 +50,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Welcome1">
         <Stack.Screen name="Welcome1" component={WelcomeScreen1} options={{ headerShown: false }}/>
         <Stack.Screen name="Welcome2" component={WelcomeScreen2} options={{ headerShown: false }}/>
         <Stack.Screen name="Welcome3" component={WelcomeScreen3} options={{ headerShown: false }}/>
@@ -42,6 +59,9 @@ export default function App() {
         <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="AccountConnected" component={AccountConnectedScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="AccountFillMessage" component={AccountFillMessageScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="AccountFillName" component={AccountFillNameScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="Greeting" component={GreetingScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="AccountFillNickName" component={AccountFillNickNameScreen} options={{ headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

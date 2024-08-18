@@ -4,16 +4,11 @@ import { TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import styles from './styles'
-import OtpInput from './OtpInput';
+import OtpInput from '../../components/Auth/OtpInput';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../App';
 
-type RootStackParamList = {
-    ChangeEmail: undefined;
-    EmailConfirmation: undefined;
-    AccountConnected: undefined;
-  };
-  
   type EmailConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EmailConfirmation'>;
   
   interface EmailConfirmationScreenProps {

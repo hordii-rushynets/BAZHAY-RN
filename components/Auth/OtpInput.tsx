@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
-import DesignedText from '../../components/ui/DesignedText';
-import styles from './styles';
+import DesignedText from '../ui/DesignedText';
+import styles from '../../screens/auth/styles';
 
 const CELL_COUNT = 6;
 

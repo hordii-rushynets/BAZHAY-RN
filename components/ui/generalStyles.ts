@@ -58,7 +58,22 @@ const styles = StyleSheet.create({
         marginVertical: "auto",
         justifyContent: "center",
         alignItems: "center",
-    }
+    },
+    progressBarContainer: {
+      width: "100%",
+      height: 8,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 16
+    },
+    line: {
+      flex: 1,
+      height: 2,
+      backgroundColor: '#8A8A8A'
+    },
+    blackLine: {
+      backgroundColor: '#000000'
+    },
 })
 
 export default styles;

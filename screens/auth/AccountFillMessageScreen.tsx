@@ -5,11 +5,7 @@ import Title from '../../components/ui/Title';
 import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  AccountFillMessage: undefined;
-  EmailConfirmation: undefined;
-};
+import { RootStackParamList } from '../../App';
 
 type AccountFillMessageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillMessage'>;
 
@@ -19,7 +15,7 @@ interface AccountFillMessageScreenProps {
 
 function AccountFillMessageScreen({ navigation }: AccountFillMessageScreenProps) {
   return (
-    <TouchableOpacity onPress={() => {}} style={generalStyles.screenContainer}>
+    <TouchableOpacity onPress={() => {navigation.navigate("AccountFillName")}} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
                 Перш, ніж ми розпочнемо, давай 

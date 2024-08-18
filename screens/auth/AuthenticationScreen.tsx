@@ -11,11 +11,7 @@ import styles from './styles'
 import DesignStars from '../../components/ui/DesignStars';
 import BigLogo from '../../components/ui/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
-
-type RootStackParamList = {
-  Authentication: undefined;
-  EmailConfirmation: undefined;
-};
+import { RootStackParamList } from '../../App';
 
 type AuthScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Authentication'>;
 

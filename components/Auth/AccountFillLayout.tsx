@@ -9,19 +9,18 @@ import DesignedText from '../ui/DesignedText';
 type LayoutProps = {
     children: ReactNode;
     index: number;
-    displaySkip?: boolean;
 }
 
-const Layout = ({ children, index, displaySkip = true }: LayoutProps) => {
+const AccountFillLayout = ({ children, index }: LayoutProps) => {
   return (
     <ScreenContainer>
         <View>
-            <ProgressBar index={index} n={3}/>
-            {displaySkip && <Link to="/Authentication" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>}
+            <ProgressBar index={index} n={5}/>
+            <DesignedText isUppercase={false} size={"small"}>Заповнення профілю {index + 1}/{5}</DesignedText>
         </View>
         {children}
     </ScreenContainer>
   );
 };
 
-export default Layout;
+export default AccountFillLayout;

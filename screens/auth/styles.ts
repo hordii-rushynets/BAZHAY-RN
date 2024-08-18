@@ -116,7 +116,18 @@ const styles = StyleSheet.create({
     accountConnectedText: {
         textAlign: 'center',
         marginTop: 16
-    }
+    },
+    contentNickNameContainer: {
+        marginTop: "70%",
+        width: "100%",
+        marginHorizontal: "auto",
+        flex: 1,
+    },
+    titleNickNameContainer: {
+        width: "100%",
+        minWidth: 283,
+        marginHorizontal: "auto",
+    },
 })
 
 export default styles;

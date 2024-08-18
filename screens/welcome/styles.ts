@@ -18,20 +18,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 16,
     },
-    progressBarContainer: {
-      width: "100%",
-      height: 8,
-      flexDirection: 'row',
-      justifyContent: 'space-between'
-    },
-    line: {
-      width: 104,
-      height: 2,
-      backgroundColor: '#8A8A8A'
-    },
-    blackLine: {
-      backgroundColor: '#000000'
-    },
     link: {
         width: "100%",
         textAlign: "right",
