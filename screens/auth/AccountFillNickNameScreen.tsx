@@ -46,7 +46,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                           value={values.nickname}
                           onChange={handleChange('nickname')}
                           onSubmit={() => {
-                            
+                            navigation.navigate("AccountFillAvatar");
                           }}
                           />
                     </View>

@@ -14,6 +14,14 @@ import AccountFillMessageScreen from './screens/auth/AccountFillMessageScreen';
 import AccountFillNameScreen from './screens/auth/AccountFillNameScreen';
 import GreetingScreen from './screens/auth/GreetingScreen';
 import AccountFillNickNameScreen from './screens/auth/AccountFillNickNameScreen';
+import AccountFillAvatarScreen from './screens/auth/AccountFillAvatarScreen';
+import ImageFromGalleryScreen from './screens/auth/ImageFromGalleryScreen';
+import AvatarConfirmationScreen from './screens/auth/AvatarConfirmationScreen';
+import ImageFromCameraScreen from './screens/auth/ImageFromCameraScreen';
+import AccountFillBirthScreen from './screens/auth/AccountFillBirthScreen';
+import AccountFillSexScreen from './screens/auth/AccountFillSexScreen';
+import AccountFillEndingScreen from './screens/auth/AccountFillEndingScreen';
+import HomeScreen from './screens/home/HomeScreen';
 
 export type RootStackParamList = {
   Welcome1: undefined;
@@ -27,6 +35,14 @@ export type RootStackParamList = {
   AccountFillNickName: undefined;
   ChangeEmail: undefined;
   EmailConfirmation: undefined;
+  AccountFillAvatar: undefined;
+  ImageFromGallery: undefined;
+  AvatarConfirmation: { image: string };
+  ImageFromCamera: undefined;
+  AccountFillBirth: undefined;
+  AccountFillSex: undefined;
+  AccountFillEnding: undefined;
+  Home: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -62,6 +78,14 @@ export default function App() {
         <Stack.Screen name="AccountFillName" component={AccountFillNameScreen} options={{ headerShown: false}}/>
         <Stack.Screen name="Greeting" component={GreetingScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="AccountFillNickName" component={AccountFillNickNameScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="AccountFillAvatar" component={AccountFillAvatarScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="ImageFromGallery" component={ImageFromGalleryScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="AvatarConfirmation" component={AvatarConfirmationScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="ImageFromCamera" component={ImageFromCameraScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="AccountFillBirth" component={AccountFillBirthScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="AccountFillSex" component={AccountFillSexScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="AccountFillEnding" component={AccountFillEndingScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

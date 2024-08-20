@@ -74,6 +74,27 @@ const styles = StyleSheet.create({
     blackLine: {
       backgroundColor: '#000000'
     },
+    backButtonContainer: {
+        width: "100%",
+        height: 32,
+        marginBottom: 16,
+        padding: 8,
+    },
+    checkBoxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 16,
+    },
+    checkbox: {
+        width: 16,
+        height: 16,
+        borderColor: "#000000",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderRadius: 30,
+        alignItems: "center",
+        justifyContent: "center"
+    }
 })
 
 export default styles;

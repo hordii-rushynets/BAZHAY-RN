@@ -8,8 +8,8 @@ import * as Yup from 'yup';
 import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import SocialLogin from '../../components/Auth/SocialLogin';
 import styles from './styles'
-import DesignStars from '../../components/ui/DesignStars';
-import BigLogo from '../../components/ui/BigLogo';
+import DesignStars from '../../components/ui/icons/DesignStars';
+import BigLogo from '../../components/ui/icons/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 

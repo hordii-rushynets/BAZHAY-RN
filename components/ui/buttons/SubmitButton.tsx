@@ -6,7 +6,7 @@ import DesignedText from '../DesignedText';
 type SubmitButtonProps = {
     children: ReactNode | string;
     onPress: (event: GestureResponderEvent) => void;
-    width: number;
+    width: number | "auto";
     height?: number;
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;

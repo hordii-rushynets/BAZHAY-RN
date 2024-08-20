@@ -5,7 +5,7 @@ import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import DesignStars from '../../components/ui/DesignStars';
+import DesignStars from '../../components/ui/icons/DesignStars';
 import { RootStackParamList } from '../../App';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome1'>;
@@ -22,7 +22,7 @@ function WelcomeScreen({ navigation }: WelcomeScreenProps) {
           <Title style={styles.title}>Ласкаво просимо до <Title bold={true}>Bazhay!</Title></Title>
           <DesignedText style={styles.text}>
             BAZHAY! ДОПОМОЖЕ ТОБІ 
-            <DesignedText italic={true}> ОТРИМАТИ</DesignedText> 
+            <DesignedText italic={true}> ОТРИМАТИ </DesignedText> 
             <DesignedText bold={true}> БАЖАНІ ПОДАРУНКИ</DesignedText>
             . ЯК?
           </DesignedText>
