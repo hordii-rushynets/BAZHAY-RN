@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field';
 import DesignedText from '../ui/DesignedText';
 import styles from '../../screens/auth/styles';
+import generalStyles from '../ui/generalStyles'
+import { AccountService } from '../../screens/auth/services';
 
 const CELL_COUNT = 6;
 
 type OtpInputProps = {
-    onSubmit: () => void;
+    email: string;
+    onConfirm: (token: { access: string, refresh: string }) => void;
 }
 
-const OtpInput = ({ onSubmit }: OtpInputProps) => {
+const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
   const [value, setValue] = React.useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -18,9 +21,20 @@ const OtpInput = ({ onSubmit }: OtpInputProps) => {
     setValue,
   });
 
+  const [ error, setError ] = useState<string | undefined>();
+
+  const accountService = new AccountService();
+
   useEffect(() => {
     if (value.length === 6) {
-        onSubmit();
+        accountService.otpConfirm(email, value).then(token => {
+          if (token.access !== "" && token.refresh !== "") {
+            onConfirm({access: token.access, refresh: token.refresh});
+          }
+          else {
+            setError("Код підтвердження не вірний");
+          }
+        })
     }
   }, [value]);
 
@@ -45,6 +59,9 @@ const OtpInput = ({ onSubmit }: OtpInputProps) => {
           </View>
         )}
       />
+      <DesignedText isUppercase={false} size={"small"} style={generalStyles.textInputWithArrowError}>
+          {error}
+      </DesignedText>
     </View>
   );
 };

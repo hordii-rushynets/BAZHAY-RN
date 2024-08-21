@@ -6,9 +6,9 @@ import Title from '../../components/ui/Title';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
 import DesignStars from '../../components/ui/icons/DesignStars';
-import { RootStackParamList } from '../../App';
+import { WelcomeStackParamList } from '../../components/navigationStacks/WelcomeStackScreen';
 
-type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome1'>;
+type WelcomeScreenNavigationProp = StackNavigationProp<WelcomeStackParamList, 'Welcome1'>;
 
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp;

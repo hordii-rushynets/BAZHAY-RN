@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
-import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
-import { RootStackParamList } from '../../App';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import ArrowRight from '../../components/ui/icons/ArrowRight';
 import CheckBox from '../../components/ui/inputs/CheckBox';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type AccountFillSexScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillSex'>;
+type AccountFillSexScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillSex'>;
 
 interface AccountFillSexScreenProps {
   navigation: AccountFillSexScreenNavigationProp;

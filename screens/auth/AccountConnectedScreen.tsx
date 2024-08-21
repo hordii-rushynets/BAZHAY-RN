@@ -5,17 +5,24 @@ import Title from '../../components/ui/Title';
 import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
+import { RouteProp } from '@react-navigation/native';
+import { useAuth } from '../../contexts/AuthContext';
 
-type AccountConnectedScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountConnected'>;
+type AccountConnectedScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'AccountConnected'>;
+type AccountConnectedScreenRouteProp = RouteProp<AuthStackParamList, 'AccountConnected'>;
 
 interface AccountConnectedScreenProps {
+  route: AccountConnectedScreenRouteProp;
   navigation: AccountConnectedScreenNavigationProp;
 }
 
-function AccountConnectedScreen({ navigation }: AccountConnectedScreenProps) {
+function AccountConnectedScreen({ route, navigation }: AccountConnectedScreenProps) {
+  const { token } = route.params;
+  const { login } = useAuth();
+
   return (
-    <TouchableOpacity onPress={() => {navigation.navigate("AccountFillMessage")}} style={generalStyles.screenContainer}>
+    <TouchableOpacity onPress={() => { login(token.access, token.refresh) }} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>Обліковий запис пов’язано!</Title>
             <DesignedText style={styles.accountConnectedText}>

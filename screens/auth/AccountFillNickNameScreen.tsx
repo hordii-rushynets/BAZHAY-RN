@@ -9,9 +9,11 @@ import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
-import { RootStackParamList } from '../../App';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { AccountService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
 
-type AccountFillNickNameScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillNickName'>;
+type AccountFillNickNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillNickName'>;
 
 interface AccountFillNickNameScreenProps {
   navigation: AccountFillNickNameScreenNavigationProp;
@@ -19,10 +21,13 @@ interface AccountFillNickNameScreenProps {
 
 
 const validationSchema = Yup.object().shape({
-    nickname: Yup.string().min(2).max(20).required('Required'),
+    nickname: Yup.string().min(2, "Нік повинен містити не менше двох символів").max(30, "Нік повинен містити не більше тридцяти символів").required('Обов\'язково вкажіть нік'),
   });
 
 function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProps) {
+  const accountService = new AccountService();
+  const authContext = useAuth();
+
   return (
     <AccountFillLayout index={1}>
         <View style={styles.contentNickNameContainer}>
@@ -35,8 +40,15 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                 <Formik
                   initialValues={{ nickname: '' }}
                   validationSchema={validationSchema}
-                  onSubmit={(values) => {
-                    console.log(values);
+                  onSubmit={(values, { setErrors }) => {
+                    accountService.userUpdate({ username: values.nickname }, authContext).then(success => {
+                      if (success) {
+                        navigation.navigate("AccountFillAvatar");
+                      }
+                      else {
+                        setErrors({nickname: "Упс, щось пішло не так"})
+                      }
+                    });
                   }}
                 >
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -44,10 +56,9 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                         <TextInputWithArrow 
                           placeholder={"Напиши свій нікнейм"}
                           value={values.nickname}
+                          error={errors.nickname}
                           onChange={handleChange('nickname')}
-                          onSubmit={() => {
-                            navigation.navigate("AccountFillAvatar");
-                          }}
+                          onSubmit={handleSubmit}
                           />
                     </View>
                   )}

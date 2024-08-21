@@ -9,10 +9,10 @@ import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
-import { RootStackParamList } from '../../App';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type AccountFillAvatarScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillAvatar'>;
+type AccountFillAvatarScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillAvatar'>;
 
 interface AccountFillAvatarScreenProps {
   navigation: AccountFillAvatarScreenNavigationProp;

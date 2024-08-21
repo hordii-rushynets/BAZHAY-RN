@@ -4,9 +4,9 @@ import Layout from '../../components/Welcome/Layout';
 import Title from '../../components/ui/Title';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { WelcomeStackParamList } from '../../components/navigationStacks/WelcomeStackScreen';
   
-  type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome2'>;
+  type WelcomeScreenNavigationProp = StackNavigationProp<WelcomeStackParamList, 'Welcome2'>;
   
   interface WelcomeScreenProps {
     navigation: WelcomeScreenNavigationProp;

@@ -26,6 +26,9 @@
     "assetBundlePatterns": [
       "assets/**/*",
       "node_modules/react-native-vector-icons/fonts/*"
-    ]
+    ],
+    "extra": {
+      "apiUrl": "http://192.168.0.103:8000"
+    }
   }
 }

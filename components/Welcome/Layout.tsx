@@ -5,6 +5,7 @@ import { Link } from '@react-navigation/native';
 import ScreenContainer from '../ui/ScreenContainer';
 import styles from '../../screens/welcome/styles'
 import DesignedText from '../ui/DesignedText';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LayoutProps = {
     children: ReactNode;
@@ -17,7 +18,7 @@ const Layout = ({ children, index, displaySkip = true }: LayoutProps) => {
     <ScreenContainer>
         <View>
             <ProgressBar index={index} n={3}/>
-            {displaySkip && <Link to="/Authentication" style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>}
+            {displaySkip && <Link to="/Authentication" onPress={async () => {await AsyncStorage.setItem("standartScreen", "Authentication");}} style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>}
         </View>
         {children}
     </ScreenContainer>

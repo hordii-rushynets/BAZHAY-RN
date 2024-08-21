@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import TextInputWithArrow from "./inputs/TextInputWithArrow";
 
 const styles = StyleSheet.create({
     screenContainer: {
@@ -42,6 +43,11 @@ const styles = StyleSheet.create({
         fontFamily: "Inter-V",
         paddingHorizontal: 24,
         width: "100%",
+    },
+    textInputWithArrowError: {
+        marginTop: 5,
+        marginLeft: 10,
+        color: "#B70000"
     },
     arrowContainer: {
         width: 40,

@@ -9,9 +9,11 @@ import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
-import { RootStackParamList } from '../../App';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { AccountService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
 
-type AccountFillNameScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillName'>;
+type AccountFillNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillName'>;
 
 interface AccountFillNameScreenProps {
   navigation: AccountFillNameScreenNavigationProp;
@@ -19,10 +21,13 @@ interface AccountFillNameScreenProps {
 
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().min(2).max(20).required('Required'),
+    name: Yup.string().min(2, "Ім'я повинно містити не менше двох символів").max(20, "Ім'я повинно містити не більше двадцяти символів").required('Обов\'язково вкажіть ім\'я'),
   });
 
 function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
+  const accountService = new AccountService();
+  const authContext = useAuth();
+
   return (
     <AccountFillLayout index={0}>
         <View style={styles.contentContainer}>
@@ -38,8 +43,15 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                 <Formik
                   initialValues={{ name: '' }}
                   validationSchema={validationSchema}
-                  onSubmit={(values) => {
-                    console.log(values);
+                  onSubmit={(values, { setErrors }) => {
+                    accountService.userUpdate({ first_name: values.name }, authContext).then(success => {
+                      if (success) {
+                        navigation.navigate("Greeting", { name: values.name })
+                      }
+                      else {
+                        setErrors({name: "Упс, щось пішло не так"})
+                      }
+                    });
                   }}
                 >
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -47,10 +59,9 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                         <TextInputWithArrow 
                           placeholder={"Напиши своє ім’я"}
                           value={values.name}
+                          error={errors.name}
                           onChange={handleChange('name')}
-                          onSubmit={() => {
-                            navigation.navigate("Greeting", { name: values.name })
-                          }}
+                          onSubmit={handleSubmit}
                           />
                     </View>
                   )}

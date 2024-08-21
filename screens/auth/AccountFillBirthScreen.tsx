@@ -10,12 +10,12 @@ import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
-import { RootStackParamList } from '../../App';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ArrowRight from '../../components/ui/icons/ArrowRight';
 import CheckBox from '../../components/ui/inputs/CheckBox';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type AccountFillBirthScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AccountFillBirth'>;
+type AccountFillBirthScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillBirth'>;
 
 interface AccountFillBirthScreenProps {
   navigation: AccountFillBirthScreenNavigationProp;

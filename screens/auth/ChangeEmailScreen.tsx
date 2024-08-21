@@ -11,9 +11,10 @@ import styles from './styles'
 import DesignStars from '../../components/ui/icons/DesignStars';
 import BigLogo from '../../components/ui/icons/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
+import { AccountService } from './services';
 
-type ChangeEmailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ChangeEmail'>;
+type ChangeEmailScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ChangeEmail'>;
 
 interface ChangeEmailScreenProps {
   navigation: ChangeEmailScreenNavigationProp;
@@ -21,10 +22,12 @@ interface ChangeEmailScreenProps {
 
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Required'),
+    email: Yup.string().email('Некоректна електронна пошта').required('Електронна пошта обов\'язкова'),
   });
 
 function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
+  const accountService = new AccountService();
+
   return (
     <ScreenContainer>
         <View style={styles.contentContainer}>
@@ -40,8 +43,15 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                 <Formik
                   initialValues={{ email: '' }}
                   validationSchema={validationSchema}
-                  onSubmit={(values) => {
-                    console.log(values);
+                  onSubmit={(values, { setErrors }) => {
+                    accountService.authenticate(values.email).then(success => {
+                      if (success) {
+                        navigation.navigate("EmailConfirmation", { email: values.email })
+                      }
+                      else {
+                        setErrors({ email: "Невірно введена електронна пошта" })
+                      }
+                    })
                   }}
                 >
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
@@ -49,10 +59,9 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                         <TextInputWithArrow 
                           placeholder={"Ввести електронну пошту"}
                           value={values.email}
+                          error={errors.email}
                           onChange={handleChange('email')}
-                          onSubmit={() => {
-                            navigation.navigate("EmailConfirmation")
-                          }}
+                          onSubmit={handleSubmit}
                           />
                     </View>
                   )}

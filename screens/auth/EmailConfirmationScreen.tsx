@@ -7,15 +7,22 @@ import styles from './styles'
 import OtpInput from '../../components/Auth/OtpInput';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
+import { RouteProp } from '@react-navigation/native';
+import { AccountService } from './services';
 
-  type EmailConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'EmailConfirmation'>;
+  type EmailConfirmationScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'EmailConfirmation'>;
+  type EmailConfirmationScreenRouteProp = RouteProp<AuthStackParamList, 'EmailConfirmation'>;
   
   interface EmailConfirmationScreenProps {
+    route: EmailConfirmationScreenRouteProp;
     navigation: EmailConfirmationScreenNavigationProp;
   }
 
-function EmailConfirmationScreen({ navigation }: EmailConfirmationScreenProps) {
+function EmailConfirmationScreen({ navigation, route }: EmailConfirmationScreenProps) {
+  const { email } = route.params;
+  const accountService = new AccountService();
+
   return (
     <ScreenContainer>
         <View style={styles.contentContainer}>
@@ -29,15 +36,17 @@ function EmailConfirmationScreen({ navigation }: EmailConfirmationScreenProps) {
                     </DesignedText>
                 </View>
                 <View style={styles.otpInputContainer}>
-                    <OtpInput onSubmit={() => {
-                      navigation.navigate("AccountConnected");
-                    }}/>
+                    <OtpInput email={email} onConfirm={(token) => {navigation.navigate("AccountConnected", { token: token })}}/>
                 </View>
             </View>
             <View style={styles.otpScreenBottomContainer}>
                 <DesignedText isUppercase={false} size={"small"} style={styles.bottomText}>
                     Не отримав код? {" "}
-                    <DesignedText size="small" isUppercase={false} style={styles.underlined}>Надіслати знову</DesignedText>
+                    <TouchableOpacity onPress={() => {
+                      accountService.authenticate(email)
+                    }}>
+                      <DesignedText size="small" isUppercase={false} style={styles.underlined}>Надіслати знову</DesignedText>
+                    </TouchableOpacity>
                 </DesignedText>
                 <SubmitButton 
                     onPress={() => {

@@ -6,9 +6,9 @@ import ScreenContainer from '../../components/ui/ScreenContainer';
 import BackButton from '../../components/ui/buttons/BackButton';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type ImageFromGalleryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ImageFromGallery'>;
+type ImageFromGalleryScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromGallery'>;
 
 interface ImageFromGalleryScreenProps {
   navigation: ImageFromGalleryScreenNavigationProp;

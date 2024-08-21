@@ -1,14 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import Layout from '../../components/Welcome/Layout';
-import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { StackNavigationProp } from '@react-navigation/stack';
-import DesignStars from '../../components/ui/icons/DesignStars';
-import { RootStackParamList } from '../../App';
 import ScreenContainer from '../../components/ui/ScreenContainer';
+import { AppStackParamList } from '../../components/navigationStacks/AppStackScreen';
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenNavigationProp = StackNavigationProp<AppStackParamList, 'Home'>;
 
 interface HomeScreenProps {
   navigation: HomeScreenNavigationProp;

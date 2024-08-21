@@ -6,10 +6,9 @@ import BackButton from '../../components/ui/buttons/BackButton';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
-import { cropPhoto } from '../../utils/helpers';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type ImageFromCameraScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ImageFromCamera'>;
+type ImageFromCameraScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromCamera'>;
 
 interface ImageFromCameraScreenProps {
   navigation: ImageFromCameraScreenNavigationProp;

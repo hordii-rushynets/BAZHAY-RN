@@ -5,10 +5,10 @@ import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../App';
+import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 
-type GreetingScreenRouteProp = RouteProp<RootStackParamList, 'Greeting'>;
-type GreetingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Greeting'>;
+type GreetingScreenRouteProp = RouteProp<AccountFillingStackParamList, 'Greeting'>;
+type GreetingScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'Greeting'>;
 
 interface GreetingScreenProps {
   route: GreetingScreenRouteProp;
