@@ -13,6 +13,8 @@ import BigLogo from '../../components/ui/icons/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
 import { AccountService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
+import * as Application from 'expo-application';
 
 type AuthScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Authentication'>;
 
@@ -28,6 +30,8 @@ const validationSchema = Yup.object().shape({
 function AuthScreen({ navigation }: AuthScreenProps) {
   const accountService = new AccountService();
 
+  const { login, completeFillingAccount } = useAuth();
+ 
   return (
     <ScreenContainer>
         <View style={styles.logoContainer}>
@@ -80,7 +84,14 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                 <SocialLogin />
             </View>
             <View style={styles.bottomContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                  accountService.authGuest(Application.getAndroidId()).then(token => {
+                    if (token.access !== "") {
+                      login(token.access, token.refresh)
+                      completeFillingAccount()
+                    }
+                  })
+                }}>
                     <DesignedText style={styles.guestButton}>
                         Продовжити як <DesignedText italic={true}>гість</DesignedText>
                     </DesignedText>

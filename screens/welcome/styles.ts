@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
     },
     link: {
-        width: "100%",
+        alignSelf:  "flex-end",
         textAlign: "right",
         marginTop: 8
     },

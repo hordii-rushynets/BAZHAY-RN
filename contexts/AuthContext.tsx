@@ -1,6 +1,7 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AccountService } from '../screens/auth/services';
+import Constants from 'expo-constants';
 
 export interface AuthContextData {
   isAuthenticated: boolean;
@@ -32,6 +33,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setHasSeenWelcome(seenWelcome === 'true');
       const accountFilled = await AsyncStorage.getItem('accountFilled');
       setIsAccountFilled(accountFilled === 'true');
+
+      const isAuth = await checkIfUserAuthenticated();
+      setIsAuthenticated(isAuth);
+
     } catch (error) {
       console.error('Failed to load welcome state:', error);
     }
@@ -83,6 +88,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Failed to set account filled:', error);
     }
+  }
+
+  async function checkIfUserAuthenticated(): Promise<boolean> {
+      const accessToken = await AsyncStorage.getItem('AccessToken');
+      const apiUrl = Constants.manifest2.extra.expoClient.extra.apiUrl
+      let response = await fetch(`${apiUrl}/api/account/user/`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        }
+      });
+    
+      if (response.status === 401) {
+        await refreshToken();
+        const newAccessToken = await AsyncStorage.getItem('AccessToken');
+        response = await fetch(`${apiUrl}/api/account/user/`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${newAccessToken}`,
+        }
+      });
+      }
+    
+      return response.ok;
   }
 
   return (

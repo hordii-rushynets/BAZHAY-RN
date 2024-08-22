@@ -8,6 +8,8 @@ import AccountFillLayout from '../../components/Auth/AccountFillLayout';
 import CheckBox from '../../components/ui/inputs/CheckBox';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { AccountService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
 
 type AccountFillSexScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillSex'>;
 
@@ -17,6 +19,8 @@ interface AccountFillSexScreenProps {
 
 function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
   const [ sex, setSex ] = useState("");
+  const accountService = new AccountService();
+  const authContext = useAuth(); 
 
   return (
     <AccountFillLayout index={4}>
@@ -40,7 +44,13 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
               </CheckBox>
             </View>
         </View>
-        {sex !== "" && <SubmitButton onPress={() => {navigation.navigate("AccountFillEnding")}} width={200} style={styles.gridButton}>Готово</SubmitButton>}
+        {sex !== "" && <SubmitButton onPress={() => {
+          accountService.userUpdate({sex: sex}, authContext).then(success => {
+            if (success) {
+              navigation.navigate("AccountFillEnding")
+            }
+          })
+          }} width={200} style={styles.gridButton}>Готово</SubmitButton>}
     </AccountFillLayout>
   );
 };

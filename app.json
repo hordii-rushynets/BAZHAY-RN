@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,6 +30,7 @@
     ],
     "extra": {
       "apiUrl": "http://192.168.0.103:8000"
-    }
+    },
+    "jsEngine": "hermes"
   }
 }

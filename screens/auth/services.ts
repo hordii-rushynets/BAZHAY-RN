@@ -32,10 +32,11 @@ export class AccountService {
         return { access: "", refresh: "" };
     }
 
-    public async authGuest(): Promise<{access: string, refresh: string}> {
-        const response = await this.daoService.authGuest();
+    public async authGuest(imei: string): Promise<{access: string, refresh: string}> {
+        const response = await this.daoService.authGuest(imei);
         if (response.ok) {
-            return response.json();
+            const tokens = await response.json();
+            return tokens;
         }
         else {
             return { access: "", refresh: "" };
@@ -47,8 +48,20 @@ export class AccountService {
         return response.ok
     }
 
-    public async userPhotoUpdate(photo: FormData, authContext: any): Promise<boolean> {
+    public async userPhotoUpdate(photo: string, authContext: any): Promise<boolean> {
         const response = await this.daoService.userPhotoUpdate(photo, authContext);
         return response.ok
+    }
+
+    public async getUser(authContext: any):Promise<UserFields> {
+        const response = await this.daoService.getUser(authContext);
+
+        if (response.ok) {
+            const userData = await response.json(); 
+            return userData;
+        }
+        else {
+            throw new Error("Error fetching userinfo");
+        }
     }
 }

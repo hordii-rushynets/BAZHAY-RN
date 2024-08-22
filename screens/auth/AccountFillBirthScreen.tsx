@@ -14,6 +14,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ArrowRight from '../../components/ui/icons/ArrowRight';
 import CheckBox from '../../components/ui/inputs/CheckBox';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { AccountService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
 
 type AccountFillBirthScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillBirth'>;
 
@@ -27,6 +29,7 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
   const [year, setYear] = useState('');
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const [hideBirthday, setHideBirthday] = useState(false);
 
   const handleDateChange = (selectedDate: Date) => {
     setDate(selectedDate);
@@ -34,6 +37,9 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
     setMonth(String(selectedDate.getMonth() + 1));
     setYear(String(selectedDate.getFullYear()));
   };
+
+  const accountService = new AccountService();
+  const authContext = useAuth();
 
   return (
     <AccountFillLayout index={3}>
@@ -57,14 +63,20 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
                     <TouchableOpacity onPress={() => {setOpen(true)}} style={[styles.birthInput, styles.bigBirthInput]}>
                         <DesignedText style={styles.birthInputText}>{year}</DesignedText>
                     </TouchableOpacity>
-                    {year && <TouchableOpacity onPress={() => { navigation.navigate("AccountFillSex") }}>
+                    {year && <TouchableOpacity onPress={() => { 
+                      accountService.userUpdate({ birthday: `${year}-${month}-${day}`, view_birthday: !hideBirthday }, authContext).then(success => {
+                        if (success) {
+                          navigation.navigate("AccountFillSex");
+                        }
+                      })
+                      }}>
                       <View style={generalStyles.arrowContainer}>
                         <ArrowRight />
                       </View>
                     </TouchableOpacity>}
                 </View>
             </View>
-            <CheckBox style={styles.birthCheckbox}>
+            <CheckBox checked={hideBirthday} onChange={() => setHideBirthday(!hideBirthday)} style={styles.birthCheckbox}>
               <DesignedText isUppercase={false}>Приховати рік народження</DesignedText>
             </CheckBox>
         </View>

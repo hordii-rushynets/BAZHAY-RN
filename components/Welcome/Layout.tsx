@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import ProgressBar from '../ui/ProgressBar';
 import { Link } from '@react-navigation/native';
 import ScreenContainer from '../ui/ScreenContainer';
 import styles from '../../screens/welcome/styles'
 import DesignedText from '../ui/DesignedText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../../contexts/AuthContext';
 
 type LayoutProps = {
     children: ReactNode;
@@ -14,11 +15,12 @@ type LayoutProps = {
 }
 
 const Layout = ({ children, index, displaySkip = true }: LayoutProps) => {
+  const { completeWelcome } = useAuth();
   return (
     <ScreenContainer>
         <View>
             <ProgressBar index={index} n={3}/>
-            {displaySkip && <Link to="/Authentication" onPress={async () => {await AsyncStorage.setItem("standartScreen", "Authentication");}} style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></Link>}
+            {displaySkip && <TouchableOpacity onPress={() => {completeWelcome()}} style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></TouchableOpacity>}
         </View>
         {children}
     </ScreenContainer>

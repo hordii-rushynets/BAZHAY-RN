@@ -49,9 +49,15 @@ export class AccountDAOService {
         return response;
     }
 
-    public async authGuest(): Promise<Response> {
+    public async authGuest(imei: string): Promise<Response> {
         const response = await fetch(`${this.apiUrl}/api/account/auth/guest/`, {
             method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              imei: imei
+            })
           })
         return response;
     }
@@ -67,27 +73,22 @@ export class AccountDAOService {
         return response;
     }
 
-    public async userPhotoUpdate(photo: FormData, authContext: any): Promise<Response> {
-      const xhr = new XMLHttpRequest();
-      const accessToken = await AsyncStorage.getItem('AccessToken');
+    public async userPhotoUpdate(photo: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/photo/`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          "photo": photo,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }, authContext)
+      return response;
+    }
 
-      return new Promise((resolve, reject) => {
-        xhr.onreadystatechange = e => {
-          if (xhr.readyState !== 4) {
-            return;
-          }
-        
-          if (xhr.status === 200) {
-            resolve(JSON.parse(xhr.responseText));
-          } else {
-            reject(xhr.statusText);
-          }
-        };
-        xhr.open("PUT", `${this.apiUrl}/api/account/user/`);
-        xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
-        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        xhr.send(photo);
-      });
-  }
+    public async getUser(authContext: any): Promise<Response> {
+        const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/`, {}, authContext)
+        return response;
+    }
 }
   

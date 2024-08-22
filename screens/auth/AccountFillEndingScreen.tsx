@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import Title from '../../components/ui/Title';
 import styles from './styles'
@@ -7,6 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import DesignedText from '../../components/ui/DesignedText';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
+import { AccountService } from './services';
 
 type AccountFillEndingScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillEnding'>;
 
@@ -15,13 +16,19 @@ interface AccountFillEndingScreenProps {
 }
 
 function AccountFillEndingScreen({ navigation }: AccountFillEndingScreenProps) {
-  const { completeFillingAccount } = useAuth();
+  const authContext = useAuth();
+  const [name, setName] = useState("____");
+  const accountService = new AccountService();
+
+  useEffect(() => {
+    accountService.getUser(authContext).then(userData => setName(userData?.first_name || "____"))
+  })
 
   return (
-    <TouchableOpacity onPress={() => {completeFillingAccount()}} style={generalStyles.screenContainer}>
+    <TouchableOpacity onPress={() => {authContext.completeFillingAccount()}} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
-                Виглядає класно, ____
+                Виглядає класно, {name}
             </Title>
             <DesignedText style={styles.accountConnectedText}>
             Більше налаштувань {"\n"}
