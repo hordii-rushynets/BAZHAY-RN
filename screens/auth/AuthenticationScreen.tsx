@@ -1,6 +1,6 @@
 import React from 'react';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -84,8 +84,11 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                 <SocialLogin />
             </View>
             <View style={styles.bottomContainer}>
-                <TouchableOpacity onPress={() => {
-                  accountService.authGuest(Application.getAndroidId()).then(token => {
+                <TouchableOpacity onPress={async () => {
+
+                  const id = Platform.OS === "ios" ? await Application.getIosIdForVendorAsync() : Application.getAndroidId()
+
+                  accountService.authGuest(id || "").then(token => {
                     if (token.access !== "") {
                       login(token.access, token.refresh)
                       completeFillingAccount()
