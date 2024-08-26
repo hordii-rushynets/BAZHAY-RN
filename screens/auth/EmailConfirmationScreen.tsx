@@ -10,6 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
 import { RouteProp } from '@react-navigation/native';
 import { AccountService } from './services';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
   type EmailConfirmationScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'EmailConfirmation'>;
   type EmailConfirmationScreenRouteProp = RouteProp<AuthStackParamList, 'EmailConfirmation'>;
@@ -22,6 +23,7 @@ import { AccountService } from './services';
 function EmailConfirmationScreen({ navigation, route }: EmailConfirmationScreenProps) {
   const { email } = route.params;
   const accountService = new AccountService();
+  const { staticData } = useLocalization();
 
   return (
     <ScreenContainer>
@@ -29,10 +31,10 @@ function EmailConfirmationScreen({ navigation, route }: EmailConfirmationScreenP
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                      Надіслали тобі на електронну пошту <Title italic={true}>код</Title> для входу
+                      {staticData.auth.emailConfirmationScreen.titleFirstPart} <Title italic={true}>{staticData.auth.emailConfirmationScreen.titleItalicPart}</Title> {staticData.auth.emailConfirmationScreen.titleEndingPart}
                     </Title>
                     <DesignedText style={styles.titleSpan} size="small">
-                    Про всяк випадок перевір вхідні та спам
+                    {staticData.auth.emailConfirmationScreen.titleSpan}
                     </DesignedText>
                 </View>
                 <View style={styles.otpInputContainer}>
@@ -41,11 +43,11 @@ function EmailConfirmationScreen({ navigation, route }: EmailConfirmationScreenP
             </View>
             <View style={styles.otpScreenBottomContainer}>
                 <DesignedText isUppercase={false} size={"small"} style={styles.bottomText}>
-                    Не отримав код? {" "}
+                {staticData.auth.emailConfirmationScreen.bottomText} {" "}
                     <TouchableOpacity onPress={() => {
                       accountService.authenticate(email)
                     }}>
-                      <DesignedText size="small" isUppercase={false} style={styles.underlined}>Надіслати знову</DesignedText>
+                      <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.emailConfirmationScreen.sendAgainButton}</DesignedText>
                     </TouchableOpacity>
                 </DesignedText>
                 <SubmitButton 
@@ -56,7 +58,7 @@ function EmailConfirmationScreen({ navigation, route }: EmailConfirmationScreenP
                     height={32} 
                     style={styles.emailChangeButton}
                     textStyle={styles.emailChangeButtonText}
-                >Змінити електронну пошту</SubmitButton>
+                >{staticData.auth.emailConfirmationScreen.changeEmailButton}</SubmitButton>
             </View>
         </View>
     </ScreenContainer>

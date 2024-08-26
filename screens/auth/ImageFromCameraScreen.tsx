@@ -7,6 +7,7 @@ import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type ImageFromCameraScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromCamera'>;
 
@@ -25,6 +26,8 @@ export default function ImageFromCameraScreen({ navigation }: ImageFromCameraScr
       setHasPermission(status === 'granted');
     })();
   }, []);
+
+  const { staticData } = useLocalization();
 
   if (hasPermission === null) {
     return <View />;
@@ -53,7 +56,7 @@ export default function ImageFromCameraScreen({ navigation }: ImageFromCameraScr
         }}
         width={232}
         style={styles.gridButton}
-      > Продовжити
+      > {staticData.auth.imageFromCameraScreen.continueButton}
       </SubmitButton>
     </ScreenContainer>
   );

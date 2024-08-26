@@ -15,6 +15,7 @@ import { AuthStackParamList } from '../../components/navigationStacks/AuthStackS
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import * as Application from 'expo-application';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AuthScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Authentication'>;
 
@@ -22,15 +23,15 @@ interface AuthScreenProps {
   navigation: AuthScreenNavigationProp;
 }
 
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Некоректна електронна пошта').required('Електронна пошта обов\'язкова'),
-  });
-
 function AuthScreen({ navigation }: AuthScreenProps) {
   const accountService = new AccountService();
 
   const { login, completeFillingAccount } = useAuth();
+  const { staticData } = useLocalization();
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email(staticData.auth.authentificationScreen.emailError).required(staticData.auth.authentificationScreen.requiredError),
+  });
  
   return (
     <ScreenContainer>
@@ -44,10 +45,10 @@ function AuthScreen({ navigation }: AuthScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                      <Title italic={true}>Створи</Title>{'\n'} обліковий запис або <Title italic={true}>увійди</Title> до нього
+                      <Title italic={true}>{staticData.auth.authentificationScreen.titleFirstPart}</Title>{'\n'} {staticData.auth.authentificationScreen.titleCenterPart} <Title italic={true}>{staticData.auth.authentificationScreen.titleItalicPart}</Title> {staticData.auth.authentificationScreen.titleEndingPart}
                     </Title>
                     <DesignedText style={styles.titleSpan} size="small">
-                    Зберігай свої дані в безпеці та використовуй на кількох пристроях
+                    {staticData.auth.authentificationScreen.titleSpan}
                     </DesignedText>
                 </View>
                 <Formik
@@ -59,7 +60,7 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                         navigation.navigate("EmailConfirmation", { email: values.email })
                       }
                       else {
-                        setErrors({ email: "Невірно введена електронна пошта" })
+                        setErrors({ email: staticData.auth.authentificationScreen.emailError })
                       }
                     })
                   }}
@@ -67,7 +68,7 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Продовжити з електронною поштою"}
+                          placeholder={staticData.auth.authentificationScreen.emailPlaceholder}
                           value={values.email}
                           error={errors.email}
                           onChange={handleChange('email')}
@@ -78,7 +79,7 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                 </Formik>
                 <View style={styles.dividerContainer}>
                     <View style={styles.line}></View>
-                    <DesignedText size="small" style={styles.dividerText}>або</DesignedText>
+                    <DesignedText size="small" style={styles.dividerText}>{staticData.auth.authentificationScreen.or}</DesignedText>
                     <View style={styles.line}></View>
                 </View>
                 <SocialLogin />
@@ -96,14 +97,14 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                   })
                 }}>
                     <DesignedText style={styles.guestButton}>
-                        Продовжити як <DesignedText italic={true}>гість</DesignedText>
+                    {staticData.auth.authentificationScreen.guestButtonFirstPart} <DesignedText italic={true}>{staticData.auth.authentificationScreen.guestButtonItalicPart}</DesignedText>
                     </DesignedText>
                 </TouchableOpacity>
                 <DesignedText size="small" isUppercase={false} style={styles.bottomText}>
-                Натискаючи “Продовжити”, ти приймаєш {'\n'} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Політику конфеденційності</DesignedText> 
-                {" та "} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Правила користування</DesignedText>
+                {staticData.auth.authentificationScreen.bottomTextFirstPart} {'\n'} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextPrivacyPolicy}</DesignedText> 
+                {" "}{staticData.auth.authentificationScreen.bottomTextAnd}{" "} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextUsageRules}</DesignedText>
                 </DesignedText>
             </View>
         </View>

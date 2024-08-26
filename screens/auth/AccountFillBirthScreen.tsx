@@ -16,6 +16,7 @@ import CheckBox from '../../components/ui/inputs/CheckBox';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillBirthScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillBirth'>;
 
@@ -41,16 +42,18 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
 
+  const { staticData } = useLocalization();
+
   return (
     <AccountFillLayout index={3}>
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                      Напиши свою дату <Title bold={true}>народження</Title>
+                      {staticData.auth.accountFillBirthScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillBirthScreen.titleSecondPart}</Title>
                     </Title>
                     <DesignedText style={styles.titleSpan}>
-                    Твої близькі люди завжди пам’ятатимуть про нього
+                    {staticData.auth.accountFillBirthScreen.titleSpan}
                     </DesignedText>
                 </View>
                 <View style={styles.birthInputContainer}>
@@ -77,7 +80,7 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
                 </View>
             </View>
             <CheckBox checked={hideBirthday} onChange={() => setHideBirthday(!hideBirthday)} style={styles.birthCheckbox}>
-              <DesignedText isUppercase={false}>Приховати рік народження</DesignedText>
+              <DesignedText isUppercase={false}>{staticData.auth.accountFillBirthScreen.checkBox}</DesignedText>
             </CheckBox>
         </View>
         {open && <DateTimePicker

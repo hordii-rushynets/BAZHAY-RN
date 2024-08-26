@@ -9,6 +9,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { blobToBase64, getBlobFromUri } from '../../utils/helpers';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AvatarConfirmationScreenRouteProp = RouteProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
 type AvatarConfirmationScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
@@ -22,7 +23,7 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
   const { image } = route.params;
   const accountService = new AccountService();
   const authContext = useAuth();
-  const [ imageBase64, setImageBase64 ] = useState<string>();
+  const { staticData } = useLocalization();
   
   return (
     <TouchableOpacity onPress={
@@ -30,7 +31,6 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
         const photo = await getBlobFromUri(image);
 
         const base64 = await blobToBase64(photo);
-        setImageBase64(base64)
 
         accountService.userPhotoUpdate(base64, authContext).then(success => {
           if (success) {
@@ -41,13 +41,10 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
       } style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
-                Твоя аватарка
+                {staticData.auth.avatarConfirmationScreen.title}
             </Title>
             <View style={styles.avatarImageContainer}>
               <Image source={ {uri: image} } style={styles.avatarImage}/>
-              {/* {imageBase64 && (
-                <Image source={{ uri: imageBase64 }} style={{ width: 100, height: 100 }} />
-              )} */}
             </View>
         </View>
     </TouchableOpacity>

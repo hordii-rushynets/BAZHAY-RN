@@ -11,6 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillAvatarScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillAvatar'>;
 
@@ -18,17 +19,8 @@ interface AccountFillAvatarScreenProps {
   navigation: AccountFillAvatarScreenNavigationProp;
 }
 
-
-const validationSchema = Yup.object().shape({
-    nickname: Yup.string().min(2).max(20).required('Required'),
-  });
-
 function AccountFillAvatarScreen({ navigation }: AccountFillAvatarScreenProps) {
-  const [ isViewed, setIsViewed ] = useState(false);
-
-  useEffect(() => {
-    setIsViewed(true);
-  }, [])
+  const { staticData } = useLocalization();
 
   return (
     <AccountFillLayout index={2}>
@@ -36,15 +28,15 @@ function AccountFillAvatarScreen({ navigation }: AccountFillAvatarScreenProps) {
             <View>
                 <View style={styles.titleAvatarContainer}>
                     <Title style={styles.title}>
-                    Додай своє <Title bold={true}>фото</Title>
+                    {staticData.auth.accountFillAvatarScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillAvatarScreen.titleSecondPart}</Title>
                     </Title>
                 </View>
-                <SubmitButton onPress={() => { navigation.navigate("ImageFromGallery") }} width={250} style={styles.galleryButton}>Вибрати в галереї</SubmitButton>
-                <SubmitButton onPress={() => { navigation.navigate("ImageFromCamera") }} width={250} style={styles.galleryButton}>Зробити фото</SubmitButton>
+                <SubmitButton onPress={() => { navigation.navigate("ImageFromGallery") }} width={250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.galleryButton}</SubmitButton>
+                <SubmitButton onPress={() => { navigation.navigate("ImageFromCamera") }} width={250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.cameraButton}</SubmitButton>
             </View>
             <TouchableOpacity onPress={() => { navigation.navigate("AccountFillBirth") }} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>
-                  Додати пізніше
+                  {staticData.auth.accountFillAvatarScreen.skipButton}
               </DesignedText>
             </TouchableOpacity>
         </View>

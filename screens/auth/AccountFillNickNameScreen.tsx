@@ -12,6 +12,7 @@ import AccountFillLayout from '../../components/Auth/AccountFillLayout';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillNickNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillNickName'>;
 
@@ -19,14 +20,15 @@ interface AccountFillNickNameScreenProps {
   navigation: AccountFillNickNameScreenNavigationProp;
 }
 
-
-const validationSchema = Yup.object().shape({
-    nickname: Yup.string().min(2, "Нік повинен містити не менше двох символів").max(30, "Нік повинен містити не більше тридцяти символів").required('Обов\'язково вкажіть нік'),
-  });
-
 function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
+
+  const { staticData } = useLocalization();
+
+  const validationSchema = Yup.object().shape({
+    nickname: Yup.string().min(2, staticData.auth.accountFillNickNameScreen.minLengthError).max(30, staticData.auth.accountFillNickNameScreen.maxLengthError).required(staticData.auth.accountFillNickNameScreen.requiredError),
+  });
 
   return (
     <AccountFillLayout index={1}>
@@ -34,7 +36,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
             <View>
                 <View style={styles.titleNickNameContainer}>
                     <Title style={styles.title}>
-                    Придумай собі <Title bold={true}>нікнейм</Title>
+                    {staticData.auth.accountFillNickNameScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillNickNameScreen.titleBoldPart}</Title>
                     </Title>
                 </View>
                 <Formik
@@ -46,7 +48,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                         navigation.navigate("AccountFillAvatar");
                       }
                       else {
-                        setErrors({nickname: "Упс, щось пішло не так"})
+                        setErrors({nickname: staticData.auth.accountFillNickNameScreen.unknownError})
                       }
                     });
                   }}
@@ -54,7 +56,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Напиши свій нікнейм"}
+                          placeholder={staticData.auth.accountFillNickNameScreen.nickNamePlaceholder}
                           value={values.nickname}
                           error={errors.nickname}
                           onChange={handleChange('nickname')}

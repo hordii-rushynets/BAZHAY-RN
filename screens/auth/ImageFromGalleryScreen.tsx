@@ -7,6 +7,7 @@ import BackButton from '../../components/ui/buttons/BackButton';
 import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type ImageFromGalleryScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromGallery'>;
 
@@ -58,6 +59,8 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
     </TouchableOpacity>
   );
 
+  const { staticData } = useLocalization();
+
   if (!permissionGranted) {
     return (
       <ScreenContainer>
@@ -78,7 +81,7 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
         onEndReached={loadImages}
         onEndReachedThreshold={0.5}
       />
-      {selectedImage && <SubmitButton onPress={() => {navigation.navigate("AvatarConfirmation", { image: selectedImage })}} width={232} style={styles.gridButton}>Продовжити</SubmitButton>}
+      {selectedImage && <SubmitButton onPress={() => {navigation.navigate("AvatarConfirmation", { image: selectedImage })}} width={232} style={styles.gridButton}>{staticData.auth.imageFromGalleryScreen.continueButton}</SubmitButton>}
     </ScreenContainer>
   );
 };

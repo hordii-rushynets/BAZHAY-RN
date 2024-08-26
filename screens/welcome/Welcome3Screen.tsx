@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WelcomeStackParamList } from '../../components/navigationStacks/WelcomeStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
   
   type WelcomeScreenNavigationProp = StackNavigationProp<WelcomeStackParamList, 'Welcome3'>;
   
@@ -18,15 +19,16 @@ import { useAuth } from '../../contexts/AuthContext';
 
 function WelcomeScreen({ navigation } : WelcomeScreenProps) {
   const { completeWelcome } = useAuth();
+  const { staticData } = useLocalization();
 
   return (
     <Layout index={2} displaySkip={false}>
       <View style={styles.textContainer}>
-        <Title style={styles.title}>Розповідь про додаток</Title>
+        <Title style={styles.title}>{staticData.welcome.welcome2screen.title}</Title>
       </View>
       <SubmitButton onPress={async () => {
         completeWelcome();
-      }} width={200} style={styles.submitButton}>Розпочати!</SubmitButton>
+      }} width={200} style={styles.submitButton}>{staticData.welcome.welcome3screen.button}</SubmitButton>
     </Layout>
   );
 };

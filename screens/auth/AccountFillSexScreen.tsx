@@ -10,6 +10,7 @@ import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillSexScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillSex'>;
 
@@ -21,6 +22,7 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
   const [ sex, setSex ] = useState("");
   const accountService = new AccountService();
   const authContext = useAuth(); 
+  const { staticData } = useLocalization();
 
   return (
     <AccountFillLayout index={4}>
@@ -28,19 +30,19 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                      Вкажи свою <Title bold={true}>стать</Title>
+                     {staticData.auth.accountFillSexScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillSexScreen.titleBoldPart}</Title>
                     </Title>
                 </View>
             </View>
             <View style={styles.sexCheckBoxContainer}>
               <CheckBox checked={sex === "F"} onChange={() => { setSex("F"); }}>
-                <DesignedText>Жінка</DesignedText>
+                <DesignedText>{staticData.auth.accountFillSexScreen.female}</DesignedText>
               </CheckBox>
               <CheckBox checked={sex === "M"} onChange={() => { setSex("M"); }}>
-                <DesignedText>чоловік</DesignedText>
+                <DesignedText>{staticData.auth.accountFillSexScreen.male}</DesignedText>
               </CheckBox>
               <CheckBox checked={sex === "O"} onChange={() => { setSex("O"); }}>
-                <DesignedText>не зазначати</DesignedText>
+                <DesignedText>{staticData.auth.accountFillSexScreen.omit}</DesignedText>
               </CheckBox>
             </View>
         </View>
@@ -50,7 +52,7 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
               navigation.navigate("AccountFillEnding")
             }
           })
-          }} width={200} style={styles.gridButton}>Готово</SubmitButton>}
+          }} width={200} style={styles.gridButton}>{staticData.auth.accountFillSexScreen.button}</SubmitButton>}
     </AccountFillLayout>
   );
 };

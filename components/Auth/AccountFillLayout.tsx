@@ -5,6 +5,7 @@ import { Link } from '@react-navigation/native';
 import ScreenContainer from '../ui/ScreenContainer';
 import styles from '../../screens/welcome/styles'
 import DesignedText from '../ui/DesignedText';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type LayoutProps = {
     children: ReactNode;
@@ -12,11 +13,13 @@ type LayoutProps = {
 }
 
 const AccountFillLayout = ({ children, index }: LayoutProps) => {
+  const { staticData } = useLocalization();
+
   return (
     <ScreenContainer>
         <View>
             <ProgressBar index={index} n={5}/>
-            <DesignedText isUppercase={false} size={"small"}>Заповнення профілю {index + 1}/{5}</DesignedText>
+            <DesignedText isUppercase={false} size={"small"}>{staticData.auth.accountFillLayout.topText} {index + 1}/{5}</DesignedText>
         </View>
         {children}
     </ScreenContainer>

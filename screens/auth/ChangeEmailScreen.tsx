@@ -13,6 +13,7 @@ import BigLogo from '../../components/ui/icons/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
 import { AccountService } from './services';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type ChangeEmailScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ChangeEmail'>;
 
@@ -20,13 +21,13 @@ interface ChangeEmailScreenProps {
   navigation: ChangeEmailScreenNavigationProp;
 }
 
-
-const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Некоректна електронна пошта').required('Електронна пошта обов\'язкова'),
-  });
-
 function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
   const accountService = new AccountService();
+  const { staticData } = useLocalization();
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email(staticData.auth.changeEmailScreen.emailError).required(staticData.auth.changeEmailScreen.requiredError),
+  });
 
   return (
     <ScreenContainer>
@@ -34,10 +35,10 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                    <Title italic={true}>Зміни</Title>{"\n"} електронну адресу
+                    <Title italic={true}>{staticData.auth.changeEmailScreen.titleFirstPart}</Title>{"\n"} {staticData.auth.changeEmailScreen.titleSecondPart}
                     </Title>
                     <DesignedText style={styles.titleSpan} size="small">
-                    Зберігай свої дані в безпеці та використовуй на кількох пристроях
+                    {staticData.auth.changeEmailScreen.titleSpan}
                     </DesignedText>
                 </View>
                 <Formik
@@ -49,7 +50,7 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                         navigation.navigate("EmailConfirmation", { email: values.email })
                       }
                       else {
-                        setErrors({ email: "Невірно введена електронна пошта" })
+                        setErrors({ email: staticData.auth.changeEmailScreen.emailError })
                       }
                     })
                   }}
@@ -57,7 +58,7 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Ввести електронну пошту"}
+                          placeholder={staticData.auth.changeEmailScreen.emailPlaceholder}
                           value={values.email}
                           error={errors.email}
                           onChange={handleChange('email')}
@@ -69,10 +70,10 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
             </View>
             <View style={styles.changeEmailScreenBottomContainer}>
                 <DesignedText size="small" isUppercase={false} style={styles.bottomText}>
-                Натискаючи “Продовжити”, ти приймаєш {'\n'} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Політику конфеденційності</DesignedText> 
-                {" та "} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>Правила користування</DesignedText>
+                {staticData.auth.changeEmailScreen.bottomTextFirstPart} {'\n'} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextPrivacyPolicy}</DesignedText> 
+                {" "}{staticData.auth.changeEmailScreen.bottomTextAnd}{" "} 
+                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextUsageRules}</DesignedText>
                 </DesignedText>
             </View>
         </View>

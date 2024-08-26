@@ -1,12 +1,11 @@
 import React, { ReactNode } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import ProgressBar from '../ui/ProgressBar';
-import { Link } from '@react-navigation/native';
 import ScreenContainer from '../ui/ScreenContainer';
 import styles from '../../screens/welcome/styles'
 import DesignedText from '../ui/DesignedText';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type LayoutProps = {
     children: ReactNode;
@@ -16,11 +15,12 @@ type LayoutProps = {
 
 const Layout = ({ children, index, displaySkip = true }: LayoutProps) => {
   const { completeWelcome } = useAuth();
+  const { staticData } = useLocalization();
   return (
     <ScreenContainer>
         <View>
             <ProgressBar index={index} n={3}/>
-            {displaySkip && <TouchableOpacity onPress={() => {completeWelcome()}} style={styles.link}><DesignedText size="small" isUppercase={false}>Пропустити</DesignedText></TouchableOpacity>}
+            {displaySkip && <TouchableOpacity onPress={() => {completeWelcome()}} style={styles.link}><DesignedText size="small" isUppercase={false}>{staticData.welcome.layout.skipButton}</DesignedText></TouchableOpacity>}
         </View>
         {children}
     </ScreenContainer>

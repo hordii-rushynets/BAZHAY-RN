@@ -12,6 +12,7 @@ import AccountFillLayout from '../../components/Auth/AccountFillLayout';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillName'>;
 
@@ -19,14 +20,15 @@ interface AccountFillNameScreenProps {
   navigation: AccountFillNameScreenNavigationProp;
 }
 
-
-const validationSchema = Yup.object().shape({
-    name: Yup.string().min(2, "Ім'я повинно містити не менше двох символів").max(20, "Ім'я повинно містити не більше двадцяти символів").required('Обов\'язково вкажіть ім\'я'),
-  });
-
 function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
+
+  const { staticData } = useLocalization();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().min(2, staticData.auth.accountFillNameScreen.minLengthError).max(20, staticData.auth.accountFillNameScreen.maxLengthError).required(staticData.auth.accountFillNameScreen.requiredError),
+  });
 
   return (
     <AccountFillLayout index={0}>
@@ -34,10 +36,10 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                      Як тебе <Title bold={true}>звати</Title>?
+                      {staticData.auth.accountFillNameScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillNameScreen.titleBoldPart}</Title>?
                     </Title>
                     <DesignedText style={styles.titleSpan}>
-                    Напиши своє ім’я - так друзі та близькі зможуть знайти тебе у Bazhay! 
+                    {staticData.auth.accountFillNameScreen.titleSpan}
                     </DesignedText>
                 </View>
                 <Formik
@@ -49,7 +51,7 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                         navigation.navigate("Greeting", { name: values.name })
                       }
                       else {
-                        setErrors({name: "Упс, щось пішло не так"})
+                        setErrors({name: staticData.auth.accountFillNameScreen.unknownError})
                       }
                     });
                   }}
@@ -57,7 +59,7 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Напиши своє ім’я"}
+                          placeholder={staticData.auth.accountFillNameScreen.namePlaceholder}
                           value={values.name}
                           error={errors.name}
                           onChange={handleChange('name')}

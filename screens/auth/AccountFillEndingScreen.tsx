@@ -8,6 +8,7 @@ import DesignedText from '../../components/ui/DesignedText';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
 import { AccountService } from './services';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type AccountFillEndingScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillEnding'>;
 
@@ -24,15 +25,17 @@ function AccountFillEndingScreen({ navigation }: AccountFillEndingScreenProps) {
     accountService.getUser(authContext).then(userData => setName(userData?.first_name || "____"))
   })
 
+  const { staticData } = useLocalization();
+
   return (
     <TouchableOpacity onPress={() => {authContext.completeFillingAccount()}} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
-                Виглядає класно, {name}
+                {staticData.auth.accountFillEndingScreen.title} {name}
             </Title>
             <DesignedText style={styles.accountConnectedText}>
-            Більше налаштувань {"\n"}
-            ти можеш додати у власному профілі
+            {staticData.auth.accountFillEndingScreen.spanFirst} {"\n"}
+            {staticData.auth.accountFillEndingScreen.spanSecond}
             </DesignedText>
         </View>
     </TouchableOpacity>

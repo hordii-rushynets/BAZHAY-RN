@@ -6,6 +6,7 @@ import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type GreetingScreenRouteProp = RouteProp<AccountFillingStackParamList, 'Greeting'>;
 type GreetingScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'Greeting'>;
@@ -17,12 +18,13 @@ interface GreetingScreenProps {
 
 function GreetingScreen({ route, navigation }: GreetingScreenProps) {
   const { name } = route.params;
+  const { staticData } = useLocalization(); 
 
   return (
     <TouchableOpacity onPress={() => {navigation.navigate("AccountFillNickName")}} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
-                Приємно {"\n"} познайомитись, {name}!
+                {staticData.auth.greetingScreen.titleFirstPart} {"\n"} {staticData.auth.greetingScreen.titleSecondPart} {name}!
             </Title>
         </View>
     </TouchableOpacity>

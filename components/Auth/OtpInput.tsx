@@ -5,6 +5,7 @@ import DesignedText from '../ui/DesignedText';
 import styles from '../../screens/auth/styles';
 import generalStyles from '../ui/generalStyles'
 import { AccountService } from '../../screens/auth/services';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 const CELL_COUNT = 6;
 
@@ -25,6 +26,8 @@ const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
 
   const accountService = new AccountService();
 
+  const { staticData } = useLocalization();
+
   useEffect(() => {
     if (value.length === 6) {
         accountService.otpConfirm(email, value).then(token => {
@@ -32,7 +35,7 @@ const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
             onConfirm({access: token.access, refresh: token.refresh});
           }
           else {
-            setError("Код підтвердження не вірний");
+            setError(staticData.auth.otpInput.otpError);
           }
         })
     }
