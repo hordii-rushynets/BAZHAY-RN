@@ -82,3 +82,8 @@ export const cropPhoto = async (uri: string) => {
       reader.readAsDataURL(blob);
     });
   };
+
+  export function isVideo(uri: string): boolean {
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.flv', '.wmv', '.webm'];
+    return videoExtensions.some(extension => uri.toLowerCase().endsWith(extension));
+  }

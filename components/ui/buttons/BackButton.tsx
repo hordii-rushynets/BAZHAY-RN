@@ -1,12 +1,11 @@
 import React from 'react';
 import { View } from "react-native";
-import { RootStackParamList } from '../../../App';
 import { Link } from '@react-navigation/native';
 import { ClipPath, Defs, G, Path, Rect, Svg } from 'react-native-svg';
 import styles from '../generalStyles'
 
 type BackButtonProps = {
-    link: keyof RootStackParamList;
+    link: string;
 }
 
 export default function BackButton({ link } : BackButtonProps) {

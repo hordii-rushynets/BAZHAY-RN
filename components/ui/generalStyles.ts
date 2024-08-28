@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import TextInputWithArrow from "./inputs/TextInputWithArrow";
 
 const styles = StyleSheet.create({
     screenContainer: {
@@ -19,8 +18,8 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOffset: { width: -2, height: 2 },
         shadowOpacity: 0.25,
-        shadowRadius: 1,
-        elevation: 1,
+        shadowRadius: 4,
+        elevation: 4,
         justifyContent: "center",
     },
     submitButtonText: {
@@ -100,7 +99,58 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         alignItems: "center",
         justifyContent: "center"
-    }
+    },
+    dropdownContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 40,
+      borderRadius: 30,
+      backgroundColor: '#fff',
+      borderWidth: 1,
+      borderColor: '#000',
+      gap: 16
+    },
+    dropdownVisibleContiner: {
+      height: "auto",
+      zIndex: 9999,
+      borderRadius: 20,
+      paddingVertical: 8
+    },
+    dropdownButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8
+    },
+    dropdownItem: {
+      paddingRight: 24,
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    textFieldInputContainer: {
+      flexDirection: "column",
+      width: "100%",
+      gap: 16,
+      justifyContent: "space-between",
+    },
+    textFieldInput: {
+      borderRadius: 30,
+      borderWidth: 1,
+      borderColor: "black",
+      borderStyle: "solid",
+      height: 104,
+      textTransform: "uppercase",
+      fontFamily: "Inter-V",
+      paddingHorizontal: 24,
+      paddingVertical: 8,
+      width: "100%",
+      textAlignVertical: 'top',
+    },
+    textFieldInputBottomContainer: {
+      flexDirection: "row",
+      width: "100%",
+      justifyContent: "space-between"
+    },
 })
 
 export default styles;
