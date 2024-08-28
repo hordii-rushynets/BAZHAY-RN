@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,6 +23,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "assetBundlePatterns": [
+      "assets/**/*",
+      "node_modules/react-native-vector-icons/fonts/*"
+    ],
+    "extra": {
+      "apiUrl": "http://192.168.0.107:8000"
+    },
+    "jsEngine": "hermes",
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }
