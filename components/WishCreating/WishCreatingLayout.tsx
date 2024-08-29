@@ -23,7 +23,7 @@ const WishCreatingLayout = ({ children, index, link, editingMode = false }: Layo
         <BackButton link={link}/>
         {!editingMode && <View>
             <ProgressBar index={index} n={6}/>
-            <DesignedText isUppercase={false} size={"small"}>Створення бажання {index + 1}/{6}</DesignedText>
+            <DesignedText isUppercase={false} size={"small"}>{staticData.wishCreating.wishCreatingLayout.topText} {index + 1}/{6}</DesignedText>
         </View>}
         {children}
     </ScreenContainer>

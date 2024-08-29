@@ -106,9 +106,9 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
     <ScreenContainer>
       <BackButton link={"AddWishPhotoOrVideo"}/>
       <View style={styles.galleryNavbar}>
-        <SubmitButton onPress={() => {setShowImages(true); setShowVideos(true); reloadFiles(["photo", "video"])}} width={80} style={showImages && showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, showImages && showVideos && styles.galleryNavbarActiveButtonText]}>Усі</SubmitButton>
-        <SubmitButton onPress={() => {setShowImages(false); setShowVideos(true); reloadFiles("video")}} width={80} style={!showImages && showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, !showImages && showVideos && styles.galleryNavbarActiveButtonText]}>Відео</SubmitButton>
-        <SubmitButton onPress={() => {setShowImages(true); setShowVideos(false); reloadFiles("photo")}} width={80} style={showImages && !showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, showImages && !showVideos && styles.galleryNavbarActiveButtonText]}>Фото</SubmitButton>
+        <SubmitButton onPress={() => {setShowImages(true); setShowVideos(true); reloadFiles(["photo", "video"])}} width={80} style={showImages && showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, showImages && showVideos && styles.galleryNavbarActiveButtonText]}>{staticData.wishCreating.addWishFromGalleryScreen.all}</SubmitButton>
+        <SubmitButton onPress={() => {setShowImages(false); setShowVideos(true); reloadFiles("video")}} width={80} style={!showImages && showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, !showImages && showVideos && styles.galleryNavbarActiveButtonText]}>{staticData.wishCreating.addWishFromGalleryScreen.video}</SubmitButton>
+        <SubmitButton onPress={() => {setShowImages(true); setShowVideos(false); reloadFiles("photo")}} width={80} style={showImages && !showVideos && styles.galleryNavbarActiveButton} textStyle={[styles.galleryNavbarButtonText, showImages && !showVideos && styles.galleryNavbarActiveButtonText]}>{staticData.wishCreating.addWishFromGalleryScreen.photo}</SubmitButton>
       </View>
       <FlatList
         data={files}
@@ -119,7 +119,7 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
         onEndReached={loadFiles}
         onEndReachedThreshold={0.5}
       />
-      {selectedFile && <SubmitButton onPress={() => {navigation.navigate("ImageResize", { image: selectedFile })}} width={232} style={authStyles.gridButton}>продовжити</SubmitButton>}
+      {selectedFile && <SubmitButton onPress={() => {navigation.navigate("ImageResize", { image: selectedFile })}} width={232} style={authStyles.gridButton}>{staticData.wishCreating.addWishFromGalleryScreen.button}</SubmitButton>}
     </ScreenContainer>
   );
 };

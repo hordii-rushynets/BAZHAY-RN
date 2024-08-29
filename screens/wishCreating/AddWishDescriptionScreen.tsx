@@ -56,7 +56,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
             <View style={keyboardVisible ? styles.titleAndInputContainerWithKeyboard : styles.titleAndInputContainer}>
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
-                    Опиши своє бажання та додай характеристики
+                    {staticData.wishCreating.addWishDescriptionScreen.title}
                     </Title>
                 </View>
                 <Formik
@@ -73,7 +73,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={authStyles.inputContainer}>
                         <TextFieldInput
-                          placeholder={"Тут ти можеш написати декілька слів про своє бажання, уточнити розмір, колір чи модель"}
+                          placeholder={staticData.wishCreating.addWishDescriptionScreen.placeholder}
                           value={values.description}
                           error={errors.description}
                           onChange={handleChange('description')}
@@ -85,7 +85,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
             </View>
             {!keyboardVisible && !editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishVisibility")}} style={authStyles.addLaterButton}>
               <DesignedText isUppercase={false}>
-                Додати пізніше
+                {staticData.wishCreating.addWishDescriptionScreen.button}
               </DesignedText>
             </TouchableOpacity>}
         </View>

@@ -141,6 +141,20 @@ export default data = {
         addWishPopUp: {
             linkButton: "Додати за посиланням",
             manualButton: "Додати бажання вручну"
+        },
+        wishCreatingLayout: {
+            topText: "Створення бажання",
+        },
+        addWishDescriptionScreen: {
+            title: "Опиши своє бажання та додай характеристики",
+            placeholder: "Тут ти можеш написати декілька слів про своє бажання, уточнити розмір, колір чи модель",
+            button: "Додати пізніше"
+        },
+        addWishFromGalleryScreen: {
+            all: "Усі",
+            photo: "Фото",
+            video: "Відео",
+            button: "продовжити"
         }
     }
 }
