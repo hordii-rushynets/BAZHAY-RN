@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { StyleProp, Text, TextStyle } from "react-native";
+import { StyleProp, Text, TextProps, TextStyle } from "react-native";
 
 type DesignedTextProps = {
     children: ReactNode | string;
@@ -8,9 +8,9 @@ type DesignedTextProps = {
     italic?: boolean;
     isUppercase?: boolean;
     style?: StyleProp<TextStyle>;
-}
+} & TextProps;
 
-export default function DesignedText({children, size = "medium", bold = false, italic = false, isUppercase = true, style = null} : DesignedTextProps) {
+export default function DesignedText({children, size = "medium", bold = false, italic = false, isUppercase = true, style = null, ...props} : DesignedTextProps) {
   const customStyle: TextStyle = {
     fontFamily: "Inter-V",
     textTransform: isUppercase ? "uppercase" : "none",
@@ -20,7 +20,7 @@ export default function DesignedText({children, size = "medium", bold = false, i
   };
 
   return (
-    <Text style={[customStyle, style]}>
+    <Text style={[customStyle, style]} {...props}>
       {children}
     </Text>
   );

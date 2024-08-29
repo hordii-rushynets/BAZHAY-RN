@@ -19,15 +19,22 @@ interface AddWishVisibilityScreenProps {
   navigation: AddWishVisibilityScreenNavigationProp;
 }
 
+export const visibilityChoices = {
+  "": "",
+  everyone: "Всі",
+  subscribers: "Підписники",
+  only_me: "Тільки я"
+}
+
 function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
-  const [ visibility, setVisibility ] = useState("");
+  const [ visibility, setVisibility ] = useState<keyof typeof visibilityChoices>("");
   const authContext = useAuth(); 
   const { staticData } = useLocalization();
   const wishService = new WishService();
-  const { wishId } = useWishCreating();
+  const { wishId, editingMode } = useWishCreating();
 
   return (
-    <WishCreatingLayout index={5} link={"AddWishDescription"}>
+    <WishCreatingLayout index={5} link={editingMode ? "WishConfirmation" :"AddWishDescription"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={authStyles.titleContainer}>
@@ -38,13 +45,13 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
             </View>
             <View style={authStyles.sexCheckBoxContainer}>
               <CheckBox checked={visibility === "everyone"} onChange={() => { setVisibility("everyone"); }}>
-                <DesignedText>Всі</DesignedText>
+                <DesignedText>{visibilityChoices.everyone}</DesignedText>
               </CheckBox>
               <CheckBox checked={visibility === "subscribers"} onChange={() => { setVisibility("subscribers"); }}>
-                <DesignedText>Підписники</DesignedText>
+                <DesignedText>{visibilityChoices.subscribers}</DesignedText>
               </CheckBox>
               <CheckBox checked={visibility === "only_me"} onChange={() => { setVisibility("only_me"); }}>
-                <DesignedText>Тільки я</DesignedText>
+                <DesignedText>{visibilityChoices.only_me}</DesignedText>
               </CheckBox>
             </View>
         </View>
@@ -54,7 +61,7 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
               navigation.navigate("WishConfirmation")
             }
           })
-          }} width={200} style={authStyles.gridButton}>Далі</SubmitButton>}
+          }} width={200} style={authStyles.gridButton}>{editingMode ? "Готово" : "Далі"}</SubmitButton>}
     </WishCreatingLayout>
   );
 };

@@ -30,7 +30,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   const { image, ratio } = route.params;
   const wishService = new WishService();
   const authContext = useAuth();
-  const { wishId } = useWishCreating();
+  const { wishId, editingMode } = useWishCreating();
 
   return (
     <TouchableOpacity onPress={
@@ -38,9 +38,9 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
           const photo = await getBlobFromUri(image);
   
           const base64 = await blobToBase64(photo);
-          wishService.wishUpdate({ media: base64}, wishId || "", authContext).then(success => {
+          wishService.wishUpdate({ media: base64 }, wishId || "", authContext).then(success => {
             if (success) {
-                navigation.navigate("AddWishPrice");
+                navigation.navigate(editingMode ? "WishConfirmation" :"AddWishPrice");
             }
           })
         }

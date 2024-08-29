@@ -115,6 +115,22 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 30,
     },
+    wishConfirmationTop: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "baseline"
+    },
+    wishConfirmationButtonsContainer: {
+        gap: 24,
+        marginTop: 24,
+        height: 460,
+        justifyContent: "flex-end",
+        alignItems: "center",
+    },
+    wishConfirmationButtons: {
+        gap: 8,
+        width: "100%",
+    }
 });
 
 export default styles

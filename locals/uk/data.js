@@ -136,5 +136,11 @@ export default data = {
         otpInput: {
             otpError: "Код підтвердження не вірний"
         }
+    },
+    wishCreating: {
+        addWishPopUp: {
+            linkButton: "Додати за посиланням",
+            manualButton: "Додати бажання вручну"
+        }
     }
 }

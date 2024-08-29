@@ -27,7 +27,7 @@ interface AddWishDescriptionScreenProps {
 function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
-  const { wishId } = useWishCreating();
+  const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
 
   const validationSchema = Yup.object().shape({
@@ -51,7 +51,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
   }, []);
 
   return (
-    <WishCreatingLayout index={4} link={"AddWishLink"}>
+    <WishCreatingLayout index={4} link={editingMode ? "WishConfirmation" : "AddWishLink"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
             <View style={keyboardVisible ? styles.titleAndInputContainerWithKeyboard : styles.titleAndInputContainer}>
                 <View style={styles.linkTitleContainer}>
@@ -63,9 +63,9 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   initialValues={{ description: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    wishService.wishUpdate({ description: values.description }, wishId||"", authContext).then(success => {
+                    wishService.wishUpdate({ description: values.description }, wishId || "", authContext).then(success => {
                       if (success) {
-                        navigation.navigate("AddWishVisibility")
+                        navigation.navigate(editingMode ? "WishConfirmation" :"AddWishVisibility")
                       }
                     })
                   }}
@@ -83,11 +83,11 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   )}
                 </Formik>
             </View>
-            <TouchableOpacity onPress={() => {navigation.navigate("AddWishVisibility")}} style={authStyles.addLaterButton}>
+            {!keyboardVisible && !editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishVisibility")}} style={authStyles.addLaterButton}>
               <DesignedText isUppercase={false}>
                 Додати пізніше
               </DesignedText>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     </WishCreatingLayout>
   );

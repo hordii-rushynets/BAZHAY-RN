@@ -136,5 +136,11 @@ export default data = {
         otpInput: {
             otpError: "The verification code is not valid"
         }
+    },
+    wishCreating: {
+        addWishPopUp: {
+            linkButton: "Додати за посиланням",
+            manualButton: "Додати бажання вручну"
+        }
     }
 }

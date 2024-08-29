@@ -18,7 +18,10 @@ const loadFonts = async () => {
 
 export type RootStackParamList = {
   Main: undefined;
-  WishCreating: undefined;
+  WishCreating: {
+    screen: keyof WishCreatingStackParamList;
+    params?: WishCreatingStackParamList[keyof WishCreatingStackParamList];
+  };
 } & WishCreatingStackParamList
 
 const Stack = createStackNavigator<RootStackParamList>();

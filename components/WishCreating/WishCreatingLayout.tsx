@@ -12,18 +12,19 @@ type LayoutProps = {
     children: ReactNode;
     index: number;
     link: string;
+    editingMode?: boolean;
 }
 
-const WishCreatingLayout = ({ children, index, link }: LayoutProps) => {
+const WishCreatingLayout = ({ children, index, link, editingMode = false }: LayoutProps) => {
   const { staticData } = useLocalization();
 
   return (
     <ScreenContainer>
         <BackButton link={link}/>
-        <View>
+        {!editingMode && <View>
             <ProgressBar index={index} n={6}/>
             <DesignedText isUppercase={false} size={"small"}>Створення бажання {index + 1}/{6}</DesignedText>
-        </View>
+        </View>}
         {children}
     </ScreenContainer>
   );

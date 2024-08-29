@@ -26,7 +26,7 @@ interface AddWishLinkScreenProps {
 function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
-  const { wishId } = useWishCreating();
+  const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
 
   const validationSchema = Yup.object().shape({
@@ -34,7 +34,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
   });
 
   return (
-    <WishCreatingLayout index={3} link={"AddWishPrice"}>
+    <WishCreatingLayout index={3} link={editingMode ? "WishConfirmation" : "AddWishPrice"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={styles.linkTitleContainer}>
@@ -48,7 +48,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                   onSubmit={(values, { setErrors }) => {
                     wishService.wishUpdate({ link: values.link }, wishId||"", authContext).then(success => {
                       if (success) {
-                        navigation.navigate("AddWishDescription")
+                        navigation.navigate(editingMode ? "WishConfirmation" : "AddWishDescription")
                       }
                       else {
                         setErrors({ link: "Вкажіть правильне покликання" });
@@ -69,11 +69,11 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                   )}
                 </Formik>
             </View>
-            <TouchableOpacity onPress={() => {navigation.navigate("AddWishDescription")}} style={styles.addLaterButton}>
+            {!editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishDescription")}} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>
                 Додати пізніше
               </DesignedText>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     </WishCreatingLayout>
   );

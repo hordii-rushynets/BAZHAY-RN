@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#000000'
     },
     backButtonContainer: {
-        width: "100%",
         height: 32,
         marginBottom: 16,
         padding: 8,
@@ -150,6 +149,48 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       width: "100%",
       justifyContent: "space-between"
+    },
+    imageButtonContainer: {
+      borderColor: "black",
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderRadius: 20,
+      width: undefined,
+      height: 250,
+      backgroundColor: "#8A8A8A",
+    },
+    imageButtonImageContainer: {
+      overflow: "hidden"
+    },
+    imageButton: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 20,
+    },
+    imageButtonPen: {
+      width: 32,
+      height: 32,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "white",
+      borderRadius: 32,
+      borderWidth: 1,
+      borderColor: "black",
+      borderStyle: "solid",
+      position: "absolute",
+      bottom: 8,
+      right: -16
+    },
+    buttonWithArrow: {
+      flexDirection: "row",
+      backgroundColor: "white",
+      borderRadius: 30,
+      borderWidth: 1,
+      borderColor: "black",
+      borderStyle: "solid",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 24,
     },
 })
 

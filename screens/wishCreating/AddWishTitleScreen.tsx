@@ -24,7 +24,7 @@ interface AddWishTitleScreenProps {
 function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
-  const { wishId, setWishId } = useWishCreating(); 
+  const { wishId, setWishId, editingMode } = useWishCreating(); 
 
   const { staticData } = useLocalization();
 
@@ -33,7 +33,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
   });
 
   return (
-    <WishCreatingLayout index={0} link={"Main"}>
+    <WishCreatingLayout index={0} link={editingMode ? "WishConfirmation" : "Main"} editingMode={editingMode}>
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -48,7 +48,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                     if ( wishId ) {
                       wishService.wishUpdate({ name: values.name }, wishId, authContext).then(success => {
                         if (success) {
-                          navigation.navigate("AddWishPhotoOrVideo");
+                          navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPhotoOrVideo");
                         }
                       })
                     }

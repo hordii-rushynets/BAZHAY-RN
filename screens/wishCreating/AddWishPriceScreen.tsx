@@ -27,7 +27,7 @@ interface AddWishPriceScreenProps {
 function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
-  const { wishId } = useWishCreating(); 
+  const { wishId, editingMode } = useWishCreating(); 
 
   const { staticData } = useLocalization();
 
@@ -39,7 +39,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
   const currencies = ['UAH', 'USD', 'EUR', 'PLN', 'GBP', 'CAD', 'NOK', 'CHF', 'SEK'];
 
   return (
-    <WishCreatingLayout index={2} link={"AddWishPhotoOrVideo"}>
+    <WishCreatingLayout index={2} link={editingMode ? "WishConfirmation" :"AddWishPhotoOrVideo"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={authStyles.titleContainer}>
@@ -55,7 +55,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                             if (wishId) {
                               wishService.wishUpdate({ price: +values.price, currency: values.currency }, wishId, authContext).then(success => {
                                 if (success) {
-                                  navigation.navigate("AddWishLink")
+                                  navigation.navigate(editingMode ? "WishConfirmation" :"AddWishLink")
                                 }
                                 else {
                                   setErrors({ price: "Вкажіть валідну ціну" });
@@ -84,11 +84,11 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                         </Formik>
                     </View>
             </View>
-            <TouchableOpacity onPress={() => {navigation.navigate("AddWishLink")}} style={styles.addLaterButton}>
+            {!editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishLink")}} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>
                 Додати пізніше
               </DesignedText>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     </WishCreatingLayout>
   );

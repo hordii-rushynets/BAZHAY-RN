@@ -22,7 +22,6 @@ export class WishService {
 
     public async wishUpdate(wishData: Wish, wishId: string, authContext: any):Promise<boolean> {
         const response = await this.daoService.wishUpdate(wishData, wishId, authContext);
-        console.log(await response.json())
         return response.ok
     }
 
@@ -39,7 +38,22 @@ export class WishService {
             return wishData;
         }
         else {
-            throw new Error("Error fetching userinfo");
+            throw new Error("Error fetching wishinfo");
+        }
+    }
+
+    public async getMyWishes(queryParams: {[key: string]: string}, authContext: any):Promise<Wish[]> {
+        const urlParams = new URLSearchParams(queryParams);
+
+        const response = await this.daoService.getMyWishes(urlParams, authContext);
+
+        if (response.ok) {
+            const allData = await response.json(); 
+            const wishData = allData.results;
+            return wishData;
+        }
+        else {
+            throw new Error("Error fetching wishinfo");
         }
     }
 }
