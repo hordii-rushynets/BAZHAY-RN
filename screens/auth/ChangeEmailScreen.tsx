@@ -45,9 +45,9 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                   initialValues={{ email: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    accountService.authenticate(values.email).then(success => {
+                    accountService.authenticate(values.email.toLowerCase()).then(success => {
                       if (success) {
-                        navigation.navigate("EmailConfirmation", { email: values.email })
+                        navigation.navigate("EmailConfirmation", { email: values.email.toLowerCase() })
                       }
                       else {
                         setErrors({ email: staticData.auth.changeEmailScreen.emailError })

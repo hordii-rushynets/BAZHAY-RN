@@ -1,3 +1,5 @@
+import { UserFields } from "../auth/interfaces";
+
 export type Wish = {
     id?: string;
     name?: string;
@@ -8,4 +10,5 @@ export type Wish = {
     access_type?: string;
     media?: string;
     is_fully_created?: boolean;
+    author?: UserFields;
 }

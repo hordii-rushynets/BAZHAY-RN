@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
-import AppStackScreen from './navigationStacks/MainStackScreen';
+import MainStackScreen, { MainStackParamList } from './navigationStacks/MainStackScreen';
 import AuthStackScreen from './navigationStacks/AuthStackScreen';
 import AccountFillStackScreen from './navigationStacks/AccountFillingStackScreen';
 import WelcomeStackScreen from './navigationStacks/WelcomeStackScreen';
@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import { Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WishCreatingStackScreen, { WishCreatingStackParamList } from './navigationStacks/WishCreatingStackScreen';
+import WishScreen from '../screens/WishScreen';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -22,7 +23,8 @@ export type RootStackParamList = {
     screen: keyof WishCreatingStackParamList;
     params?: WishCreatingStackParamList[keyof WishCreatingStackParamList];
   };
-} & WishCreatingStackParamList
+  Wish: { wishId: string; };
+} & WishCreatingStackParamList & MainStackParamList
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -52,12 +54,13 @@ const RootNavigator: React.FC = () => {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
               name="Main"
-              component={AppStackScreen}
+              component={MainStackScreen}
             />
             <Stack.Screen
               name="WishCreating"
               component={WishCreatingStackScreen}
             />
+            <Stack.Screen name={"Wish"} component={WishScreen}/>
           </Stack.Navigator>
             : <AccountFillStackScreen/> 
           : <AuthStackScreen /> 

@@ -23,8 +23,8 @@ export default function AddWishPopUp() {
         <SubmitButton onPress={() => {}} width={"auto"}>{staticData.wishCreating.addWishPopUp.linkButton}</SubmitButton>
         <SubmitButton onPress={() => {
           wishService.getMyWishes({"is_fully_created": "false"}, authContext).then(wishes => {
-            if (wishes.length !== 0) {
-              setWishId(wishes[0].id);
+            if (wishes.results.length !== 0) {
+              setWishId(wishes.results[0].id);
               setEditingMode(true);
               navigation.navigate("WishCreating", {screen: "WishConfirmation"});
             }

@@ -4,4 +4,8 @@ export type UserFields = {
     birthday?: string;
     view_birthday?: boolean;
     sex?: string;
+    photo?: string;
+    about_user?: string;
+    subscriber?: number; 
+    subscription?: number;
 }

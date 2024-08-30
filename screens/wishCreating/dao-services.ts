@@ -48,8 +48,8 @@ export class WishDAOService {
         return response;
     }
 
-    public async getMyWishes(urlParams: URLSearchParams, authContext: any): Promise<Response> {
-      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/?${urlParams}`, {}, authContext)
+    public async getMyWishes(urlParams: URLSearchParams, authContext: any, url?: string): Promise<Response> {
+      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/?`) + urlParams, {}, authContext)
       return response;
     }
 }

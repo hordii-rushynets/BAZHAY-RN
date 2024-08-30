@@ -42,15 +42,14 @@ export class WishService {
         }
     }
 
-    public async getMyWishes(queryParams: {[key: string]: string}, authContext: any):Promise<Wish[]> {
+    public async getMyWishes(queryParams: {[key: string]: string}, authContext: any, url?: string):Promise<{count: number; next?: string; previous?:string; results: Wish[]}> {
         const urlParams = new URLSearchParams(queryParams);
 
-        const response = await this.daoService.getMyWishes(urlParams, authContext);
+        const response = await this.daoService.getMyWishes(urlParams, authContext, url);
 
         if (response.ok) {
             const allData = await response.json(); 
-            const wishData = allData.results;
-            return wishData;
+            return allData;
         }
         else {
             throw new Error("Error fetching wishinfo");

@@ -46,7 +46,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
                     if ( wishId ) {
-                      wishService.wishUpdate({ name: values.name }, wishId, authContext).then(success => {
+                      wishService.wishUpdate({ name: values.name.toLowerCase() }, wishId, authContext).then(success => {
                         if (success) {
                           navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPhotoOrVideo");
                         }

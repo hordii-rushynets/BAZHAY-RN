@@ -46,7 +46,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                   initialValues={{ link: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    wishService.wishUpdate({ link: values.link }, wishId||"", authContext).then(success => {
+                    wishService.wishUpdate({ link: values.link.toLowerCase() }, wishId||"", authContext).then(success => {
                       if (success) {
                         navigation.navigate(editingMode ? "WishConfirmation" : "AddWishDescription")
                       }

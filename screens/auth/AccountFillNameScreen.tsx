@@ -46,7 +46,7 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                   initialValues={{ name: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    accountService.userUpdate({ first_name: values.name }, authContext).then(success => {
+                    accountService.userUpdate({ first_name: values.name.toLowerCase() }, authContext).then(success => {
                       if (success) {
                         navigation.navigate("Greeting", { name: values.name })
                       }

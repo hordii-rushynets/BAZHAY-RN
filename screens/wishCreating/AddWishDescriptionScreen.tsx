@@ -63,7 +63,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   initialValues={{ description: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    wishService.wishUpdate({ description: values.description }, wishId || "", authContext).then(success => {
+                    wishService.wishUpdate({ description: values.description.toLowerCase() }, wishId || "", authContext).then(success => {
                       if (success) {
                         navigation.navigate(editingMode ? "WishConfirmation" :"AddWishVisibility")
                       }
