@@ -28,7 +28,6 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
   const [position, setPosition] = useState<"horizontal" | "vertical">("vertical");
   const [scaling, setScaling] = useState<{width: number, height: number}>({width: 9, height: 16});
   const [imageSize, setImageSize] = useState<{width: number, height: number}>();
-  const authContext = useAuth();
   const { staticData } = useLocalization();
 
   const [imageUri, setImageUri] = useState(image);
@@ -87,7 +86,7 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
                 }}
             width={200}
             style={authStyles.gridButton}
-        >Готово</SubmitButton>
+        >{staticData.wishCreating.imageResizeScreen.button}</SubmitButton>
     </ScreenContainer>
   );
 };

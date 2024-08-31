@@ -20,7 +20,7 @@ interface AccountFillAvatarScreenProps {
 }
 
 function AccountFillAvatarScreen({ navigation }: AccountFillAvatarScreenProps) {
-  const { staticData } = useLocalization();
+  const { staticData, localization } = useLocalization();
 
   return (
     <AccountFillLayout index={2}>
@@ -31,8 +31,8 @@ function AccountFillAvatarScreen({ navigation }: AccountFillAvatarScreenProps) {
                     {staticData.auth.accountFillAvatarScreen.titleFirstPart} <Title bold={true}>{staticData.auth.accountFillAvatarScreen.titleSecondPart}</Title>
                     </Title>
                 </View>
-                <SubmitButton onPress={() => { navigation.navigate("ImageFromGallery") }} width={250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.galleryButton}</SubmitButton>
-                <SubmitButton onPress={() => { navigation.navigate("ImageFromCamera") }} width={250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.cameraButton}</SubmitButton>
+                <SubmitButton onPress={() => { navigation.navigate("ImageFromGallery") }} width={localization === "en" ? 280 : 250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.galleryButton}</SubmitButton>
+                <SubmitButton onPress={() => { navigation.navigate("ImageFromCamera") }} width={localization === "en" ? 280 : 250} style={styles.galleryButton}>{staticData.auth.accountFillAvatarScreen.cameraButton}</SubmitButton>
             </View>
             <TouchableOpacity onPress={() => { navigation.navigate("AccountFillBirth") }} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>

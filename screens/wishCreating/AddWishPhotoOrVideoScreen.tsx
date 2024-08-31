@@ -20,9 +20,8 @@ interface AddWishPhotoOrVideoScreenProps {
 }
 
 function AddWishPhotoOrVideoScreen({ navigation }: AddWishPhotoOrVideoScreenProps) {
-  const authContext = useAuth();
   const { editingMode } = useWishCreating();
-  const { staticData } = useLocalization();
+  const { staticData, localization } = useLocalization();
 
   return (
     <WishCreatingLayout index={1} link={editingMode ? "WishConfirmation" : "AddWishTitle"} editingMode={editingMode}>
@@ -30,15 +29,15 @@ function AddWishPhotoOrVideoScreen({ navigation }: AddWishPhotoOrVideoScreenProp
             <View>
                 <View style={authStyles.titleAvatarContainer}>
                     <Title style={authStyles.title}>
-                    Додай фото або відео бажання
+                    {staticData.wishCreating.addWishPhotoOrVideoScreen.title}
                     </Title>
                 </View>
-                <SubmitButton onPress={() => {navigation.navigate("AddWishFromGallery")}} width={250} style={authStyles.galleryButton}>Вибрати в галереї</SubmitButton>
-                <SubmitButton onPress={() => {}} width={250} style={authStyles.galleryButton}>Зробити фото</SubmitButton>
+                <SubmitButton onPress={() => {navigation.navigate("AddWishFromGallery")}} width={localization === "en" ? 288 : 250} style={authStyles.galleryButton}>{staticData.wishCreating.addWishPhotoOrVideoScreen.galleryButton}</SubmitButton>
+                <SubmitButton onPress={() => {}} width={localization === "en" ? 288 : 250} style={authStyles.galleryButton}>{staticData.wishCreating.addWishPhotoOrVideoScreen.cameraButton}</SubmitButton>
             </View>
             {!editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishPrice")}} style={authStyles.addLaterButton}>
               <DesignedText isUppercase={false}>
-              Пропустити
+              {staticData.wishCreating.addWishPhotoOrVideoScreen.skip}
               </DesignedText>
             </TouchableOpacity>}
         </View>

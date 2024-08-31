@@ -4,6 +4,7 @@ import UpDownArrow from "../ui/icons/UpDownArrow";
 import styles from "../../screens/main/styles";
 import DesignedText from "../ui/DesignedText";
 import Checkmark from "../ui/icons/Checkmark";
+import { useLocalization } from "../../contexts/LocalizationContext";
 
 type SortingButtonProps = { 
     sortings: {[key: string]: string};
@@ -12,6 +13,7 @@ type SortingButtonProps = {
 
 export default function SortingButton({ sortings, setSortings }: SortingButtonProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const { staticData } = useLocalization();
 
     if (!isOpen) {
         return (
@@ -26,7 +28,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
     return (
         <View style={styles.openSortingContainer}>
             <View style={styles.sortingTop}>
-                <DesignedText size={"small"}>сортувати за</DesignedText>
+                <DesignedText size={"small"}>{staticData.main.sortingButton.topText}</DesignedText>
                 <TouchableOpacity onPress={() => {setIsOpen(false)}}><UpDownArrow /></TouchableOpacity>
             </View>
             <View style={styles.sortingChoices}>
@@ -37,7 +39,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
                         "created": ""
                     });
                 }}>
-                    <DesignedText size="small">пріорітетом</DesignedText>
+                    <DesignedText size="small">{staticData.main.sortingButton.priority}</DesignedText>
                     <View style={(sortings["price"] !== "" || sortings["created"] !== "") && { opacity: 0 }}><Checkmark/></View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortingChoice} onPress={() => {
@@ -46,7 +48,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
                         "price": sortings["price"] !== "min" ? "min" : "",
                     });
                 }}>
-                    <DesignedText size="small">Найменшою вартістю</DesignedText>
+                    <DesignedText size="small">{staticData.main.sortingButton.ascendingPrice}</DesignedText>
                     <View style={sortings["price"] !== "min" && { opacity: 0 }}><Checkmark/></View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortingChoice} onPress={() => {
@@ -55,7 +57,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
                         "price": sortings["price"] !== "max" ? "max" : "",
                     });
                 }}>
-                    <DesignedText size="small">Найбільшою вартістю</DesignedText>
+                    <DesignedText size="small">{staticData.main.sortingButton.descendingPrice}</DesignedText>
                     <View style={sortings["price"] !== "max" && { opacity: 0 }}><Checkmark/></View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortingChoice} onPress={() => {
@@ -64,7 +66,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
                         "created": sortings["created"] !== "later" ? "later" : "",
                     });
                 }}>
-                    <DesignedText size="small">останнім додаванням</DesignedText>
+                    <DesignedText size="small">{staticData.main.sortingButton.descendingDate}</DesignedText>
                     <View style={sortings["created"] !== "later" && { opacity: 0 }}><Checkmark/></View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortingChoice} onPress={() => {
@@ -73,7 +75,7 @@ export default function SortingButton({ sortings, setSortings }: SortingButtonPr
                         "created": sortings["created"] !== "faster" ? "faster" : "",
                     });
                 }}>
-                    <DesignedText size="small">доданим раніше</DesignedText>
+                    <DesignedText size="small">{staticData.main.sortingButton.ascendingDate}</DesignedText>
                     <View style={sortings["created"] !== "faster" && { opacity: 0 }}><Checkmark/></View>
                 </TouchableOpacity>
             </View>

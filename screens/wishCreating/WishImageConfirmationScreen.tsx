@@ -31,6 +31,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   const wishService = new WishService();
   const authContext = useAuth();
   const { wishId, editingMode } = useWishCreating();
+  const { staticData } = useLocalization();
 
   return (
     <TouchableOpacity onPress={
@@ -47,7 +48,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
         } style={generalStyles.screenContainer}>
           <View style={generalStyles.centerContainer}>
               <Title style={[authStyles.title, { marginBottom: 16 }]}>
-              Зображення твого бажання
+              {staticData.wishCreating.wishImageConfirmationScreen.title}
               </Title>
               <View style={[styles.editorImageContainer, { aspectRatio: ratio.width / ratio.height }]}>
                 <Image source={ {uri: image} } style={styles.editorImage}/>

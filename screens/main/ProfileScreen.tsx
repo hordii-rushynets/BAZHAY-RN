@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Title from '../../components/ui/Title';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
@@ -21,6 +21,7 @@ import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
 import { fromServerDateToFrontDate } from '../../utils/helpers';
 import { WishService } from '../wishCreating/services';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type ProfileScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Profile'>;
 
@@ -29,6 +30,7 @@ interface ProfileScreenProps {
 }
 
 function ProfileScreen({ navigation }: ProfileScreenProps) {
+  const { staticData } = useLocalization();
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [user, setUser] = useState<UserFields>({});
   const [wishes, setWishes] = useState<Wish[]>([])
@@ -43,6 +45,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
     "created": ""
   });
 
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const renderItem = ({ item, i }: {item: unknown, i: number}) => (
     <WishCard wish={item as Wish} key={i}/>
   );
@@ -53,7 +57,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
 
     const isCloseToBottom =
-      contentSize.height - layoutMeasurement.height - contentOffset.y < 700;
+      contentSize.height - layoutMeasurement.height - contentOffset.y < 1000;
 
     if (isCloseToBottom && !isFetching && nextUrl !== "") {
       setIsFetching(true);
@@ -68,6 +72,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
 
   useFocusEffect(
     useCallback(() => {
+      scrollViewRef.current?.scrollTo({ y: 0, animated: true });
       accountService.getUser(authContext).then(userData => {
         setUser(userData);
       });
@@ -98,20 +103,20 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
             isScrolled ? <Profile width={24} height={24}/> : <BigProfile />}
         </View>
         <View style={styles.profileInfoContainer}>
-          <DesignedText size={isScrolled ? "small" : "medium"}>{user.first_name || "Ім’я та Прізвище"}</DesignedText>
+          <DesignedText size={isScrolled ? "small" : "medium"}>{user.first_name || staticData.main.profileScreen.namePlaceholder}</DesignedText>
           <DesignedText size="small" isUppercase={false} style={styles.grayText}>@{user.username || "nickname"}</DesignedText>
           {!isScrolled && <><View style={styles.descriptionContainer}>
-            <DesignedText size="small">{user.about_user || "Напиши декілька слів про себе"}</DesignedText>
+            <DesignedText size="small">{user.about_user || staticData.main.profileScreen.aboutPlaceholder}</DesignedText>
             <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>
           </View>
           <View style={styles.subscribersContainer}>
-            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">Підписники</DesignedText></View>
-            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">Підписки</DesignedText></View>
+            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View>
+            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View>
           </View></>}
         </View>
         <View style={styles.profileWishesContainer}>
           <SortingButton sortings={sortings} setSortings={setSortings}/>
-          <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll}>
+          <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll} ref={scrollViewRef}>
             <MasonryList
               data={wishes}
               renderItem={renderItem}

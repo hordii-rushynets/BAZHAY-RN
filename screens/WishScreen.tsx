@@ -21,6 +21,7 @@ import SubmitButton from '../components/ui/buttons/SubmitButton';
 import { AccountService } from './auth/services';
 import { useAuth } from '../contexts/AuthContext';
 import { WishService } from './wishCreating/services';
+import { useLocalization } from '../contexts/LocalizationContext';
 
 
 type WishScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Wish'>;
@@ -32,6 +33,7 @@ interface WishScreenProps {
 }
 
 function WishScreen({ route, navigation }: WishScreenProps) {
+  const { staticData } = useLocalization(); 
   const { wishId } = route.params;
   const [ratio, setRatio] = useState(1/1);
   const wishService = new WishService();
@@ -93,13 +95,13 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             </View>
             <DesignedText size="small">{wish.description || ""}</DesignedText>
             {wish.link && <TouchableOpacity onPress={()=>{ openExternalLink(wish.link || "") }}>
-              <DesignedText isUppercase={false} style={authStyles.underlined}>Придбати за цим посиланням</DesignedText>
+              <DesignedText isUppercase={false} style={authStyles.underlined}>{staticData.wishScreen.buyByLink}</DesignedText>
             </TouchableOpacity>}
             <View style={styles.wishBottom}>
-              <DesignedText size="small">Якщо ти знаходишся далеко, то можеш відправити мені подарунок:</DesignedText>
+              <DesignedText size="small">{staticData.wishScreen.bottomText}</DesignedText>
               <View style={styles.wishBottomButtonsContainer}>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">Адреса</DesignedText></SubmitButton>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">Пошта</DesignedText></SubmitButton>
+                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
+                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
               </View>
             </View>
         </View>

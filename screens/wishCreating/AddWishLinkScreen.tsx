@@ -30,7 +30,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
   const { staticData } = useLocalization();
 
   const validationSchema = Yup.object().shape({
-    link: Yup.string().url("Вкажіть правильне покликання").required(""),
+    link: Yup.string().url(staticData.wishCreating.addWishLinkScreen.urlError).required(""),
   });
 
   return (
@@ -39,7 +39,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
             <View>
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
-                        Де можна замовити бажання?
+                        {staticData.wishCreating.addWishLinkScreen.title}
                     </Title>
                 </View>
                 <Formik
@@ -51,7 +51,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                         navigation.navigate(editingMode ? "WishConfirmation" : "AddWishDescription")
                       }
                       else {
-                        setErrors({ link: "Вкажіть правильне покликання" });
+                        setErrors({ link: staticData.wishCreating.addWishLinkScreen.urlError});
                       }
                     })
                   }}
@@ -59,7 +59,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={authStyles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Вкажи посилання з сайту"}
+                          placeholder={staticData.wishCreating.addWishLinkScreen.placeholder}
                           value={values.link}
                           error={errors.link}
                           onChange={handleChange('link')}
@@ -71,7 +71,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
             </View>
             {!editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishDescription")}} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>
-                Додати пізніше
+                {staticData.wishCreating.addWishLinkScreen.button}
               </DesignedText>
             </TouchableOpacity>}
         </View>

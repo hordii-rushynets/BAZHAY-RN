@@ -38,7 +38,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                    Як називається твоє бажання?
+                    {staticData.wishCreating.addWishTitleScreen.title}
                     </Title>
                 </View>
                 <Formik
@@ -65,7 +65,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Напиши назву свого бажання"}
+                          placeholder={staticData.wishCreating.addWishTitleScreen.placeholder}
                           value={values.name}
                           error={errors.name}
                           onChange={handleChange('name')}

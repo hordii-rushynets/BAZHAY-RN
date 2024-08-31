@@ -32,7 +32,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
   const { staticData } = useLocalization();
 
   const validationSchema = Yup.object().shape({
-    price: Yup.number().integer("Вкажіть валідну ціну").positive("Вкажіть валідну ціну").required(""),
+    price: Yup.number().integer(staticData.wishCreating.addWishPriceScreen.error).positive(staticData.wishCreating.addWishPriceScreen.error).required(""),
     currency: Yup.string().required(""),
   });
 
@@ -44,7 +44,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
             <View>
                 <View style={authStyles.titleContainer}>
                     <Title style={authStyles.title}>
-                    Яка вартість твого бажання?
+                    {staticData.wishCreating.addWishPriceScreen.title}
                     </Title>
                 </View>
                     <View style={authStyles.inputContainer}>
@@ -58,7 +58,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                                   navigation.navigate(editingMode ? "WishConfirmation" :"AddWishLink")
                                 }
                                 else {
-                                  setErrors({ price: "Вкажіть валідну ціну" });
+                                  setErrors({ price: staticData.wishCreating.addWishPriceScreen.error });
                                 }
                               })
                             }
@@ -68,7 +68,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                             <View style={generalStyles.textInputWithArrowContainer}>
                                 <TextInput 
                                   style={generalStyles.textInputWithArrow}
-                                  placeholder={"Напиши ціну"}
+                                  placeholder={staticData.wishCreating.addWishPriceScreen.placeholder}
                                   value={values.price}
                                   onChangeText={handleChange("price")}
                                   keyboardType="numeric"
@@ -86,7 +86,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
             </View>
             {!editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishLink")}} style={styles.addLaterButton}>
               <DesignedText isUppercase={false}>
-                Додати пізніше
+                {staticData.wishCreating.addWishPriceScreen.skip}
               </DesignedText>
             </TouchableOpacity>}
         </View>

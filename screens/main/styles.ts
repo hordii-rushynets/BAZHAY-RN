@@ -138,7 +138,8 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderStyle: "solid",
       borderRadius: 20,
-      marginHorizontal: 8
+      marginHorizontal: 8,
+      marginTop: 8
     },
     wishCardImage: {
       borderRadius: 20,

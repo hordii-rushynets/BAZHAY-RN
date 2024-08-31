@@ -45,7 +45,7 @@ export class WishService {
     public async getMyWishes(queryParams: {[key: string]: string}, authContext: any, url?: string):Promise<{count: number; next?: string; previous?:string; results: Wish[]}> {
         const urlParams = new URLSearchParams(queryParams);
 
-        const response = await this.daoService.getMyWishes(urlParams, authContext, url);
+        const response = await this.daoService.getMyWishes(url ? new URLSearchParams() : urlParams, authContext, url);
 
         if (response.ok) {
             const allData = await response.json(); 

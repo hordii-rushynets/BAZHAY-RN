@@ -19,17 +19,10 @@ interface AddWishVisibilityScreenProps {
   navigation: AddWishVisibilityScreenNavigationProp;
 }
 
-export const visibilityChoices = {
-  "": "",
-  everyone: "Всі",
-  subscribers: "Підписники",
-  only_me: "Тільки я"
-}
-
 function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
-  const [ visibility, setVisibility ] = useState<keyof typeof visibilityChoices>("");
-  const authContext = useAuth(); 
   const { staticData } = useLocalization();
+  const [ visibility, setVisibility ] = useState<keyof typeof staticData.wishCreating.visibilityChoices>("");
+  const authContext = useAuth(); 
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating();
 
@@ -39,29 +32,29 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
             <View>
                 <View style={authStyles.titleContainer}>
                     <Title style={authStyles.title}>
-                    Хто буде бачити твоє бажання
+                    {staticData.wishCreating.addWishVisibilityScreen.title}
                     </Title>
                 </View>
             </View>
             <View style={authStyles.sexCheckBoxContainer}>
               <CheckBox checked={visibility === "everyone"} onChange={() => { setVisibility("everyone"); }}>
-                <DesignedText>{visibilityChoices.everyone}</DesignedText>
+                <DesignedText>{staticData.wishCreating.visibilityChoices.everyone}</DesignedText>
               </CheckBox>
               <CheckBox checked={visibility === "subscribers"} onChange={() => { setVisibility("subscribers"); }}>
-                <DesignedText>{visibilityChoices.subscribers}</DesignedText>
+                <DesignedText>{staticData.wishCreating.visibilityChoices.subscribers}</DesignedText>
               </CheckBox>
               <CheckBox checked={visibility === "only_me"} onChange={() => { setVisibility("only_me"); }}>
-                <DesignedText>{visibilityChoices.only_me}</DesignedText>
+                <DesignedText>{staticData.wishCreating.visibilityChoices.only_me}</DesignedText>
               </CheckBox>
             </View>
         </View>
         {visibility !== "" && <SubmitButton onPress={() => {
-          wishService.wishUpdate({ access_type: visibility }, wishId||"", authContext).then(success => {
+          wishService.wishUpdate({ access_type: visibility as string }, wishId||"", authContext).then(success => {
             if (success) {
               navigation.navigate("WishConfirmation")
             }
           })
-          }} width={200} style={authStyles.gridButton}>{editingMode ? "Готово" : "Далі"}</SubmitButton>}
+          }} width={200} style={authStyles.gridButton}>{editingMode ? staticData.wishCreating.addWishVisibilityScreen.editingButton : staticData.wishCreating.addWishVisibilityScreen.button}</SubmitButton>}
     </WishCreatingLayout>
   );
 };

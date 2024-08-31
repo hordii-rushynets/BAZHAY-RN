@@ -8,6 +8,7 @@ import Community from '../ui/icons/Community';
 import Profile from '../ui/icons/Profile';
 import PlusInCircle from '../ui/icons/PlusInCircle';
 import DesignedText from '../ui/DesignedText';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type TabBarProps = BottomTabBarProps & {
   setShowPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +16,7 @@ type TabBarProps = BottomTabBarProps & {
 }
 
 export const TabBar: React.FC<TabBarProps> = ({ state, descriptors, navigation, setShowPopUp, showPopUp }) => {
+    const { staticData } = useLocalization();
     return (
       <View style={styles.tabBar}>
         {state.routes.map((route, index) => {
@@ -32,19 +34,19 @@ export const TabBar: React.FC<TabBarProps> = ({ state, descriptors, navigation, 
           let span: string = "";
           if (route.name === 'Home') {
             icon = <Home />;
-            span = "Дім"
+            span = staticData.main.tabBar.home
           }
           else if (route.name === 'Search') {
             icon = <Search />;
-            span = "Пошук";
+            span = staticData.main.tabBar.search;
           }
           else if (route.name === 'Community') {
             icon = <Community />;
-            span = "ком’юніті"
+            span = staticData.main.tabBar.community
           }
           else if (route.name === 'Profile') {
             icon = <Profile />;
-            span = "Профіль"
+            span = staticData.main.tabBar.profile
           }
   
           return (
@@ -61,7 +63,7 @@ export const TabBar: React.FC<TabBarProps> = ({ state, descriptors, navigation, 
                   style={styles.centerButton}
                 >
                   <PlusInCircle />
-                  {showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>Створити бажання</DesignedText>}
+                  {showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>{staticData.main.tabBar.createWish}</DesignedText>}
                 </TouchableOpacity>
               ) : (
                 <>

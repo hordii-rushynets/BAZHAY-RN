@@ -37,7 +37,7 @@ const DropDownInput = ({options, defaultValue, onChange}: DropDownInputProps) =>
         else {
           return (
             <TouchableOpacity key={indx} style={styles.dropdownItem} onPress={() => {handleValueSelect(value)}}>
-              <DesignedText key={indx}>{value}</DesignedText>
+              <DesignedText >{value}</DesignedText>
             </TouchableOpacity>
           );
         }
