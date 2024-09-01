@@ -42,6 +42,7 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
       first: 40,
       mediaType: ['photo'],
       after: assetCursor,
+      sortBy: [[MediaLibrary.SortBy.creationTime, false]]
     });
 
     if (assets.assets.length > 0) {

@@ -27,8 +27,13 @@ export const LocalizationProvider = ({ children }: LocalizationProviderProps) =>
 
   useEffect(() => {
     AsyncStorage.getItem("BAZHAYlocals").then(local => {
-      const userLanguage = local || Localization.getLocales()[0].languageCode || "uk"
-      setLocalization(userLanguage);
+      const userLanguage = local || Localization.getLocales()[0].languageCode || "uk";
+      if (userLanguage === "uk" || userLanguage === "en") {
+        setLocalization(userLanguage);
+      }
+      else {
+        setLocalization("en");
+      }
     })
   }, [])
 

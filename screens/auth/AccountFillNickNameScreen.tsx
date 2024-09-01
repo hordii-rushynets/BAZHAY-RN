@@ -43,7 +43,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                   initialValues={{ nickname: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
-                    accountService.userUpdate({ username: values.nickname }, authContext).then(success => {
+                    accountService.userUpdate({ username: values.nickname.toLowerCase() }, authContext).then(success => {
                       if (success) {
                         navigation.navigate("AccountFillAvatar");
                       }

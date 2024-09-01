@@ -1,5 +1,5 @@
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { Dimensions, Image } from "react-native";
+import { Dimensions, Image, Linking } from "react-native";
 import styles from "../screens/auth/styles";
 import { AuthContextData } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -82,3 +82,25 @@ export const cropPhoto = async (uri: string) => {
       reader.readAsDataURL(blob);
     });
   };
+
+  export function isVideo(uri: string): boolean {
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.flv', '.wmv', '.webm'];
+    return videoExtensions.some(extension => uri.toLowerCase().endsWith(extension));
+  }
+
+  export function openExternalLink(url: string) {
+    Linking.canOpenURL(url)
+    .then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log("Don't know how to open URI: " + url);
+      }
+    })
+    .catch((err) => console.error("Failed to open URL:", err));
+  }
+
+  export function fromServerDateToFrontDate(date: string) {
+    const [ year, day, month ] = date.split("-");
+    return `${day}.${month}.${year}`
+  }

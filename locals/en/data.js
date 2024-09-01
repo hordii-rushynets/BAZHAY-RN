@@ -136,5 +136,111 @@ export default data = {
         otpInput: {
             otpError: "The verification code is not valid"
         }
+    },
+    wishCreating: {
+        addWishPopUp: {
+            linkButton: "Add by link",
+            manualButton: "Add wish manually"
+        },
+        wishCreatingLayout: {
+            topText: "Creating wish",
+        },
+        addWishDescriptionScreen: {
+            title: "Describe your desire and add characteristics",
+            placeholder: "Here you can write a few words about your desire, specify the size, color or model",
+            button: "Add later"
+        },
+        addWishFromGalleryScreen: {
+            all: "All",
+            photo: "Photo",
+            video: "Video",
+            button: "continue"
+        },
+        addWishLinkScreen: {
+            urlError: "Specify the correct link",
+            title: "Where can I order a wish?",
+            placeholder: "Enter a link from the site",
+            button: "Add later"
+        },
+        addWishPhotoOrVideoScreen: {
+            title: "Add a photo or video of your desire",
+            galleryButton: "Choose from the gallery",
+            cameraButton: "Take a picture",
+            skip: "Miss"
+        },
+        addWishPriceScreen: {
+            title: "What is the cost of your desire?",
+            error: "Enter a valid price",
+            placeholder: "Write the price",
+            skip: "Add later"
+        },
+        addWishTitleScreen: {
+            title: "What is the name of your wish?",
+            placeholder: "Write the name of your wish"
+        },
+        visibilityChoices: {
+            "": "",
+            everyone: "All",
+            subscribers: "Subscribers",
+            only_me: "Only me"
+        },
+        addWishVisibilityScreen: {
+            title: "Who will see your desire",
+            editingButton: "done",
+            button: "Next"
+        },
+        imageResizeScreen: {
+            button: "done"
+        },
+        wishConfirmationScreen: {
+            yourWishText: "your wish",
+            namePlaceholder: "write the name of the desire",
+            pricePlaceholder: "specify the cost and currency",
+            linkPlaceholder: "specify the link",
+            descriptionPlaceholder: "add description and specifications",
+            accessPlaceholder: "adjust who sees this wish",
+            button: "done"
+        },
+        wishImageConfirmationScreen: {
+            title: "The image of your desire"
+        }
+    },
+    main: {
+        premiumProfileAdvert: {
+            titleFirstPart: "sign up for",
+            titleSecondPart: "premium",
+            descriptionFirstPart: "Enjoy all the",
+            descriptionItalicPart: "premium ",
+            descriptionEndPart: "features and access. Try it for a week for free",
+            button: "Try it for free",
+            bottomText: "7-day trial period, then 9.99 USD per year 0.83 USD per month",
+        },
+        sortingButton: {
+            topText: "sort by",
+            priority: "priority",
+            descendingPrice: "Highest cost",
+            ascendingPrice: "Lowest cost",
+            descendingDate: "last added",
+            ascendingDate: "previously added"
+        },
+        tabBar: {
+            home: "home",
+            search: "search",
+            community: "community",
+            profile: "profile",
+            createWish: "to create desire"
+        },
+        profileScreen: {
+            namePlaceholder: "First name and surname",
+            aboutPlaceholder: "Write a few words about yourself",
+            subscribers: "Subscribers",
+            subscriptions: "Subscriptions",
+        }
+    },
+    wishScreen: {
+        buyByLink: "Buy at this link",
+        bottomText: "If you are far away, you can send me a gift:",
+        address: "Address",
+        post: "post"
     }
 }

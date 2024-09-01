@@ -136,5 +136,111 @@ export default data = {
         otpInput: {
             otpError: "Код підтвердження не вірний"
         }
+    },
+    wishCreating: {
+        addWishPopUp: {
+            linkButton: "Додати за посиланням",
+            manualButton: "Додати бажання вручну"
+        },
+        wishCreatingLayout: {
+            topText: "Створення бажання",
+        },
+        addWishDescriptionScreen: {
+            title: "Опиши своє бажання та додай характеристики",
+            placeholder: "Тут ти можеш написати декілька слів про своє бажання, уточнити розмір, колір чи модель",
+            button: "Додати пізніше"
+        },
+        addWishFromGalleryScreen: {
+            all: "Усі",
+            photo: "Фото",
+            video: "Відео",
+            button: "продовжити"
+        },
+        addWishLinkScreen: {
+            urlError: "Вкажіть правильне покликання",
+            title: "Де можна замовити бажання?",
+            placeholder: "Вкажи посилання з сайту",
+            button: "Додати пізніше"
+        },
+        addWishPhotoOrVideoScreen: {
+            title: "Додай фото або відео бажання",
+            galleryButton: "Вибрати в галереї",
+            cameraButton: "Зробити фото",
+            skip: "Пропустити"
+        },
+        addWishPriceScreen: {
+            title: "Яка вартість твого бажання?",
+            error: "Вкажіть валідну ціну",
+            placeholder: "Напиши ціну",
+            skip: "Додати пізніше"
+        },
+        addWishTitleScreen: {
+            title: "Як називається твоє бажання?",
+            placeholder: "Напиши назву свого бажання"
+        },
+        visibilityChoices: {
+            "": "",
+            everyone: "Всі",
+            subscribers: "Підписники",
+            only_me: "Тільки я"
+        },
+        addWishVisibilityScreen: {
+            title: "Хто буде бачити твоє бажання",
+            editingButton: "Готово",
+            button: "Далі"
+        },
+        imageResizeScreen: {
+            button: "Готово"
+        },
+        wishConfirmationScreen: {
+            yourWishText: "Твоє бажання",
+            namePlaceholder: "напиши Назву бажання",
+            pricePlaceholder: "вкажи вартість та валюту",
+            linkPlaceholder: "вкажи посилання",
+            descriptionPlaceholder: "додай опис та характеристики",
+            accessPlaceholder: "налаштуй, хто бачить це бажання",
+            button: "Готово"
+        },
+        wishImageConfirmationScreen: {
+            title: "Зображення твого бажання"
+        }
+    },
+    main: {
+        premiumProfileAdvert: {
+            titleFirstPart: "підпишись на",
+            titleSecondPart: "преміум",
+            descriptionFirstPart: "Насолоджуйся усіма",
+            descriptionItalicPart: "преміум",
+            descriptionEndPart: "-функціями та доступами. Спробуй тиждень безкоштовно",
+            button: "Спробувати безкоштовно",
+            bottomText: "7-ми денний пробний період, потім 9,99 USD на рік 0,83 USD в місяць",
+        },
+        sortingButton: {
+            topText: "сортувати за",
+            priority: "пріорітетом",
+            descendingPrice: "Найбільшою вартістю",
+            ascendingPrice: "Найменшою вартістю",
+            descendingDate: "останнім додаванням",
+            ascendingDate: "доданим раніше"
+        },
+        tabBar: {
+            home: "Дім",
+            search: "Пошук",
+            community: "ком’юніті",
+            profile: "Профіль",
+            createWish: "Створити бажання"
+        },
+        profileScreen: {
+            namePlaceholder: "Ім’я та Прізвище",
+            aboutPlaceholder: "Напиши декілька слів про себе",
+            subscribers: "Підписники",
+            subscriptions: "Підписки",
+        }
+    },
+    wishScreen: {
+        buyByLink: "Придбати за цим посиланням",
+        bottomText: "Якщо ти знаходишся далеко, то можеш відправити мені подарунок:",
+        address: "Адреса",
+        post: "Пошта"
     }
 }

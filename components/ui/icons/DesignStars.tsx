@@ -1,9 +1,14 @@
 import React from 'react';
 import { Path, Svg } from 'react-native-svg';
 
-function DesignStars() {
+type DesignStarsProps = {
+  width?: number;
+  height?: number;
+}
+
+function DesignStars({width = 160, height = 178}: DesignStarsProps) {
   return (
-    <Svg width="160" height="178" viewBox="0 0 160 178" fill="none">
+    <Svg width={width} height={height} viewBox="0 0 160 178" fill="none">
     <Path d="M71 0L75.0224 24.4201C78.62 46.2614 95.7386 63.38 117.58 66.9776L142 71L117.58 75.0224C95.7386 78.62 78.62 95.7386 75.0224 117.58L71 142L66.9776 117.58C63.38 95.7386 46.2614 78.62 24.4201 75.0224L0 71L24.4201 66.9776C46.2614 63.38 63.38 46.2614 66.9776 24.4201L71 0Z" fill="#B70000"/>
     <Path d="M133.5 125L135.001 134.115C136.344 142.267 142.733 148.656 150.885 149.999L160 151.5L150.885 153.001C142.733 154.344 136.344 160.733 135.001 168.885L133.5 178L131.999 168.885C130.656 160.733 124.267 154.344 116.115 153.001L107 151.5L116.115 149.999C124.267 148.656 130.656 142.267 131.999 134.115L133.5 125Z" fill="#B70000"/>
     </Svg>
