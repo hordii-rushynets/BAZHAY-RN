@@ -185,8 +185,63 @@ const styles = StyleSheet.create({
     },
     premiumProfileAdvertButtonText: {
       color: "#B70000"
-    }
-
+    },
+    topBar: {
+      flexDirection: "row",
+      justifyContent: "space-between"
+    },
+    forYouTabContainer: {
+      gap: 20,
+      marginTop: 24,
+    },
+    articleCardImageContainer: {
+      width: 304,
+      height: 160,
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 30,
+    },
+    articleCardImage: {
+      width: "100%",
+      height: "100%"
+    },
+    articleCardContainer: {
+      gap: 8,
+      marginHorizontal: 8
+    },
+    articleCardText: {
+      marginLeft: 10
+    },
+    dotContainer: {
+      position: "relative",
+      justifyContent: "center",
+    },
+    dot: {
+      width: 3.6,
+      height: 3.6,
+      marginHorizontal: 2
+    },
+    dotActive: {
+      backgroundColor: "black"
+    },
+    brandCardImageContainer: {
+      width: 80,
+      height: 80,
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 80,
+      marginHorizontal: 8
+    },
+    brandCardContainer: {
+      alignItems: "center",
+      gap: 8
+    },
+    brandsTabContainer: {
+      gap: 16,
+      marginVertical: 24
+    },
 });
 
 export default styles

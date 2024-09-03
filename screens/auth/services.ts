@@ -1,12 +1,13 @@
 import Constants from 'expo-constants';
 import { AccountDAOService } from "./dao-services"
 import { UserFields } from "./interfaces";
+import config from "../../config.json"
 
 export class AccountService {
     private daoService: AccountDAOService;
 
     constructor() {
-        this.daoService = new AccountDAOService(Constants.manifest2.extra.expoClient.extra.apiUrl || "");
+        this.daoService = new AccountDAOService(config.apiUrl || "");
     }
 
     public async refreshToken(refreshToken: string): Promise<{access: string }> {

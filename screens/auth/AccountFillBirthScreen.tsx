@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -25,9 +25,9 @@ interface AccountFillBirthScreenProps {
 }
 
 function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+  const [day, setDay] = useState(Platform.OS === "web" ? "12" : '');
+  const [month, setMonth] = useState(Platform.OS === "web" ? "09" : '');
+  const [year, setYear] = useState(Platform.OS === "web" ? "2023" : '');
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [hideBirthday, setHideBirthday] = useState(false);
