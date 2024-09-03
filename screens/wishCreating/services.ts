@@ -1,12 +1,12 @@
-import Constants from 'expo-constants';
 import { WishDAOService } from "./dao-services"
 import { Wish } from "./interfaces";
+import config from "../../config.json"
 
 export class WishService {
     private daoService: WishDAOService;
 
     constructor() {
-        this.daoService = new WishDAOService(Constants.manifest2.extra.expoClient.extra.apiUrl || "");
+        this.daoService = new WishDAOService(config.apiUrl || "");
     }
 
     public async wishCreate(wishData: Wish, authContext: any):Promise<Wish> {

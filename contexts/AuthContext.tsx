@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AccountService } from '../screens/auth/services';
-import Constants from 'expo-constants';
+import config from "../config.json"
 
 export interface AuthContextData {
   isAuthenticated: boolean;
@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   async function checkIfUserAuthenticated(): Promise<boolean> {
       const accessToken = await AsyncStorage.getItem('AccessToken');
-      const apiUrl = Constants.manifest2.extra.expoClient.extra.apiUrl
+      const apiUrl = config.apiUrl
       let response = await fetch(`${apiUrl}/api/account/user/`, {
         method: 'GET',
         headers: {
