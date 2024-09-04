@@ -31,8 +31,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const seenWelcome = await AsyncStorage.getItem('hasSeenWelcome');
       setHasSeenWelcome(seenWelcome === 'true');
-      const accountFilled = await AsyncStorage.getItem('accountFilled');
-      setIsAccountFilled(accountFilled === 'true');
 
       const isAuth = await checkIfUserAuthenticated();
       setIsAuthenticated(isAuth);
@@ -53,9 +51,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem('AccessToken');
-      await AsyncStorage.removeItem('RefreshToken');
-      setIsAuthenticated(false);
+      const refreshToken = await AsyncStorage.getItem('RefreshToken');
+      const apiUrl = config.apiUrl
+      let response = await fetch(`${apiUrl}/api/account/logout/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refresh: refreshToken
+        })
+      });
+
+      if (response.ok) {
+        await AsyncStorage.removeItem('AccessToken');
+        await AsyncStorage.removeItem('RefreshToken');
+        setIsAuthenticated(false);
+      }
     } catch (error) {
       console.error('Failed to set authenticated state:', error);
     }
@@ -82,11 +94,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const completeFillingAccount = async () => {
-    try {
-      await AsyncStorage.setItem('accountFilled', 'true');
-      setIsAccountFilled(true);
-    } catch (error) {
-      console.error('Failed to set account filled:', error);
+    const accessToken = await AsyncStorage.getItem('AccessToken');
+    const apiUrl = config.apiUrl
+    const response = await fetch(`${apiUrl}/api/account/user/`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        is_already_registered: true
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    })
+
+    if (response.ok) {
+      setIsAccountFilled(true)
     }
   }
 
@@ -109,6 +131,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           'Authorization': `Bearer ${newAccessToken}`,
         }
       });
+      }
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setIsAccountFilled(data.is_already_registered)
       }
     
       return response.ok;

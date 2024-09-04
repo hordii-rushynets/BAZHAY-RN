@@ -192,6 +192,12 @@ const styles = StyleSheet.create({
       alignItems: "center",
       paddingHorizontal: 24,
     },
+    buttonWithArrowText: {
+      flexDirection: "row",
+      gap: 16,
+      alignItems: "center",
+      justifyContent: "center"
+    }
 })
 
 export default styles;
