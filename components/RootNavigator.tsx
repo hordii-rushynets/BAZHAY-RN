@@ -34,7 +34,7 @@ export type RootStackParamList = {
     params?: ProfileStackParamList[keyof ProfileStackParamList];
   };
   Wish: { wishId: string; };
-} & WishCreatingStackParamList & MainStackParamList & ProfileStackParamList
+} & WishCreatingStackParamList & MainStackParamList & ProfileStackParamList & HomeStackParamList
 
 const Stack = createStackNavigator<RootStackParamList>();
 
