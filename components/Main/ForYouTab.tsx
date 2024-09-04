@@ -6,12 +6,10 @@ import Swiper from 'react-native-swiper';
 import { ArticleCard } from './ArticleCard';
 import styles from '../../screens/main/styles';
 import SwiperFlatList from 'react-native-swiper-flatlist';
+import { Article } from '../../screens/main/interfaces';
 
 type ForYouTabProps = {
-  news: {
-    text: string;
-    image: string;
-  }[]
+  news: Article[];
 }
 
 export const ForYouTab = ({ news }: ForYouTabProps) => {

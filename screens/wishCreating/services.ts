@@ -55,4 +55,30 @@ export class WishService {
             throw new Error("Error fetching wishinfo");
         }
     }
+
+    public async getWishes(queryParams: {[key: string]: string}, authContext: any, url?: string):Promise<{count: number; next?: string; previous?:string; results: Wish[]}> {
+        const urlParams = new URLSearchParams(queryParams);
+
+        const response = await this.daoService.getWishes(url ? new URLSearchParams() : urlParams, authContext, url);
+
+        if (response.ok) {
+            const allData = await response.json(); 
+            return allData;
+        }
+        else {
+            throw new Error("Error fetching wishinfo");
+        }
+    }
+
+    public async getArticleWishes(slug: string, authContext: any, url?: string):Promise<{count: number; next?: string; previous?:string; results: Wish[]}> {
+        const response = await this.daoService.getArticleWishes(slug, authContext, url);
+
+        if (response.ok) {
+            const allData = await response.json(); 
+            return allData;
+        }
+        else {
+            throw new Error("Error fetching wishinfo");
+        }
+    }
 }
