@@ -53,9 +53,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem('AccessToken');
-      await AsyncStorage.removeItem('RefreshToken');
-      setIsAuthenticated(false);
+      const refreshToken = await AsyncStorage.getItem('RefreshToken');
+      const apiUrl = config.apiUrl
+      let response = await fetch(`${apiUrl}/api/account/logout/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          refresh: refreshToken
+        })
+      });
+
+      if (response.ok) {
+        await AsyncStorage.removeItem('AccessToken');
+        await AsyncStorage.removeItem('RefreshToken');
+        setIsAuthenticated(false);
+      }
     } catch (error) {
       console.error('Failed to set authenticated state:', error);
     }

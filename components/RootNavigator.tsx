@@ -10,6 +10,7 @@ import { Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WishCreatingStackScreen, { WishCreatingStackParamList } from './navigationStacks/WishCreatingStackScreen';
 import WishScreen from '../screens/WishScreen';
+import ProfileStackScreen, { ProfileStackParamList } from './navigationStacks/ProfileStackScreen';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -23,8 +24,12 @@ export type RootStackParamList = {
     screen: keyof WishCreatingStackParamList;
     params?: WishCreatingStackParamList[keyof WishCreatingStackParamList];
   };
+  ProfileScreens: {
+    screen: keyof ProfileStackParamList;
+    params?: ProfileStackParamList[keyof ProfileStackParamList];
+  };
   Wish: { wishId: string; };
-} & WishCreatingStackParamList & MainStackParamList
+} & WishCreatingStackParamList & MainStackParamList & ProfileStackParamList
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -59,6 +64,10 @@ const RootNavigator: React.FC = () => {
             <Stack.Screen
               name="WishCreating"
               component={WishCreatingStackScreen}
+            />
+            <Stack.Screen
+              name="ProfileScreens"
+              component={ProfileStackScreen}
             />
             <Stack.Screen name={"Wish"} component={WishScreen}/>
           </Stack.Navigator>

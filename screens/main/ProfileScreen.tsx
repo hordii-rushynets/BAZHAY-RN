@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Title from '../../components/ui/Title';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { MainStackParamList } from '../../components/navigationStacks/MainStackScreen';
 import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity, View } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import Upload from '../../components/ui/icons/Upload';
@@ -22,8 +21,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import { fromServerDateToFrontDate } from '../../utils/helpers';
 import { WishService } from '../wishCreating/services';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { RootStackParamList } from '../../components/RootNavigator';
 
-type ProfileScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Profile'>;
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
 interface ProfileScreenProps {
   navigation: ProfileScreenNavigationProp;
@@ -94,7 +94,7 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
           <TouchableOpacity>
             <Upload />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { navigation.navigate("ProfileScreens", { screen: "Settings" }) }}>
             <Settings />
           </TouchableOpacity>
         </View>
