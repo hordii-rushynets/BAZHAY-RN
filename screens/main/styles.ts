@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: "black",
       borderRadius: 30,
+      overflow: "hidden",
     },
     articleCardImage: {
       width: "100%",
@@ -232,7 +233,8 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: "black",
       borderRadius: 80,
-      marginHorizontal: 8
+      marginHorizontal: 8,
+      overflow: "hidden"
     },
     brandCardContainer: {
       alignItems: "center",
@@ -242,6 +244,9 @@ const styles = StyleSheet.create({
       gap: 16,
       marginVertical: 24
     },
+    homeWishesContainer: {
+      paddingBottom: 100
+    }
 });
 
 export default styles

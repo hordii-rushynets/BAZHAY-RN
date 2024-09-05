@@ -10,7 +10,7 @@ export class WishDAOService {
     }
 
     public async wishCreate(wishData: Wish, authContext: any): Promise<Response> {
-        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/`, {
+        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/`, {
             method: 'POST',
             body: JSON.stringify(wishData),
             headers: {
@@ -21,7 +21,7 @@ export class WishDAOService {
     }
 
     public async wishUpdate(wishData: Wish, wishId: string, authContext: any): Promise<Response> {
-        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/${wishId}/`, {
+        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/${wishId}/`, {
             method: 'PATCH',
             body: JSON.stringify(wishData),
             headers: {
@@ -32,7 +32,7 @@ export class WishDAOService {
     }
 
     public async wishPhotoUpdate(photo: string, wishId: string, authContext: any): Promise<Response> {
-      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/${wishId}/`, {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/${wishId}/`, {
         method: 'PATCH',
         body: JSON.stringify({
             "media": photo
@@ -44,17 +44,22 @@ export class WishDAOService {
     }
 
     public async getWish(wishId: string, authContext: any): Promise<Response> {
-        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/${wishId}/`, {}, authContext)
+        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/all-wishes/${wishId}/`, {}, authContext)
         return response;
     }
 
     public async getMyWishes(urlParams: URLSearchParams, authContext: any, url?: string): Promise<Response> {
-      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/?`) + urlParams, {}, authContext)
+      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/wishes/?`) + urlParams, {}, authContext)
       return response;
     }
 
     public async getWishes(urlParams: URLSearchParams, authContext: any, url?: string): Promise<Response> {
-      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/?`) + urlParams, {}, authContext)
+      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/all-wishes/?`) + urlParams, {}, authContext)
+      return response;
+    }
+
+    public async getArticleWishes(slug: string, authContext: any, url?: string): Promise<Response> {
+      const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/news/${slug}/wish/`), {}, authContext)
       return response;
     }
 }

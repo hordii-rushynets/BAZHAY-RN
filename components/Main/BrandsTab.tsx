@@ -5,12 +5,10 @@ import { useLocalization } from '../../contexts/LocalizationContext';
 import styles from '../../screens/main/styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BrandCard } from './BrandCard';
+import { Brand } from '../../screens/main/interfaces';
 
 type BrandsTabProps = {
-  brands: {
-    text: string;
-    image: string;
-  }[]
+  brands: Brand[]
 }
 
 export const BrandsTab = ({brands}: BrandsTabProps) => {
@@ -18,9 +16,9 @@ export const BrandsTab = ({brands}: BrandsTabProps) => {
     return (
       <View style={styles.brandsTabContainer}>
         <DesignedText>Бренди</DesignedText>
-        <ScrollView horizontal>
-          {brands.map(brand => {
-            return <BrandCard brand={brand} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {brands.map((brand, indx) => {
+            return <BrandCard brand={brand} key={indx}/>
           })}
         </ScrollView>
       </View>
