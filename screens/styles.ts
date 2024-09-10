@@ -46,6 +46,37 @@ const styles = StyleSheet.create({
     },
     wishBottom: {
         gap: 8,
+    },
+    popUpMessageContainer: {
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.3)",
+      position: "absolute",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    popUpMessage: {
+      width: 280,
+      height: "auto",
+      backgroundColor: "white",
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 30,
+      padding: 24,
+      gap: 24,
+      alignItems: "center"
+    },
+    popUpMessageText: {
+      textAlign: "center",
+    },
+    smallText: {
+      fontSize: 12
+    },
+    popUpMessageButton: {
+      minWidth: 200,
+      width: "auto",
+      paddingHorizontal: 20
     }
 });
 

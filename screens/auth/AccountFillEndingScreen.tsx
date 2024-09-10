@@ -9,6 +9,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { useAuth } from '../../contexts/AuthContext';
 import { AccountService } from './services';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 
 type AccountFillEndingScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillEnding'>;
 
@@ -26,9 +27,20 @@ function AccountFillEndingScreen({ navigation }: AccountFillEndingScreenProps) {
   })
 
   const { staticData } = useLocalization();
+  const { setIsOpen, setText, setButtonText, setButtonAction } = usePopUpMessageContext();
 
   return (
-    <TouchableOpacity onPress={() => {authContext.completeFillingAccount()}} style={generalStyles.screenContainer}>
+    <TouchableOpacity onPress={() => {
+        setText("Привіт! \n Я тут для твоєї зручності. \n Буду супроводжувати в процесі Твого першого користування Bazhay!");
+        setButtonText("Далі");
+        setButtonAction(() => () => {
+          setText("Наше навчання завершено, але ти можеш повернутись до нього в “Налаштуваннях”");
+          setButtonText("Розпочати!");
+          setButtonAction(() => () => { setIsOpen(false) });
+        });
+        setIsOpen(true);
+        authContext.completeFillingAccount()
+      }} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
                 {staticData.auth.accountFillEndingScreen.title} {name}
