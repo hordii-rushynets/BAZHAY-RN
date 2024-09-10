@@ -8,11 +8,12 @@ export interface AuthContextData {
   hasSeenWelcome: boolean;
   isAccountFilled: boolean;
   checkAuth: () => Promise<void>;
-  login: (access: string, refresh: string) => void;
+  login: (access: string, refresh: string) => Promise<void>;
   logout: () => void;
   refreshToken: () => void;
   completeWelcome: () => void;
   completeFillingAccount: () => void;
+  setIsAccountFilled: (v: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -40,7 +41,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const login = async (access: string, refresh: string) => {
+  const login = async (access: string, refresh: string): Promise<void> => {
     try {
       await AsyncStorage.setItem('AccessToken', access);
       await AsyncStorage.setItem('RefreshToken', refresh);
@@ -135,15 +136,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        setIsAccountFilled(data.is_already_registered)
+        setIsAccountFilled(data.is_already_registered || data.is_guest)
       }
     
       return response.ok;
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, hasSeenWelcome, isAccountFilled, checkAuth, login, logout, refreshToken, completeWelcome, completeFillingAccount }}>
+    <AuthContext.Provider value={{ isAuthenticated, hasSeenWelcome, isAccountFilled, checkAuth, login, logout, refreshToken, completeWelcome, completeFillingAccount, setIsAccountFilled }}>
       {children}
     </AuthContext.Provider>
   );

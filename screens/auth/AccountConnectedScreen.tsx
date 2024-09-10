@@ -20,11 +20,11 @@ interface AccountConnectedScreenProps {
 
 function AccountConnectedScreen({ route, navigation }: AccountConnectedScreenProps) {
   const { token } = route.params;
-  const { login } = useAuth();
+  const { login, setIsAccountFilled } = useAuth();
   const { staticData } = useLocalization();
 
   return (
-    <TouchableOpacity onPress={() => { login(token.access, token.refresh) }} style={generalStyles.screenContainer}>
+    <TouchableOpacity onPress={() => { setIsAccountFilled(token.is_already_registered); login(token.access, token.refresh) }} style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>{staticData.auth.accountConnectedScreen.title}</Title>
             <DesignedText style={styles.accountConnectedText}>

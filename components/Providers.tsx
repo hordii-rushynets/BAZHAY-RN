@@ -2,6 +2,7 @@ import React from "react";
 import { AuthProvider } from "../contexts/AuthContext";
 import { LocalizationProvider } from "../contexts/LocalizationContext";
 import { WishCreatingProvider } from "../contexts/WishCreatingContext";
+import { PopUpMessageProvider } from "../contexts/PopUpMessageContext";
 
 export type ContextProvidersProps = {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ export function Providers(props: ContextProvidersProps) {
     <AuthProvider>
       <LocalizationProvider>
         <WishCreatingProvider>
-          {children}
+          <PopUpMessageProvider>
+            {children}
+          </PopUpMessageProvider>
         </WishCreatingProvider>
       </LocalizationProvider>
     </AuthProvider>

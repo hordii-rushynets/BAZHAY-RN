@@ -11,7 +11,7 @@ const CELL_COUNT = 6;
 
 type OtpInputProps = {
     email: string;
-    onConfirm: (token: { access: string, refresh: string }) => void;
+    onConfirm: (token: { access: string, refresh: string, is_already_registered: boolean }) => void;
 }
 
 const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
@@ -32,7 +32,7 @@ const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
     if (value.length === 6) {
         accountService.otpConfirm(email, value).then(token => {
           if (token.access !== "" && token.refresh !== "") {
-            onConfirm({access: token.access, refresh: token.refresh});
+            onConfirm({access: token.access, refresh: token.refresh, is_already_registered: token.is_already_registered});
           }
           else {
             setError(staticData.auth.otpInput.otpError);
