@@ -111,7 +111,7 @@ export const cropPhoto = async (uri: string) => {
       const { uri } = await VideoThumbnails.getThumbnailAsync(
         videoUri,
         {
-          time: i,
+          time: Math.floor(i),
         }
       );
       frames.push(uri);
@@ -124,7 +124,7 @@ export const cropPhoto = async (uri: string) => {
     const { uri } = await VideoThumbnails.getThumbnailAsync(
       videoUri,
       {
-        time: time,
+        time: Math.floor(time),
       }
     );
 

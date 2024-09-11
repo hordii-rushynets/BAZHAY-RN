@@ -21,7 +21,7 @@ export default function WishCard({ wish }: WishCardProps) {
 
     return (
         <TouchableOpacity onPress={() => {navigation.navigate("Wish", { wishId: wish.id || "" })}}>
-            <View style={[styles.wishCardImageContainer, { width: 164, aspectRatio: wish.image_size }]} >
+            <View style={[styles.wishCardImageContainer, { width: 164, aspectRatio: wish.image_size || 3/4 }]} >
                 {wish.photo && <Image source={ {uri: wish.photo} } style={styles.wishCardImage} resizeMode={"cover"}/>}
                 <View style={styles.wishCardStarsContainer}>
                     <DesignStars width={72} height={80}/>

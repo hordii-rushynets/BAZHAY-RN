@@ -32,13 +32,13 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
   const [ croppingMode, setCroppingMode ] = useState(false);
   const [ coverMode, setCoverMode ] = useState(false);
   const [videoDuration, setVideoDuration] = useState<number>(0);
-  const [startTime, setStartTime] = useState(0);
+  const [startTime, setStartTime] = useState(150);
   const [endTime, setEndTime] = useState(videoDuration);
   const [currentTime, setCurrentTime] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setEndTime(videoDuration);
+    setEndTime(videoDuration - 150);
     setLoading(false);
   }, [videoDuration]);
 
@@ -48,7 +48,10 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.setPositionAsync(coverTime);
+      setIsSeeking(true);
+      videoRef.current.setPositionAsync(coverTime).then(() => {
+        setIsSeeking(false); 
+      });
     }
   }, [coverTime])
 
@@ -60,9 +63,14 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
 
   const videoRef = useRef<Video>(null);
 
+  const [isSeeking, setIsSeeking] = useState(false);
+
   const handleProgress = (status: any) => {
-    if (status.positionMillis >= endTime) {
-      videoRef.current?.setPositionAsync(startTime);
+    if (status.positionMillis >= endTime && videoRef.current && !isSeeking) {
+      setIsSeeking(true);
+      videoRef.current.setPositionAsync(startTime).then(() => {
+        setIsSeeking(false); 
+      });
     } else {
       setCurrentTime(status.positionMillis);
     }
@@ -70,7 +78,10 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.setPositionAsync(startTime);
+      setIsSeeking(true);
+      videoRef.current.setPositionAsync(startTime).then(() => {
+        setIsSeeking(false); 
+      });
     }
   }, [startTime]);
 
@@ -110,7 +121,7 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
                     source={{ uri: video.uri }}
                     rate={1.0}
                     volume={1.0}
-                    isMuted={false}
+                    isMuted={true}
                     shouldPlay
                     isLooping={false}
                     onPlaybackStatusUpdate={handleProgress}
@@ -140,12 +151,15 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
                   if (croppingMode) {setCroppingMode(false)}
                   else if (coverMode) {setCoverMode(false)}
                   else {
-                    // const cuttedVideo = await wishService.cutVideo(video, Math.floor(startTime/1000), Math.ceil(endTime/1000));
-                    wishService.wishVideoUpdate(video, cover, wishId||"", authContext).then(success => {
+                    wishService.wishVideoUpdate(video, Math.floor(startTime/1000), Math.ceil(endTime/1000), wishId||"", authContext).then(success => {
                       if (success) {
-                        navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPrice");
+                        wishService.wishPhotoUpdate(cover, {width: 9, height: 16}, wishId||"", authContext).then(success => {
+                          if (success) {
+                            navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPrice");
+                          }
+                        })  
                       }
-                    })                  
+                    });                
                   }
                 }}
             width={200}

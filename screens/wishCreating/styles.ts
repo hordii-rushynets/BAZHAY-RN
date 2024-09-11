@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     videoEditorContainer: {
         gap: 24,
         alignItems: "center",
-        marginTop: 24
     },
     videoCropBar: {
         width: "100%",

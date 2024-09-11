@@ -109,7 +109,7 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
   const renderItem = ({ item }: { item: FileInterface }) => (
     <TouchableOpacity style={[authStyles.gridItem, selectedFile === item ? authStyles.selectedGridItem : {}]} onPress={() => { setSelectedFile(item) }}>
       {isVideo(item.uri) ? 
-        <><Image source={{uri: item.uri}} style={authStyles.gridImage} resizeMode={"cover" as ResizeMode}/>
+        <><Video source={{uri: item.uri}} style={authStyles.gridImage} resizeMode={"cover" as ResizeMode}/>
         <FontAwesome6 name="play" size={15} color="#B70000" style={styles.videoIcon}/></> : 
         <Image source={{ uri: item.uri }} style={authStyles.gridImage} />
       }

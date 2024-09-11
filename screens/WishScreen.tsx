@@ -77,7 +77,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                     isMuted={false}
                     shouldPlay
                     isLooping={true}
-                    resizeMode={ResizeMode.COVER}
+                    resizeMode={ResizeMode.STRETCH}
                     style={styles.wishImage}
                   />
                 : wish.photo && 

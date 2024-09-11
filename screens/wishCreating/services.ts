@@ -37,15 +37,14 @@ export class WishService {
         return response.ok
     }
 
-    public async wishVideoUpdate(video: FileInterface, imageUri: string, wishId: string, authContext: any): Promise<boolean> {
-        const imageBlob = await getBlobFromUri(imageUri);
-
+    public async wishVideoUpdate(video: FileInterface, startTime: number, endTime: number, wishId: string, authContext: any): Promise<boolean> {
         const formData = new FormData();
         formData.append("video", { name: video.name, type: video.type, uri: video.uri } as any);
-        formData.append("photo", { name: "cover_image." + imageBlob.type.split("/")[1], type: imageBlob.type, uri: imageUri } as any);
-        formData.append("image_size", `${3/4}`);
+        formData.append("start", `${startTime}`);
+        formData.append("end", `${endTime}`);
+        formData.append("wish_id", `${wishId}`);
 
-        const response = await this.daoService.wishVideoUpdate(formData, wishId, authContext);
+        const response = await this.daoService.wishVideoUpdate(formData, authContext);
         return response.ok
     }
 
