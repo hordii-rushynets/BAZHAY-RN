@@ -16,6 +16,7 @@ import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import * as Application from 'expo-application';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 
 type AuthScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Authentication'>;
 
@@ -28,6 +29,7 @@ function AuthScreen({ navigation }: AuthScreenProps) {
 
   const { login, completeFillingAccount } = useAuth();
   const { staticData } = useLocalization();
+  const { setIsOpen, setText, setButtonText, setButtonAction, setWidth } = usePopUpMessageContext();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email(staticData.auth.authentificationScreen.emailError).required(staticData.auth.authentificationScreen.requiredError),
@@ -91,8 +93,13 @@ function AuthScreen({ navigation }: AuthScreenProps) {
 
                   accountService.authGuest(id || "").then(token => {
                     if (token.access !== "") {
-                      login(token.access, token.refresh)
+                      setText("Ти увійшов(ла) як гість. Якщо вийдеш\n з системи або втратиш пристрій,\n на жаль, всі твої дані буде втрачено.");
+                      setButtonText("Увійти в обліковий запис");
+                      setWidth(343);
+                      setButtonAction(() => () => {setIsOpen(false)});
+                      setIsOpen(true);
                       completeFillingAccount()
+                      login(token.access, token.refresh)
                     }
                   })
                 }}>

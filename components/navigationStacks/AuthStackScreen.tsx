@@ -9,7 +9,7 @@ import AccountConnectedScreen from '../../screens/auth/AccountConnectedScreen';
 
 export type AuthStackParamList = {
     Authentication: undefined;
-    AccountConnected: { token: { access: string, refresh: string } };
+    AccountConnected: { token: { access: string, refresh: string, is_already_registered: boolean } };
     ChangeEmail: undefined;
     EmailConfirmation: {email: string};
 };

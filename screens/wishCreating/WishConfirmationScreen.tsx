@@ -42,7 +42,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
     <ScreenContainer>
         <View style={styles.wishConfirmationTop}>
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
-            <BackButton link={"AddWishVisibility"}/>
+            <BackButton/>
           </TouchableOpacity>
           <DesignedText italic={true}>{staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>

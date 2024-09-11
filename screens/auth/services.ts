@@ -25,13 +25,13 @@ export class AccountService {
         return response.ok;
     }
 
-    public async otpConfirm(email: string, otp: string): Promise<{access: string, refresh: string}> {
+    public async otpConfirm(email: string, otp: string): Promise<{access: string, refresh: string, is_already_registered: boolean}> {
         const response = await this.daoService.otpConfirm(email, otp);
         if (response.ok) {
             const token = await response.json();
             return token;
         }
-        return { access: "", refresh: "" };
+        return { access: "", refresh: "", is_already_registered: false };
     }
 
     public async authGuest(imei: string): Promise<{access: string, refresh: string}> {
