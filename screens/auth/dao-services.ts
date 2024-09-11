@@ -73,14 +73,12 @@ export class AccountDAOService {
         return response;
     }
 
-    public async userPhotoUpdate(photo: string, authContext: any): Promise<Response> {
+    public async userPhotoUpdate(formData: FormData, authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/photo/`, {
         method: 'PUT',
-        body: JSON.stringify({
-          "photo": photo,
-        }),
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         }
       }, authContext)
       return response;

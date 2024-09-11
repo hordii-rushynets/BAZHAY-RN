@@ -1,6 +1,7 @@
 import { WishDAOService } from "./dao-services"
-import { Wish } from "./interfaces";
+import { FileInterface, Wish } from "./interfaces";
 import config from "../../config.json"
+import { blobToBase64, getBlobFromUri } from "../../utils/helpers";
 
 export class WishService {
     private daoService: WishDAOService;
@@ -25,8 +26,26 @@ export class WishService {
         return response.ok
     }
 
-    public async wishPhotoUpdate(photo: string, wishId: string, authContext: any): Promise<boolean> {
-        const response = await this.daoService.wishPhotoUpdate(photo, wishId, authContext);
+    public async wishPhotoUpdate(photoUri: string, scaling: {width: number, height: number}, wishId: string, authContext: any): Promise<boolean> {
+        const photoBlob = await getBlobFromUri(photoUri);
+
+        const formData = new FormData();
+        formData.append("photo", { name: "wish_image." + photoBlob.type.split("/")[1], type: photoBlob.type, uri: photoUri } as any);
+        formData.append("image_size", `${scaling.width/scaling.height}`)
+
+        const response = await this.daoService.wishPhotoUpdate(formData, wishId, authContext);
+        return response.ok
+    }
+
+    public async wishVideoUpdate(video: FileInterface, imageUri: string, wishId: string, authContext: any): Promise<boolean> {
+        const imageBlob = await getBlobFromUri(imageUri);
+
+        const formData = new FormData();
+        formData.append("video", { name: video.name, type: video.type, uri: video.uri } as any);
+        formData.append("photo", { name: "cover_image." + imageBlob.type.split("/")[1], type: imageBlob.type, uri: imageUri } as any);
+        formData.append("image_size", `${3/4}`);
+
+        const response = await this.daoService.wishVideoUpdate(formData, wishId, authContext);
         return response.ok
     }
 
@@ -79,6 +98,21 @@ export class WishService {
         }
         else {
             throw new Error("Error fetching wishinfo");
+        }
+    }
+
+    public async cutVideo(videoUri: string, start: number, end: number): Promise<string> {
+        const videoBlob = await getBlobFromUri(videoUri);
+        const videoBase64 = await blobToBase64(videoBlob);
+
+        const response = await this.daoService.cutVideo(videoBase64, start, end);
+
+        if (response.ok) {
+            const cuttedVideo = await response.json();
+            return cuttedVideo;
+        }
+        else {
+            throw new Error("Error cutting the video");
         }
     }
 }

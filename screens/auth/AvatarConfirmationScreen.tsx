@@ -28,11 +28,7 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
   return (
     <TouchableOpacity onPress={
       async () => {
-        const photo = await getBlobFromUri(image);
-
-        const base64 = await blobToBase64(photo);
-
-        accountService.userPhotoUpdate(base64, authContext).then(success => {
+        accountService.userPhotoUpdate(image, authContext).then(success => {
           if (success) {
             navigation.navigate("AccountFillBirth");
           }

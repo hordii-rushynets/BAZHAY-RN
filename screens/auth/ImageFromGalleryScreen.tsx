@@ -46,7 +46,15 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
     });
 
     if (assets.assets.length > 0) {
-      setImages((prevImages) => [...prevImages, ...assets.assets.map((asset) => asset.uri)]);
+      const assetUris = await Promise.all(
+        assets.assets.map(async (asset) => {
+          // Get asset info to handle iOS URIs
+          const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
+          return assetInfo.localUri || asset.uri; // Use localUri if available
+        })
+      );
+
+      setImages((prevImages) => [...prevImages, ...assetUris]);
       setAssetCursor(assets.endCursor);
       setHasNextPage(assets.hasNextPage);
     }

@@ -135,7 +135,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
         setIsAccountFilled(data.is_already_registered)
       }
     

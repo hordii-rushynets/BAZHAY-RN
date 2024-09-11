@@ -10,6 +10,8 @@ import AddWishFromGalleryScreen from '../../screens/wishCreating/AddWishFromGall
 import ImageResizeScreen from '../../screens/wishCreating/ImageResizeScreen';
 import WishImageConfirmationScreen from '../../screens/wishCreating/WishImageConfirmationScreen';
 import WishConfirmationScreen from '../../screens/wishCreating/WishConfirmationScreen';
+import VideoEditScreen from '../../screens/wishCreating/VideoEditScreen';
+import { FileInterface } from '../../screens/wishCreating/interfaces';
 
 
 export type WishCreatingStackParamList = {
@@ -20,9 +22,10 @@ export type WishCreatingStackParamList = {
   AddWishDescription: undefined;
   AddWishVisibility: undefined;
   AddWishFromGallery: undefined;
-  ImageResize: { image: string };
+  ImageResize: { image: FileInterface };
   WishImageConfirmation: { image: string, ratio: { width: number, height: number }};
   WishConfirmation: undefined;
+  VideoEdit: { video: FileInterface };
 };
 
 const WishCreatingStack = createStackNavigator<WishCreatingStackParamList>();
@@ -39,6 +42,7 @@ const WishCreatingStackScreen: React.FC = () => (
     <WishCreatingStack.Screen name="ImageResize" component={ImageResizeScreen}/>
     <WishCreatingStack.Screen name="WishImageConfirmation" component={WishImageConfirmationScreen}/>
     <WishCreatingStack.Screen name="WishConfirmation" component={WishConfirmationScreen}/>
+    <WishCreatingStack.Screen name="VideoEdit" component={VideoEditScreen}/>
   </WishCreatingStack.Navigator>
 );
 

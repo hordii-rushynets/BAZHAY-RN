@@ -1,8 +1,9 @@
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { Dimensions, Image, Linking } from "react-native";
-import styles from "../screens/auth/styles";
 import { AuthContextData } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as VideoThumbnails from 'expo-video-thumbnails';
+
 
 export const cropPhoto = async (uri: string) => {
     const { imageWidth, imageHeight } = await new Promise<{ imageWidth: number, imageHeight: number }>((resolve, reject) => {
@@ -22,8 +23,6 @@ export const cropPhoto = async (uri: string) => {
       [{ crop: { originX, originY, width: cropWidth, height: cropHeight } }],
       { compress: 1, format: SaveFormat.PNG }
     );
-    console.log(imageWidth, imageHeight, cropWidth, cropHeight, originX, originY)
-    console.log(croppedPhoto)
     return croppedPhoto;
   };
 
@@ -103,4 +102,31 @@ export const cropPhoto = async (uri: string) => {
   export function fromServerDateToFrontDate(date: string) {
     const [ year, day, month ] = date.split("-");
     return `${day}.${month}.${year}`
+  }
+
+  export async function captureFrames(videoUri: string, interval: number, videoDuration: number): Promise<string[]> {
+    let frames: string[] = [];
+
+    for (let i = 0; i < videoDuration; i += interval) {
+      const { uri } = await VideoThumbnails.getThumbnailAsync(
+        videoUri,
+        {
+          time: i,
+        }
+      );
+      frames.push(uri);
+    }
+
+    return frames;
+  }
+
+  export async function extractFrame(videoUri: string, time: number): Promise<string> {
+    const { uri } = await VideoThumbnails.getThumbnailAsync(
+      videoUri,
+      {
+        time: time,
+      }
+    );
+
+    return uri;
   }

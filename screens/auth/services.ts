@@ -2,6 +2,7 @@ import Constants from 'expo-constants';
 import { AccountDAOService } from "./dao-services"
 import { UserFields } from "./interfaces";
 import config from "../../config.json"
+import { getBlobFromUri } from '../../utils/helpers';
 
 export class AccountService {
     private daoService: AccountDAOService;
@@ -49,8 +50,13 @@ export class AccountService {
         return response.ok
     }
 
-    public async userPhotoUpdate(photo: string, authContext: any): Promise<boolean> {
-        const response = await this.daoService.userPhotoUpdate(photo, authContext);
+    public async userPhotoUpdate(photoUri: string, authContext: any): Promise<boolean> {
+        const photoBlob = await getBlobFromUri(photoUri);
+
+        const formData = new FormData();
+        formData.append("photo", { name: "user_avatar." + photoBlob.type.split("/")[1], type: photoBlob.type, uri: photoUri } as any);
+
+        const response = await this.daoService.userPhotoUpdate(formData, authContext);
         return response.ok
     }
 
