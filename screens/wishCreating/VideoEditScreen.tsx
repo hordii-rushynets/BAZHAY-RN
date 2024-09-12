@@ -47,7 +47,7 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
   }, [video]);
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && !isSeeking) {
       setIsSeeking(true);
       videoRef.current.setPositionAsync(coverTime).then(() => {
         setIsSeeking(false); 
