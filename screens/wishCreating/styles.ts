@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         marginHorizontal: "auto",
     },
     titleAndInputContainer: {
-
+        flex: 1
     },
     titleAndInputContainerWithKeyboard: {
         position: "absolute",
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     wishConfirmationTop: {
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "baseline"
+        alignItems: "center",
     },
     wishConfirmationButtonsContainer: {
         gap: 24,
