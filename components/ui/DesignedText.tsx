@@ -12,7 +12,9 @@ type DesignedTextProps = {
 
 export default function DesignedText({children, size = "medium", bold = false, italic = false, isUppercase = true, style = null, ...props} : DesignedTextProps) {
   const customStyle: TextStyle = {
-    fontFamily: "Inter-V",
+    fontFamily: (bold && italic) ? "Inter-BoldItalic" : 
+                bold ? "Inter-Bold" :
+                italic ? "Inter-Italic" : "Inter-Regular",
     textTransform: isUppercase ? "uppercase" : "none",
     fontWeight: bold ? 700 : 500,
     fontStyle: italic ? "italic" : "normal",

@@ -1,0 +1,48 @@
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+    settingsContainer: {
+        marginTop: 24,
+        gap: 24
+    },
+    settingsBlockContainer: {
+        gap: 16
+    },
+    settingsButtonsContainer: {
+        gap: 8
+    },
+    settingsBottomLogo: {
+        marginTop: 32,
+        alignSelf: "center",
+        alignItems: "center",
+    },
+    settingsBottomText: {
+        color: "#B70000"
+    },
+    premiumAdvertText: {
+        textAlign: "center"
+    },
+    premiumAdvertButton: {
+        alignSelf: "center"
+    },
+    deleteAccountContentContainer: {
+        marginVertical: "auto",
+        gap: 39
+    },
+    deleteAccountTextContainer: {
+        gap: 16
+    },
+    deleteAccountText: {
+        textAlign: "center"
+    },
+    deleteAccountButtons: {
+        gap: 8
+    },
+    deleteButton: {
+        color: "#8A8A8A",
+        textDecorationLine: "underline",
+        textAlign: "center"
+    }
+});
+
+export default styles
