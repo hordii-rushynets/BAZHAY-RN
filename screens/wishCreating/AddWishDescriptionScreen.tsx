@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, View } from 'react-native';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import authStyles from '../auth/styles'
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout';
@@ -53,7 +51,11 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
   return (
     <WishCreatingLayout index={4} link={editingMode ? "WishConfirmation" : "AddWishLink"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
-            <View style={keyboardVisible ? styles.titleAndInputContainerWithKeyboard : styles.titleAndInputContainer}>
+              <KeyboardAvoidingView
+                style={[{ flex: 1 }, (keyboardVisible && Platform.OS !== "ios") ? styles.titleAndInputContainerWithKeyboard : {}]}
+                behavior={Platform.OS === "ios" ? 'position' : undefined} // Adjust for iOS
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0} // Adjust the offset if needed
+              >
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
                     {staticData.wishCreating.addWishDescriptionScreen.title}
@@ -82,7 +84,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                     </View>
                   )}
                 </Formik>
-            </View>
+            </KeyboardAvoidingView>
             {!keyboardVisible && !editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishVisibility")}} style={authStyles.addLaterButton}>
               <DesignedText isUppercase={false}>
                 {staticData.wishCreating.addWishDescriptionScreen.button}

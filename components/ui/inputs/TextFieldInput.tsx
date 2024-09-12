@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleProp, TextInput, TextStyle, TouchableOpacity, View } from "react-native";
+import { Keyboard, StyleProp, TextInput, TextStyle, TouchableOpacity, View } from "react-native";
 import styles from '../generalStyles'
 import ArrowRight from '../icons/ArrowRight';
 import DesignedText from '../DesignedText';
@@ -33,6 +33,7 @@ export default function TextFieldInput({ placeholder, value, error, numberOfLine
           onBlur={() => {
             setIsInFocus(false);
           }}
+          
         />
         <View style={styles.textFieldInputBottomContainer}>
             <DesignedText isUppercase={false} size={"small"} style={styles.textInputWithArrowError}>
