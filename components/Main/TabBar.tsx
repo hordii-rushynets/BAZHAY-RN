@@ -58,7 +58,12 @@ export const TabBar: React.FC<TabBarProps> = ({ state, descriptors, navigation, 
               {index === 2 ? (
                 <TouchableOpacity
                   onPress={() => {
-                    setShowPopUp(true);
+                    if (!showPopUp) {
+                      setShowPopUp(true);
+                    }
+                    else {
+                      setShowPopUp(false);
+                    }
                   }}
                   style={styles.centerButton}
                 >

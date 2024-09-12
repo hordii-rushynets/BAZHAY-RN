@@ -10,7 +10,6 @@ import { RootStackParamList } from '../components/RootNavigator';
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { Wish } from './wishCreating/interfaces';
 import DesignStars from '../components/ui/icons/DesignStars';
-import * as ImageManipulator from 'expo-image-manipulator';
 import styles from './styles';
 import { UserSmallInfo } from '../components/UserSmallInfo';
 import { UserFields } from './auth/interfaces';
@@ -18,10 +17,10 @@ import DesignedText from '../components/ui/DesignedText';
 import authStyles from "./auth/styles"
 import { openExternalLink } from '../utils/helpers';
 import SubmitButton from '../components/ui/buttons/SubmitButton';
-import { AccountService } from './auth/services';
 import { useAuth } from '../contexts/AuthContext';
 import { WishService } from './wishCreating/services';
 import { useLocalization } from '../contexts/LocalizationContext';
+import { ResizeMode, Video } from 'expo-av';
 
 
 type WishScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Wish'>;
@@ -35,28 +34,12 @@ interface WishScreenProps {
 function WishScreen({ route, navigation }: WishScreenProps) {
   const { staticData } = useLocalization(); 
   const { wishId } = route.params;
-  const [ratio, setRatio] = useState(1/1);
   const wishService = new WishService();
   const authContext = useAuth();
 
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
   const [ loading, setLoading ] = useState(true);
-
-  const loadImageSize = async (uri: string) => {
-    const manipulatedImage = await ImageManipulator.manipulateAsync(
-      uri,
-      [{rotate: 360}],
-      { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-    );
-    setRatio(manipulatedImage.width/manipulatedImage.height);
-  };
-
-  useEffect(() => {
-    if (wish.media) {
-        loadImageSize(wish.media);
-    }
-  }, [wish.media]);
 
   useFocusEffect(
     useCallback(() => {
@@ -82,11 +65,30 @@ function WishScreen({ route, navigation }: WishScreenProps) {
           </TouchableOpacity>
         </View>
         <View style={styles.wishContentContainer}>
-            <View style={[styles.wishImageContainer, { width: 164, aspectRatio: ratio }]} >
-                {wish.media && <Image source={ {uri: wish.media} } style={styles.wishImage} resizeMode={"cover"}/>}
-                <View style={styles.wishStarsContainer}>
-                    <DesignStars width={160} height={172}/>
-                </View>
+            <View style={[styles.wishImageContainer, { width: 164, aspectRatio: wish.image_size }]} >
+                {
+                wish.video ? 
+                  <Video
+                    source={{ uri: wish.video }}
+                    rate={1.0}
+                    volume={1.0}
+                    isMuted={false}
+                    shouldPlay={true}
+                    isLooping={true}
+                    resizeMode={ResizeMode.STRETCH}
+                    style={styles.wishImage}
+                    onError={(error) => {
+                      console.error('Video Error:', error);
+                    }}
+                  />
+                : wish.photo && 
+                  <>
+                    <Image source={ {uri: wish.photo} } style={styles.wishImage} resizeMode={"cover"}/>
+                    <View style={styles.wishStarsContainer}>
+                      <DesignStars width={160} height={172}/>
+                    </View>
+                  </>
+                }
             </View>
             <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>
             <View>

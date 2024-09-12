@@ -47,7 +47,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
           <DesignedText italic={true}>{staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>
         <View style={styles.wishConfirmationButtonsContainer}>
-            <ImageButton url={wish?.media || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
+            <ImageButton ratio={wish?.image_size || 3/4} url={wish?.photo || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
             <View style={styles.wishConfirmationButtons}>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishTitle")}} width={"auto"}>{wish?.name || staticData.wishCreating.wishConfirmationScreen.namePlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishPrice")}} width={"auto"}>{wish?.price ? `${wish?.price} ${wish.currency}` : staticData.wishCreating.wishConfirmationScreen.pricePlaceholder}</ButtonWithArrow>

@@ -30,18 +30,7 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
   const [imageSize, setImageSize] = useState<{width: number, height: number}>();
   const { staticData } = useLocalization();
 
-  const [imageUri, setImageUri] = useState(image);
-
-  const saveImage = async () => {
-    if (imageSize) {
-      const manipResult = await ImageManipulator.manipulateAsync(
-        image,
-        [{ crop: { originX: 0, originY: 0, width: (scaling.height > scaling.width) ? (imageSize.width * (scaling.width / scaling.height)) : imageSize.width, height: (scaling.height > scaling.width) ? imageSize.height : (imageSize.height * (scaling.height / scaling.width)) } }],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-      );
-      setImageUri(manipResult.uri);
-    }
-  };
+  const [imageUri, setImageUri] = useState(image.uri);
 
   const loadImageSize = async (uri: string) => {
     const manipulatedImage = await ImageManipulator.manipulateAsync(
@@ -53,12 +42,8 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
   };
 
   useEffect(() => {
-    loadImageSize(image);
+    loadImageSize(image.uri);
   }, []);
-
-  useEffect(() => {
-    saveImage();
-  }, [scaling, imageSize]);
   
   return (
     <ScreenContainer>

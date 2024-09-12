@@ -17,29 +17,12 @@ type WishCardProps = {
 type WishCardNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
 export default function WishCard({ wish }: WishCardProps) {
-    const [ratio, setRatio] = useState(3/4);
-
     const navigation = useNavigation<WishCardNavigationProp>();
-
-    const loadImageSize = async (uri: string) => {
-      const manipulatedImage = await ImageManipulator.manipulateAsync(
-        uri,
-        [{rotate: 360}],
-        { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
-      );
-      setRatio(manipulatedImage.width/manipulatedImage.height);
-    };
-
-    useEffect(() => {
-      if (wish.media) {
-          loadImageSize(wish.media);
-      }
-    }, [wish.media]);
 
     return (
         <TouchableOpacity onPress={() => {navigation.navigate("Wish", { wishId: wish.id || "" })}}>
-            <View style={[styles.wishCardImageContainer, { width: 164, aspectRatio: ratio }]} >
-                {wish.media && <Image source={ {uri: wish.media} } style={styles.wishCardImage} resizeMode={"cover"}/>}
+            <View style={[styles.wishCardImageContainer, { width: 164, aspectRatio: wish.image_size || 3/4 }]} >
+                {wish.photo && <Image source={ {uri: wish.photo} } style={styles.wishCardImage} resizeMode={"cover"}/>}
                 <View style={styles.wishCardStarsContainer}>
                     <DesignStars width={72} height={80}/>
                 </View>

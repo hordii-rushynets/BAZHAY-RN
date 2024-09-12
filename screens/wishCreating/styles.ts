@@ -130,6 +130,77 @@ const styles = StyleSheet.create({
     wishConfirmationButtons: {
         gap: 8,
         width: "100%",
+    },
+    videoContainer: {
+        width: 279,
+        height: 496,
+        backgroundColor: "#8A8A8A",
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        borderRadius: 30,
+        overflow: "hidden"
+    },
+    videoEditingText: {
+        fontSize: 12
+    },
+    videoEditingButtonsContainer: {
+        flexDirection: "row",
+        gap: 8
+    },
+    videoEditorContainer: {
+        gap: 24,
+        alignItems: "center",
+    },
+    videoCropBar: {
+        width: "100%",
+        height: 40,
+        backgroundColor: "#8A8A8A",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: "black",
+        borderRadius: 8,
+        alignItems: "center",
+        flexDirection: "row"
+    },
+    cropBar: {
+        height: 44,
+        width: 16,
+        backgroundColor: "white",
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderColor: "black",
+        borderWidth: 1,
+        borderStyle: "solid",
+        position: "absolute",
+    },
+    timerBar: {
+        height: 44,
+        width: 1,
+        backgroundColor: "black",
+        position: "absolute"
+    },
+    videoFramesContainer: {
+        flexDirection: "row",
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        borderRadius: 8,
+    },
+    coverBar: {
+        width: 34,
+        height: 42,
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        borderRadius: 8,
+        backgroundColor: "#8A8A8A",
+        position: "absolute",
+        overflow: "hidden"
+    },
+    coverBarContainer: {
+        alignItems: "center",
+        gap: 8
     }
 });
 

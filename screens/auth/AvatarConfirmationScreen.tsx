@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import Title from '../../components/ui/Title';
 import styles from './styles'
@@ -8,8 +8,8 @@ import { RouteProp } from '@react-navigation/native';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
-import { blobToBase64, getBlobFromUri } from '../../utils/helpers';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 type AvatarConfirmationScreenRouteProp = RouteProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
 type AvatarConfirmationScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
@@ -24,19 +24,32 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
   const accountService = new AccountService();
   const authContext = useAuth();
   const { staticData } = useLocalization();
+
+  const [ convertedImage, setConvertedImage ] = useState("");
+
+  const loadImageSize = async (uri: string) => {
+    const manipulatedImage = await ImageManipulator.manipulateAsync(
+      uri,
+      [{rotate: 360}],
+      { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    setConvertedImage(manipulatedImage.uri);
+  };
+
+  useEffect(() => {
+    loadImageSize(image);
+  }, []);
   
   return (
     <TouchableOpacity onPress={
       async () => {
-        const photo = await getBlobFromUri(image);
-
-        const base64 = await blobToBase64(photo);
-
-        accountService.userPhotoUpdate(base64, authContext).then(success => {
-          if (success) {
-            navigation.navigate("AccountFillBirth");
-          }
-        })
+        if (convertedImage !== "") {
+          accountService.userPhotoUpdate(convertedImage, authContext).then(success => {
+            if (success) {
+              navigation.navigate("AccountFillBirth");
+            }
+          })
+        }
       }
       } style={generalStyles.screenContainer}>
         <View style={generalStyles.centerContainer}>

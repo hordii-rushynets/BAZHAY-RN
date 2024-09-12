@@ -13,6 +13,7 @@ import styles from './styles';
 import { ResizeMode, Video } from 'expo-av';
 import { isVideo } from '../../utils/helpers';
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
+import { FileInterface } from './interfaces';
 
 type AddWishFromGalleryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishFromGallery'>;
 
@@ -21,12 +22,12 @@ interface AddWishFromGalleryScreenProps {
 }
 
 const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps) => {
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<FileInterface[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [assetCursor, setAssetCursor] = useState<MediaLibrary.AssetRef | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<string | undefined>();
+  const [selectedFile, setSelectedFile] = useState<FileInterface | undefined>();
   const [ showImages, setShowImages ] = useState(true);
   const [ showVideos, setShowVideos ] = useState(true);
 
@@ -53,7 +54,18 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
     });
 
     if (assets.assets.length > 0) {
-      setFiles((prevFiles) => [...prevFiles, ...assets.assets.map((asset) => asset.uri)]);
+      const assetFiles = await Promise.all(
+        assets.assets.map(async (asset) => {
+          const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
+          const uri = assetInfo.localUri || asset.uri; // Use localUri if available
+          return {
+            name: asset.filename, 
+            type: [asset.mediaType, "/", asset.filename.split(".").at(-1)].join(""), 
+            uri: uri
+          };
+        })
+      );
+      setFiles((prevFiles) => [...prevFiles, ...assetFiles]);
       setAssetCursor(assets.endCursor);
       setHasNextPage(assets.hasNextPage);
     }
@@ -74,7 +86,19 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
     });
 
     if (assets.assets.length > 0) {
-      setFiles([...assets.assets.map((asset) => asset.uri)]);
+      const assetFiles = await Promise.all(
+        assets.assets.map(async (asset) => {
+          const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
+          const uri = assetInfo.localUri || asset.uri; // Use localUri if available
+          return {
+            name: asset.filename, 
+            type: [asset.mediaType, "/", asset.filename.split(".").at(-1)].join(""), 
+            uri: uri
+          };
+        })
+      );
+
+      setFiles([...assetFiles]);
       setAssetCursor(assets.endCursor);
       setHasNextPage(assets.hasNextPage);
     }
@@ -82,12 +106,12 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
     setLoading(false);
   };
 
-  const renderItem = ({ item }: { item: string }) => (
+  const renderItem = ({ item }: { item: FileInterface }) => (
     <TouchableOpacity style={[authStyles.gridItem, selectedFile === item ? authStyles.selectedGridItem : {}]} onPress={() => { setSelectedFile(item) }}>
-      {isVideo(item) ? 
-        <><Image source={{uri: item}} style={authStyles.gridImage} resizeMode={"cover" as ResizeMode}/>
+      {isVideo(item.uri) ? 
+        <><Video source={{uri: item.uri}} style={authStyles.gridImage} resizeMode={"cover" as ResizeMode}/>
         <FontAwesome6 name="play" size={15} color="#B70000" style={styles.videoIcon}/></> : 
-        <Image source={{ uri: item }} style={authStyles.gridImage} />
+        <Image source={{ uri: item.uri }} style={authStyles.gridImage} />
       }
     </TouchableOpacity>
   );
@@ -119,7 +143,7 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
         onEndReached={loadFiles}
         onEndReachedThreshold={0.5}
       />
-      {selectedFile && <SubmitButton onPress={() => {navigation.navigate("ImageResize", { image: selectedFile })}} width={232} style={authStyles.gridButton}>{staticData.wishCreating.addWishFromGalleryScreen.button}</SubmitButton>}
+      {selectedFile && <SubmitButton onPress={() => {isVideo(selectedFile.uri) ? navigation.navigate("VideoEdit", { video: selectedFile }) : navigation.navigate("ImageResize", { image: selectedFile })}} width={232} style={authStyles.gridButton}>{staticData.wishCreating.addWishFromGalleryScreen.button}</SubmitButton>}
     </ScreenContainer>
   );
 };

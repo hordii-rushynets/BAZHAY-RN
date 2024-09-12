@@ -6,13 +6,8 @@ import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { useAuth } from '../../contexts/AuthContext';
-import { blobToBase64, getBlobFromUri } from '../../utils/helpers';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { RootStackParamList } from '../../components/RootNavigator';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import SubmitButton from '../../components/ui/buttons/SubmitButton';
-import BackButton from '../../components/ui/buttons/BackButton';
-import DesignedText from '../../components/ui/DesignedText';
 import * as ImageManipulator from 'expo-image-manipulator';
 import Title from '../../components/ui/Title';
 import { WishService } from './services';
@@ -33,17 +28,31 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
 
+  const [ convertedImage, setConvertedImage ] = useState("");
+
+  const loadImageSize = async (uri: string) => {
+    const manipulatedImage = await ImageManipulator.manipulateAsync(
+      uri,
+      [{rotate: 360}],
+      { compress: 1, format: ImageManipulator.SaveFormat.JPEG }
+    );
+    setConvertedImage(manipulatedImage.uri);
+  };
+
+  useEffect(() => {
+    loadImageSize(image);
+  }, []);
+
   return (
     <TouchableOpacity onPress={
         async () => {
-          const photo = await getBlobFromUri(image);
-  
-          const base64 = await blobToBase64(photo);
-          wishService.wishUpdate({ media: base64 }, wishId || "", authContext).then(success => {
-            if (success) {
-                navigation.navigate(editingMode ? "WishConfirmation" :"AddWishPrice");
-            }
-          })
+          if (convertedImage !== "") {
+            wishService.wishPhotoUpdate(convertedImage, ratio, wishId || "", authContext).then(success => {
+              if (success) {
+                  navigation.navigate(editingMode ? "WishConfirmation" :"AddWishPrice");
+              }
+            })
+          }
         }
         } style={generalStyles.screenContainer}>
           <View style={generalStyles.centerContainer}>
