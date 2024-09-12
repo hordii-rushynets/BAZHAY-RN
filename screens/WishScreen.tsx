@@ -10,7 +10,6 @@ import { RootStackParamList } from '../components/RootNavigator';
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { Wish } from './wishCreating/interfaces';
 import DesignStars from '../components/ui/icons/DesignStars';
-import * as ImageManipulator from 'expo-image-manipulator';
 import styles from './styles';
 import { UserSmallInfo } from '../components/UserSmallInfo';
 import { UserFields } from './auth/interfaces';
@@ -18,7 +17,6 @@ import DesignedText from '../components/ui/DesignedText';
 import authStyles from "./auth/styles"
 import { openExternalLink } from '../utils/helpers';
 import SubmitButton from '../components/ui/buttons/SubmitButton';
-import { AccountService } from './auth/services';
 import { useAuth } from '../contexts/AuthContext';
 import { WishService } from './wishCreating/services';
 import { useLocalization } from '../contexts/LocalizationContext';
@@ -75,10 +73,13 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                     rate={1.0}
                     volume={1.0}
                     isMuted={false}
-                    shouldPlay
+                    shouldPlay={true}
                     isLooping={true}
                     resizeMode={ResizeMode.STRETCH}
                     style={styles.wishImage}
+                    onError={(error) => {
+                      console.error('Video Error:', error);
+                    }}
                   />
                 : wish.photo && 
                   <>

@@ -89,7 +89,7 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
             display="spinner"
             onChange={(event, selectedDate) => {
               handleDateChange(selectedDate || date);
-              if (event.type === "set" || event.type === "dismissed") {
+              if ((event.type === "set" || event.type === "dismissed") && Platform.OS !== "ios") {
                 setOpen(false);
               }
             }}
