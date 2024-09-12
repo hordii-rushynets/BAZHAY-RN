@@ -191,6 +191,11 @@ const styles = StyleSheet.create({
       justifyContent: "space-between",
       alignItems: "center",
       paddingHorizontal: 24,
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
     },
     buttonWithArrowText: {
       flexDirection: "row",

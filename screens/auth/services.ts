@@ -71,4 +71,9 @@ export class AccountService {
             throw new Error("Error fetching userinfo");
         }
     }
+
+    public async deleteUser(authContext: any): Promise<boolean> {
+        const response = await this.daoService.deleteUser(authContext);
+        return response.ok
+    }
 }

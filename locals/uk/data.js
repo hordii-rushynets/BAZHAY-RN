@@ -68,7 +68,7 @@ export default data = {
             requiredError: "Обов\'язково вкажіть нік",
             titleFirstPart: "Придумай собі",
             titleBoldPart: "нікнейм",
-            unknownError: "Упс, щось пішло не так",
+            unknownError: "Нікнейм вже зайнято",
             nickNamePlaceholder: "Напиши свій нікнейм"
         },
         accountFillSexScreen: {

@@ -42,10 +42,10 @@ export class WishDAOService {
       return response;
     }
 
-    public async wishVideoUpdate(data: FormData, authContext: any): Promise<Response> {
+    public async wishVideoUpdate(data: FormData, wishId: string, authContext: any): Promise<Response> {
       try {
-        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/video/`, {
-          method: 'POST',
+        const response = await fetchWithAuth(`${this.apiUrl}/api/wish/video/${wishId}/`, {
+          method: 'PUT',
           body: data,
           headers: {
             "Content-Type": "multipart/form-data"

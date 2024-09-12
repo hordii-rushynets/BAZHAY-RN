@@ -11,7 +11,9 @@ type TitleProps = {
 
 export default function Title({children, bold = false, italic = false, isLowercase = false, style = null} : TitleProps) {
   const customStyle: TextStyle = {
-    fontFamily: "Inter-V",
+    fontFamily: (bold && italic) ? "Inter-BoldItalic" : 
+                bold ? "Inter-Bold" :
+                italic ? "Inter-Italic" : "Inter-Regular",
     textTransform: isLowercase ? "lowercase" : "uppercase",
     fontWeight: bold ? 700 : 500,
     fontStyle: italic ? "italic" : "normal",

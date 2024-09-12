@@ -68,7 +68,7 @@ export default data = {
             requiredError: "Be sure to enter your nickname",
             titleFirstPart: "Come up with a",
             titleBoldPart: "nickname",
-            unknownError: "Oops, something went wrong",
+            unknownError: "Nickname already taken",
             nickNamePlaceholder: "Write your nickname"
         },
         accountFillSexScreen: {

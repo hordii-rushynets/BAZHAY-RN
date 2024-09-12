@@ -42,9 +42,8 @@ export class WishService {
         formData.append("video", { name: video.name, type: video.type, uri: video.uri } as any);
         formData.append("start", `${startTime}`);
         formData.append("end", `${endTime}`);
-        formData.append("wish_id", `${wishId}`);
 
-        const response = await this.daoService.wishVideoUpdate(formData, authContext);
+        const response = await this.daoService.wishVideoUpdate(formData, wishId, authContext);
         return response.ok
     }
 
