@@ -26,11 +26,11 @@ export class WishService {
         return response.ok
     }
 
-    public async wishPhotoUpdate(photoUri: string, scaling: {width: number, height: number}, wishId: string, authContext: any): Promise<boolean> {
+    public async wishPhotoUpdate(photoUri: string, name: string, scaling: {width: number, height: number}, wishId: string, authContext: any): Promise<boolean> {
         const photoBlob = await getBlobFromUri(photoUri);
 
         const formData = new FormData();
-        formData.append("photo", { name: "wish_image." + photoBlob.type.split("/")[1], type: photoBlob.type, uri: photoUri } as any);
+        formData.append("photo", { name: `${name.split(".")[0]}_${Date.now()}.` + photoBlob.type.split("/")[1], type: photoBlob.type, uri: photoUri } as any);
         formData.append("image_size", `${scaling.width/scaling.height}`)
 
         const response = await this.daoService.wishPhotoUpdate(formData, wishId, authContext);

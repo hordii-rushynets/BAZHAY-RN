@@ -23,7 +23,7 @@ export type WishCreatingStackParamList = {
   AddWishVisibility: undefined;
   AddWishFromGallery: undefined;
   ImageResize: { image: FileInterface };
-  WishImageConfirmation: { image: string, ratio: { width: number, height: number }};
+  WishImageConfirmation: { image: FileInterface, ratio: { width: number, height: number }};
   WishConfirmation: undefined;
   VideoEdit: { video: FileInterface };
 };

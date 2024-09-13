@@ -153,7 +153,7 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
                   else {
                     wishService.wishVideoUpdate(video, Math.floor(startTime/1000), Math.ceil(endTime/1000), wishId||"", authContext).then(success => {
                       if (success) {
-                        wishService.wishPhotoUpdate(cover, {width: 9, height: 16}, wishId||"", authContext).then(success => {
+                        wishService.wishPhotoUpdate(cover, video.name, {width: 9, height: 16}, wishId||"", authContext).then(success => {
                           if (success) {
                             navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPrice");
                           }

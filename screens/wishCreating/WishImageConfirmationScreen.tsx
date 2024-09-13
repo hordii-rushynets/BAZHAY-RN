@@ -40,14 +40,14 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   };
 
   useEffect(() => {
-    loadImageSize(image);
+    loadImageSize(image.uri);
   }, []);
 
   return (
     <TouchableOpacity onPress={
         async () => {
           if (convertedImage !== "") {
-            wishService.wishPhotoUpdate(convertedImage, ratio, wishId || "", authContext).then(success => {
+            wishService.wishPhotoUpdate(convertedImage, image.name, ratio, wishId || "", authContext).then(success => {
               if (success) {
                   navigation.navigate(editingMode ? "WishConfirmation" :"AddWishPrice");
               }
@@ -60,7 +60,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
               {staticData.wishCreating.wishImageConfirmationScreen.title}
               </Title>
               <View style={[styles.editorImageContainer, { aspectRatio: ratio.width / ratio.height }]}>
-                <Image source={ {uri: image} } style={styles.editorImage}/>
+                <Image source={ {uri: image.uri} } style={styles.editorImage}/>
               </View>
           </View>
       </TouchableOpacity>

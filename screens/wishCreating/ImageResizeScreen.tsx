@@ -30,8 +30,6 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
   const [imageSize, setImageSize] = useState<{width: number, height: number}>();
   const { staticData } = useLocalization();
 
-  const [imageUri, setImageUri] = useState(image.uri);
-
   const loadImageSize = async (uri: string) => {
     const manipulatedImage = await ImageManipulator.manipulateAsync(
       uri,
@@ -50,7 +48,7 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
         <BackButton link={"AddWishFromGallery"}/>
         <View style={styles.editorContainer}>
             <View style={[styles.editorImageContainer, { aspectRatio: scaling.width / scaling.height }]} >
-              <Image source={ {uri: imageUri} } style={styles.editorImage} resizeMode={"cover"}/>
+              <Image source={ {uri: image.uri} } style={styles.editorImage} resizeMode={"cover"}/>
             </View>
             <View style={styles.positionsContainer}>
                 <TouchableOpacity style={[styles.position, position === "vertical" && styles.selectedPosition]} onPress={() => { setPosition("vertical") }}></TouchableOpacity>
@@ -67,7 +65,7 @@ function ImageResizeScreen({ route, navigation }: ImageResizeScreenProps) {
         <SubmitButton 
             onPress={
                 async () => {
-                  navigation.navigate("WishImageConfirmation", { image: imageUri, ratio: { width: scaling.width, height: scaling.height } });
+                  navigation.navigate("WishImageConfirmation", { image: image, ratio: { width: scaling.width, height: scaling.height } });
                 }}
             width={200}
             style={authStyles.gridButton}
