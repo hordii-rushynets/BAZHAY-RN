@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     },
     wishConfirmationButtonsContainer: {
         gap: 24,
-        marginTop: 24,
         height: 460,
         justifyContent: "flex-end",
         alignItems: "center",
@@ -201,6 +200,29 @@ const styles = StyleSheet.create({
     coverBarContainer: {
         alignItems: "center",
         gap: 8
+    },
+    wishFulfilledButton: {
+        width: "100%",
+        height: 40,
+        flexDirection: "row",
+        borderStyle: "solid",
+        borderColor: "black",
+        borderWidth: 1,
+        gap: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 30,
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 4,
+        backgroundColor: "white",
+        marginBottom: 16
+    },
+    deleteButton: {
+        color: "#8A8A8A",
+        textDecorationLine: "underline",
     }
 });
 
