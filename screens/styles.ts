@@ -77,6 +77,25 @@ const styles = StyleSheet.create({
       minWidth: 200,
       width: "auto",
       paddingHorizontal: 20
+    },
+    giftButton: {
+      height: 40,
+      paddingHorizontal: 20,
+      backgroundColor: "#B70000",
+      position: "absolute",
+      alignItems: "center",
+      justifyContent: "center",
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+      borderRadius: 80,
+      top: 323,
+      right: 40
+    },
+    giftButtonText: {
+      color: "white"
     }
 });
 

@@ -64,6 +64,13 @@ export class WishDAOService {
         return response;
     }
 
+    public async deleteWish(wishId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/${wishId}/`, {
+        method: "DELETE"
+      }, authContext)
+      return response;
+  }
+
     public async getMyWishes(urlParams: URLSearchParams, authContext: any, url?: string): Promise<Response> {
       const response = await fetchWithAuth((url ? url : `${this.apiUrl}/api/wish/wishes/?`) + urlParams, {}, authContext)
       return response;

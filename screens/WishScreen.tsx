@@ -21,6 +21,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { WishService } from './wishCreating/services';
 import { useLocalization } from '../contexts/LocalizationContext';
 import { ResizeMode, Video } from 'expo-av';
+import Upload from '../components/ui/icons/Upload';
+import { useWishCreating } from '../contexts/WishCreatingContext';
 
 
 type WishScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Wish'>;
@@ -40,6 +42,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
   const [ loading, setLoading ] = useState(true);
+  const { setWishId } = useWishCreating();
 
   useFocusEffect(
     useCallback(() => {
@@ -60,9 +63,16 @@ function WishScreen({ route, navigation }: WishScreenProps) {
     <ScreenContainer>
         <View style={wishCreatingStyles.wishConfirmationTop}>
           <BackButton/>
-          <TouchableOpacity>
+          {wish.is_your_wish ? <TouchableOpacity onPress={() => {
+            setWishId(wish.id);
+            navigation.navigate("WishCreating", { screen: "WishConfirmation" });
+          }}>
             <Pen/>
+          </TouchableOpacity> :
+          <TouchableOpacity>
+            <Upload width={18} height={18}/>
           </TouchableOpacity>
+          }
         </View>
         <View style={styles.wishContentContainer}>
             <View style={[styles.wishImageContainer, { width: 164, aspectRatio: wish.image_size }]} >
@@ -90,6 +100,11 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                   </>
                 }
             </View>
+            {!wish.is_reservation && wish.is_user_create && !wish.is_your_wish && 
+                <View style={styles.giftButton}>
+                  <DesignedText bold={true} italic={true} style={styles.giftButtonText}>Подарувати!</DesignedText>
+                </View>
+            }
             <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>
             <View>
               <DesignedText bold={true}>{wish.name || ""}</DesignedText>
@@ -99,13 +114,13 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             {wish.link && <TouchableOpacity onPress={()=>{ openExternalLink(wish.link || "") }}>
               <DesignedText isUppercase={false} style={authStyles.underlined}>{staticData.wishScreen.buyByLink}</DesignedText>
             </TouchableOpacity>}
-            <View style={styles.wishBottom}>
+            {wish.is_user_create && <View style={styles.wishBottom}>
               <DesignedText size="small">{staticData.wishScreen.bottomText}</DesignedText>
               <View style={styles.wishBottomButtonsContainer}>
                 <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
                 <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
               </View>
-            </View>
+            </View>}
         </View>
     </ScreenContainer>
   );

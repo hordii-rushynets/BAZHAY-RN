@@ -51,10 +51,11 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
   return (
     <WishCreatingLayout index={4} link={editingMode ? "WishConfirmation" : "AddWishLink"} editingMode={editingMode}>
         <View style={authStyles.contentContainer}>
+              {Platform.OS === "ios" ? 
               <KeyboardAvoidingView
-                style={[{ flex: 1 }, (keyboardVisible && Platform.OS !== "ios") ? styles.titleAndInputContainerWithKeyboard : {}]}
-                behavior={Platform.OS === "ios" ? 'position' : undefined} // Adjust for iOS
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 130 : 0} // Adjust the offset if needed
+                style={[{ flex: 1 }]}
+                behavior={'position'}
+                keyboardVerticalOffset={130}
               >
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
@@ -84,7 +85,41 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                     </View>
                   )}
                 </Formik>
-            </KeyboardAvoidingView>
+            </KeyboardAvoidingView> 
+            : 
+            <View
+                style={[{ flex: 1 }, keyboardVisible ? styles.titleAndInputContainerWithKeyboard : {}]}
+              >
+                <View style={styles.linkTitleContainer}>
+                    <Title style={authStyles.title}>
+                    {staticData.wishCreating.addWishDescriptionScreen.title}
+                    </Title>
+                </View>
+                <Formik
+                  initialValues={{ description: '' }}
+                  validationSchema={validationSchema}
+                  onSubmit={(values, { setErrors }) => {
+                    wishService.wishUpdate({ description: values.description.toLowerCase() }, wishId || "", authContext).then(success => {
+                      if (success) {
+                        navigation.navigate(editingMode ? "WishConfirmation" :"AddWishVisibility")
+                      }
+                    })
+                  }}
+                >
+                  {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    <View style={authStyles.inputContainer}>
+                        <TextFieldInput
+                          placeholder={staticData.wishCreating.addWishDescriptionScreen.placeholder}
+                          value={values.description}
+                          error={errors.description}
+                          onChange={handleChange('description')}
+                          onSubmit={handleSubmit}
+                          />
+                    </View>
+                  )}
+                </Formik>
+            </View> 
+            }
             {!keyboardVisible && !editingMode && <TouchableOpacity onPress={() => {navigation.navigate("AddWishVisibility")}} style={authStyles.addLaterButton}>
               <DesignedText isUppercase={false}>
                 {staticData.wishCreating.addWishDescriptionScreen.button}

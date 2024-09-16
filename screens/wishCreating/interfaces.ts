@@ -13,6 +13,9 @@ export type Wish = {
     is_fully_created?: boolean;
     author?: UserFields;
     image_size?: number;
+    is_reservation?: boolean;
+    is_user_create?: boolean;
+    is_your_wish?: boolean;
 }
 
 export interface FileInterface {

@@ -6,13 +6,12 @@ import ScreenContainer from '../../components/ui/ScreenContainer';
 import BackButton from '../../components/ui/buttons/BackButton';
 import authStyles from "../auth/styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { RootStackParamList } from '../../components/RootNavigator';
 import styles from './styles';
 import { ResizeMode, Video } from 'expo-av';
 import { isVideo } from '../../utils/helpers';
-import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 import { FileInterface } from './interfaces';
 
 type AddWishFromGalleryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishFromGallery'>;

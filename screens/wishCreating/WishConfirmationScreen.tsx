@@ -17,6 +17,8 @@ import { Wish } from './interfaces';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import generalStyles from "../../components/ui/generalStyles"
+import SmoothCorner from '../../components/ui/icons/SmoothCorner';
 
 type WishConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'WishConfirmation'>;
 
@@ -46,15 +48,37 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
           </TouchableOpacity>
           <DesignedText italic={true}>{staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>
-        <View style={styles.wishConfirmationButtonsContainer}>
+        <View style={[styles.wishConfirmationButtonsContainer, wish?.is_fully_created ? { marginTop: 110 } : { marginTop: 24 }]}>
             <ImageButton ratio={wish?.image_size || 3/4} url={wish?.photo || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
             <View style={styles.wishConfirmationButtons}>
+              {wish?.is_fully_created && 
+                <TouchableOpacity onPress={() => {}}>
+                  <View style={styles.wishFulfilledButton}>
+                    <SmoothCorner />
+                    <DesignedText size={"small"}>
+                    Mark the wish as fulfilled
+                    </DesignedText>
+                  </View>
+                </TouchableOpacity>
+              }
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishTitle")}} width={"auto"}>{wish?.name || staticData.wishCreating.wishConfirmationScreen.namePlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishPrice")}} width={"auto"}>{wish?.price ? `${wish?.price} ${wish.currency}` : staticData.wishCreating.wishConfirmationScreen.pricePlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishLink")}} width={"auto"}>{wish?.link || staticData.wishCreating.wishConfirmationScreen.linkPlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishDescription")}} width={"auto"}>{wish?.description || staticData.wishCreating.wishConfirmationScreen.descriptionPlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishVisibility")}} width={"auto"}>{wish?.access_type ? visibilityChoices?.[wish?.access_type as keyof typeof visibilityChoices] : staticData.wishCreating.wishConfirmationScreen.accessPlaceholder}</ButtonWithArrow>
             </View>
+            {wish?.is_fully_created && <View style={{ width: "100%" }}>
+              <TouchableOpacity onPress={() => {wishService.deleteWish(wish?.id || "", authContext).then(success => {
+                if (success) {
+                  setWishId(undefined);
+                  navigation.navigate("Profile");
+                }
+              })}}>
+                <DesignedText style={styles.deleteButton} isUppercase={false}>
+                  Видалити бажання
+                </DesignedText>
+              </TouchableOpacity>
+            </View>}
         </View>
         <SubmitButton 
             onPress={() => {
