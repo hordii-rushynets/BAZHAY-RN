@@ -1,4 +1,5 @@
 import { UserFields } from "../auth/interfaces";
+import { Brand } from "../main/interfaces";
 
 export type Wish = {
     id?: string;
@@ -16,6 +17,7 @@ export type Wish = {
     is_reservation?: boolean;
     is_user_create?: boolean;
     is_your_wish?: boolean;
+    brand_author?: Brand;
 }
 
 export interface FileInterface {

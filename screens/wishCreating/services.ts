@@ -2,6 +2,9 @@ import { WishDAOService } from "./dao-services"
 import { FileInterface, Wish } from "./interfaces";
 import config from "../../config.json"
 import { blobToBase64, getBlobFromUri } from "../../utils/helpers";
+import * as FileSystem from 'expo-file-system';
+
+const tempDir = FileSystem.cacheDirectory as string;
 
 export class WishService {
     private daoService: WishDAOService;
@@ -11,13 +14,72 @@ export class WishService {
     }
 
     public async wishCreate(wishData: Wish, authContext: any):Promise<Wish> {
-        const response = await this.daoService.wishCreate(wishData, authContext);
+        let localPhotoUri = "";
+        let localVideoUri = "";
+        const localPhotoName = `${Date.now()}_copy_${wishData.photo?.split("/").at(-1)}`;
+        const localVideoName = `${Date.now()}_copy_${wishData.video?.split("/").at(-1)}`;
+        if (wishData.photo) {
+            const downloadPhotoResult = await FileSystem.downloadAsync(
+                wishData.photo,
+                tempDir + localPhotoName
+            );
+            localPhotoUri = downloadPhotoResult.uri;
+        }
+        if (wishData.video) {
+            const downloadVideoResult = await FileSystem.downloadAsync(
+                wishData.video,
+                tempDir + localVideoName
+            );
+            localVideoUri = downloadVideoResult.uri;
+        }
+
+        const formData = new FormData();
+        if (localPhotoUri) {
+            formData.append("photo", {
+                uri: localPhotoUri,
+                name: localPhotoName,
+                type: `image/${localPhotoName.split(".").at(-1)}`,
+            } as any);
+        }
+        if (localVideoUri) {
+            formData.append("video", {
+                uri: localVideoUri,
+                name: localVideoName,
+                type: `video/${localVideoName.split(".").at(-1)}`,
+            } as any);
+        }
+        
+        formData.append("name", wishData.name || "");
+        formData.append("description", wishData.description || "");
+        formData.append("link", wishData.link || "");
+        formData.append("price", wishData.price?.toString() || "");
+        formData.append("currency", wishData.currency || "");
+        formData.append("image_size", wishData.image_size?.toString() || "");
+
+        const response = await this.daoService.wishCreate(formData, authContext);
         if (response.ok) {
+            if (localPhotoUri) {
+                await FileSystem.deleteAsync(localPhotoUri);
+            }
+            if (localVideoUri) {
+                await FileSystem.deleteAsync(localVideoUri);
+            }
             const wishData = await response.json(); 
             return wishData;
         }
         else {
             throw new Error("Error fetching userinfo");
+        }
+    }
+
+    public async getWishByLink(link: string, authContext: any): Promise<Wish> {
+        const response = await this.daoService.getWishByLink(link, authContext);
+        if (response.ok) {
+            const wishData = await response.json(); 
+            return wishData;
+        }
+        else {
+            throw new Error("Error fetching wishinfo");
         }
     }
 

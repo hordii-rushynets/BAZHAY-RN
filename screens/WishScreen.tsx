@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ScreenContainer from '../components/ui/ScreenContainer';
-import { Image, View } from 'react-native';
+import { Image, Platform, Share, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import BackButton from '../components/ui/buttons/BackButton';
 import Pen from '../components/ui/icons/Pen';
@@ -11,6 +11,7 @@ import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { Wish } from './wishCreating/interfaces';
 import DesignStars from '../components/ui/icons/DesignStars';
 import styles from './styles';
+import mainStyles from "./main/styles"
 import { UserSmallInfo } from '../components/UserSmallInfo';
 import { UserFields } from './auth/interfaces';
 import DesignedText from '../components/ui/DesignedText';
@@ -23,7 +24,11 @@ import { useLocalization } from '../contexts/LocalizationContext';
 import { ResizeMode, Video } from 'expo-av';
 import Upload from '../components/ui/icons/Upload';
 import { useWishCreating } from '../contexts/WishCreatingContext';
+import { Brand } from './main/interfaces';
+import Copy from '../components/ui/icons/Copy';
+import config from '../config.json'
 
+const apiUrl = config.apiUrl;
 
 type WishScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Wish'>;
 type WishScreenRouteProp = RouteProp<RootStackParamList, 'Wish'>;
@@ -34,7 +39,7 @@ interface WishScreenProps {
 }
 
 function WishScreen({ route, navigation }: WishScreenProps) {
-  const { staticData } = useLocalization(); 
+  const { staticData, localization } = useLocalization(); 
   const { wishId } = route.params;
   const wishService = new WishService();
   const authContext = useAuth();
@@ -42,7 +47,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
   const [ loading, setLoading ] = useState(true);
-  const { setWishId } = useWishCreating();
+  const { setWishId, setCopyingMode } = useWishCreating();
 
   useFocusEffect(
     useCallback(() => {
@@ -69,7 +74,13 @@ function WishScreen({ route, navigation }: WishScreenProps) {
           }}>
             <Pen/>
           </TouchableOpacity> :
-          <TouchableOpacity>
+          <TouchableOpacity onPress={async () => {
+            const result = await Share.share({
+              title: wish.name,
+              message: Platform.OS === "ios" ? wish.name : `${apiUrl}/api/wish/all-wishes/${wish.id}/`,
+              url: `${apiUrl}/api/wish/all-wishes/${wish.id}/`
+            });
+          }}>
             <Upload width={18} height={18}/>
           </TouchableOpacity>
           }
@@ -99,13 +110,37 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                     </View>
                   </>
                 }
+                <View style={mainStyles.buttonsContainer}>
+                    {!wish.is_your_wish && <TouchableOpacity onPress={async () => {
+                        const copyOfWish: Wish = {
+                            name: wish.name,
+                            description: wish.description,
+                            photo: wish.photo,
+                            video: wish.video,
+                            link: wish.link,
+                            price: wish.price,
+                            currency: wish.currency,
+                            image_size: wish.image_size
+                        }
+                        wishService.wishCreate(copyOfWish, authContext).then(createdWish => {
+                            if (createdWish.id) {
+                                setWishId(createdWish.id);
+                                setCopyingMode(true);
+                                navigation.navigate("WishCreating", { screen: "WishConfirmation" });
+                            }
+                        })
+                    }}>
+                        <View style={[mainStyles.smallButton, styles.smallButton]}><Copy /></View>
+                    </TouchableOpacity>}
+                </View>
             </View>
             {!wish.is_reservation && wish.is_user_create && !wish.is_your_wish && 
                 <View style={styles.giftButton}>
                   <DesignedText bold={true} italic={true} style={styles.giftButtonText}>Подарувати!</DesignedText>
                 </View>
             }
-            <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>
+            {wish.author && <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>}
+            {wish.brand_author && <UserSmallInfo avatar={wish.brand_author.photo} name={wish.brand_author[`name_${localization}` as keyof Brand]} nickname={wish.brand_author.nickname} />}
             <View>
               <DesignedText bold={true}>{wish.name || ""}</DesignedText>
               <DesignedText>{wish.price || ""} {wish.currency || ""}</DesignedText>

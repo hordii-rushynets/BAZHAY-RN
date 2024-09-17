@@ -6,12 +6,10 @@ import * as Yup from 'yup';
 import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from '../auth/styles'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout';
 import { RootStackParamList } from '../../components/RootNavigator';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
 

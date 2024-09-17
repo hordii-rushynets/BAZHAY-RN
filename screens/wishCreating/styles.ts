@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         width: "100%",
         minWidth: 300,
         marginHorizontal: "auto",
+        gap: 16
     },
     titleAndInputContainer: {
         flex: 1

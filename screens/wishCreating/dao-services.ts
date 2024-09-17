@@ -9,12 +9,12 @@ export class WishDAOService {
       this.apiUrl = apiUrl;
     }
 
-    public async wishCreate(wishData: Wish, authContext: any): Promise<Response> {
+    public async wishCreate(wishData: FormData, authContext: any): Promise<Response> {
         const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/`, {
             method: 'POST',
-            body: JSON.stringify(wishData),
+            body: wishData,
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
             }
           }, authContext)
         return response;
@@ -63,6 +63,11 @@ export class WishDAOService {
         const response = await fetchWithAuth(`${this.apiUrl}/api/wish/all-wishes/${wishId}/`, {}, authContext)
         return response;
     }
+
+    public async getWishByLink(link: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(link, {}, authContext);
+      return response;
+  }
 
     public async deleteWish(wishId: string, authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/wish/wishes/${wishId}/`, {

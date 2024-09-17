@@ -6,8 +6,10 @@ import Constants from 'expo-constants';
 export interface WishCreatingContextData {
   wishId: string | undefined;
   editingMode: boolean;
+  copyingMode: boolean;
   setWishId: (v: string | undefined) => void;
   setEditingMode: (v: boolean) => void;
+  setCopyingMode: (v: boolean) => void;
 }
 
 const WishCreatingContext = createContext<WishCreatingContextData | undefined>(undefined);
@@ -19,9 +21,10 @@ interface WishCreatingProviderProps {
 export const WishCreatingProvider: React.FC<WishCreatingProviderProps> = ({ children }) => {
   const [wishId, setWishId] = useState<string | undefined>();
   const [editingMode, setEditingMode] = useState(false);
+  const [copyingMode, setCopyingMode] = useState(false);
 
   return (
-    <WishCreatingContext.Provider value={{ wishId, setWishId, editingMode, setEditingMode }}>
+    <WishCreatingContext.Provider value={{ wishId, setWishId, editingMode, setEditingMode, copyingMode, setCopyingMode }}>
       {children}
     </WishCreatingContext.Provider>
   );

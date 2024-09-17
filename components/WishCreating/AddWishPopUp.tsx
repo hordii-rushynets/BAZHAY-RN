@@ -20,7 +20,18 @@ export default function AddWishPopUp() {
     const { setWishId, setEditingMode } = useWishCreating();
     return (
       <View style={styles.addWishPopUpContainer}>
-        <SubmitButton onPress={() => {}} width={"auto"}>{staticData.wishCreating.addWishPopUp.linkButton}</SubmitButton>
+        <SubmitButton onPress={() => {
+          wishService.getMyWishes({"is_fully_created": "false"}, authContext).then(wishes => {
+            if (wishes.results.length !== 0) {
+              setWishId(wishes.results[0].id);
+              setEditingMode(true);
+              navigation.navigate("WishCreating", {screen: "WishConfirmation"});
+            }
+            else {
+              navigation.navigate("WishCreating", {screen: "AddWishByLink"})
+            }
+          })
+        }} width={"auto"}>{staticData.wishCreating.addWishPopUp.linkButton}</SubmitButton>
         <SubmitButton onPress={() => {
           wishService.getMyWishes({"is_fully_created": "false"}, authContext).then(wishes => {
             if (wishes.results.length !== 0) {

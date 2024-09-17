@@ -246,6 +246,27 @@ const styles = StyleSheet.create({
     },
     homeWishesContainer: {
       paddingBottom: 100
+    },
+    buttonsContainer: {
+      position: "absolute",
+      top: 16,
+      right: 16,
+    },
+    smallButton: {
+      width: 32,
+      height: 32,
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderColor: "black",
+      borderRadius: 32,
+      shadowColor: "black",
+      shadowOpacity: 0.25,
+      shadowRadius: 2,
+      elevation: 2,
+      shadowOffset: { width: -2, height: 2 },
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "white"
     }
 });
 
