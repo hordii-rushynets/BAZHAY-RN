@@ -12,6 +12,7 @@ import WishImageConfirmationScreen from '../../screens/wishCreating/WishImageCon
 import WishConfirmationScreen from '../../screens/wishCreating/WishConfirmationScreen';
 import VideoEditScreen from '../../screens/wishCreating/VideoEditScreen';
 import { FileInterface } from '../../screens/wishCreating/interfaces';
+import AddWishByLinkScreen from '../../screens/wishCreating/AddWishByLinkScreen';
 
 
 export type WishCreatingStackParamList = {
@@ -19,6 +20,7 @@ export type WishCreatingStackParamList = {
   AddWishPhotoOrVideo: undefined;
   AddWishPrice: undefined;
   AddWishLink: undefined;
+  AddWishByLink: undefined;
   AddWishDescription: undefined;
   AddWishVisibility: undefined;
   AddWishFromGallery: undefined;
@@ -36,6 +38,7 @@ const WishCreatingStackScreen: React.FC = () => (
     <WishCreatingStack.Screen name="AddWishPhotoOrVideo" component={AddWishPhotoOrVideoScreen} />
     <WishCreatingStack.Screen name="AddWishPrice" component={AddWishPriceScreen}/>
     <WishCreatingStack.Screen name="AddWishLink" component={AddWishLinkScreen}/>
+    <WishCreatingStack.Screen name="AddWishByLink" component={AddWishByLinkScreen}/>
     <WishCreatingStack.Screen name="AddWishDescription" component={AddWishDescriptionScreen}/>
     <WishCreatingStack.Screen name="AddWishVisibility" component={AddWishVisibilityScreen}/>
     <WishCreatingStack.Screen name="AddWishFromGallery" component={AddWishFromGalleryScreen}/>

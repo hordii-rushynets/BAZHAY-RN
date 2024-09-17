@@ -96,6 +96,10 @@ const styles = StyleSheet.create({
     },
     giftButtonText: {
       color: "white"
+    },
+    smallButton: {
+      width: 40,
+      height: 40
     }
 });
 

@@ -31,7 +31,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
   const visibilityChoices = staticData.wishCreating.visibilityChoices;
   const wishService = new WishService();
   const authContext = useAuth();
-  const { wishId, setEditingMode, setWishId } = useWishCreating();
+  const { wishId, setEditingMode, setWishId, copyingMode, setCopyingMode } = useWishCreating();
   const [wish, setWish] = useState<Wish>();
 
   useFocusEffect(
@@ -46,7 +46,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
             <BackButton/>
           </TouchableOpacity>
-          <DesignedText italic={true}>{staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
+          <DesignedText italic={true}>{copyingMode ? "скопіювати бажання собі" : staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>
         <View style={[styles.wishConfirmationButtonsContainer, wish?.is_fully_created ? { marginTop: 110 } : { marginTop: 24 }]}>
             <ImageButton ratio={wish?.image_size || 3/4} url={wish?.photo || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
@@ -86,6 +86,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
                 if (success) {
                   setWishId(undefined);
                   setEditingMode(false);
+                  setCopyingMode(false);
                   navigation.navigate("Main");
                 }
               })
