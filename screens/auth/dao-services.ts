@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchWithAuth } from "../../utils/helpers";
 import { UserFields } from "./interfaces";
 
@@ -93,6 +92,11 @@ export class AccountDAOService {
       const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/`, {
         method: "DELETE",
       }, authContext)
+      return response;
+    }
+
+    public async getUsers(urlParams: URLSearchParams, authContext: any, link?: string): Promise<Response> {
+      const response = await fetchWithAuth((link ? link : `${this.apiUrl}/api/account/users/?`) + urlParams, {}, authContext)
       return response;
     }
 }

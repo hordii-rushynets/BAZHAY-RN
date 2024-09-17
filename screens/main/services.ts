@@ -1,6 +1,6 @@
 import { MainDAOService } from "./dao-services"
 import config from "../../config.json"
-import { Article, Brand } from "./interfaces";
+import { Article, Brand, SubscriptionPagination, userType } from "./interfaces";
 
 export class MainService {
     private daoService: MainDAOService;
@@ -48,4 +48,24 @@ export class MainService {
             return undefined;
         }
     } 
+
+    public async getSubscription(userType: userType, authContext: any, link?: string): Promise<SubscriptionPagination> {
+        const response = await this.daoService.getSubscription(userType, authContext, link);
+        if (response.ok) {
+            const resultsWithPagination = await response.json();
+            return resultsWithPagination;
+        } else {
+            throw new Error("Error while fetching subscription");
+        }
+    }
+
+    public async subscribe(userId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.subscribe(userId, authContext);
+        return response.ok;
+    }
+
+    public async unsubscribe(userId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.unsubscribe(userId, authContext);
+        return response.ok;
+    }
 }

@@ -24,21 +24,18 @@ function AddWishPhotoOrVideoScreen({ navigation }: AddWishPhotoOrVideoScreenProp
   const { staticData, localization } = useLocalization();
 
   const takePhoto = async () => {
-    // Ask for camera permissions
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== 'granted') {
       return;
     }
 
-    // Open the camera
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true, // Set to true if you want to allow cropping/editing
-      quality: 1, // Set the quality of the image (1 is highest)
+      allowsEditing: false, 
+      quality: 1,
     });
 
     if (!result.canceled) {
-      // If the user took a photo, set the photo URI to state
       const name = result.assets[0].uri.split("/").at(-1);
       const type = result.assets[0].mimeType?.split("/").at(-1) || result.assets[0].uri.split("/").at(-1)?.split(".").at(-1);
       navigation.navigate("ImageResize", { image: { name: name || "", type: type || "", uri: result.assets[0].uri } });

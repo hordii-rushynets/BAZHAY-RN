@@ -7,12 +7,13 @@ import ProfileScreen from '../../screens/main/ProfileScreen';
 import CommunityScreen from '../../screens/main/CommunityScreen';
 import { TabBar } from '../Main/TabBar';
 import AddWishPopUp from '../WishCreating/AddWishPopUp';
+import { userType } from '../../screens/main/interfaces';
 
 export type MainStackParamList = {
     Home: undefined;
     Search: undefined;
     Center: undefined;
-    Community: undefined;
+    Community: { mode?: userType };
     Profile: undefined;
 };
 

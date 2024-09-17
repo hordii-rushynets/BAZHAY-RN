@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Title from '../../components/ui/Title';
+import React, { useCallback, useRef, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity, View } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import Upload from '../../components/ui/icons/Upload';
 import Settings from '../../components/ui/icons/Settings';
@@ -110,8 +109,8 @@ function ProfileScreen({ navigation }: ProfileScreenProps) {
             <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>
           </View>
           <View style={styles.subscribersContainer}>
-            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View>
-            <View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View>
+            <TouchableOpacity onPress={() => {navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>
+            <TouchableOpacity onPress={() => {navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscriptions" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View></TouchableOpacity>
           </View></>}
         </View>
         <View style={styles.profileWishesContainer}>

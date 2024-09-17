@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Wish } from "../../screens/wishCreating/interfaces";
 import { Image, TouchableOpacity, View } from "react-native";
-import * as ImageManipulator from 'expo-image-manipulator';
 import styles from "../../screens/main/styles"
 import DesignedText from "../ui/DesignedText";
-import BigLogo from "../ui/icons/BigLogo";
 import DesignStars from "../ui/icons/DesignStars";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../RootNavigator";
