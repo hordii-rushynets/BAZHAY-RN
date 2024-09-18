@@ -9,23 +9,23 @@ export class MainService {
         this.daoService = new MainDAOService(config.apiUrl || "");
     }
 
-    public async getNews(authContext: any): Promise<Article[]> {
+    public async getNews(authContext: any): Promise<{results: Article[]}> {
         const response = await this.daoService.getNews(authContext);
         if (response.ok) {
             const articles = await response.json();
             return articles;
         } else {
-            return [];
+            return {results: []};
         }
     } 
 
-    public async getBrands(authContext: any): Promise<Brand[]> {
+    public async getBrands(authContext: any): Promise<{results: Brand[]}> {
         const response = await this.daoService.getBrands(authContext);
         if (response.ok) {
             const brands = await response.json();
             return brands;
         } else {
-            return [];
+            return {results: []};
         }
     } 
 

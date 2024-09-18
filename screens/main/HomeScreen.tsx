@@ -62,8 +62,8 @@ function HomeScreen({ navigation }: HomeScreenProps) {
 
   useFocusEffect(
     useCallback(() => {
-      mainService.getNews(authContext).then(articles => { setNews(articles) });
-      mainService.getBrands(authContext).then(brands => { setBrands(brands) });
+      mainService.getNews(authContext).then(paginatedArticles => { setNews(paginatedArticles.results) });
+      mainService.getBrands(authContext).then(paginatedBrands => { setBrands(paginatedBrands.results); });
       wishService.getWishes({}, authContext).then(response => {
         setWishes(response.results);
         setNextUrl(response.next || "");
