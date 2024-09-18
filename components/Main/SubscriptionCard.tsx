@@ -8,6 +8,8 @@ import { Subscription } from "../../screens/main/interfaces";
 import { UserSmallInfo } from "../UserSmallInfo";
 import SubmitButton from "../ui/buttons/SubmitButton";
 import { MainService } from "../../screens/main/services";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type SubscriptionCardProps = {
     subscription: Subscription;
@@ -17,6 +19,7 @@ type SubscriptionCardProps = {
 type SubscriptionCardNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
 export default function SubscriptionCard({ subscription, onSubscribtionUnsubscribe = () => {} }: SubscriptionCardProps) {
+    const navigation = useNavigation<SubscriptionCardNavigationProp>();
     const mainService = new MainService();
     const authContext = useAuth();
     const [buttonText, setButtonText] = useState(
@@ -26,7 +29,12 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
         "Стежити"
     );
 
-    return <View style={styles.userInfoContainer} key={subscription.id}>
+    return (
+    <TouchableWithoutFeedback onPress={() => {
+      const userId = subscription.user ? subscription.user.id : subscription.subscribed_to ? subscription.subscribed_to.id : undefined;
+      navigation.navigate("CommunityProfile", { userId: userId })
+    }}>
+    <View style={styles.userInfoContainer} key={subscription.id}>
       {subscription.user && 
         <>
           <UserSmallInfo
@@ -35,7 +43,7 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
             nickname={subscription.user.username || ""}
             size={"big"}
           />
-          <SubmitButton width={120} height={32} onPress={() => {
+          <TouchableWithoutFeedback><SubmitButton width={120} height={32} onPress={() => {
             if (subscription.user?.is_subscribed) {
               mainService.unsubscribe(subscription.user?.id || "", authContext).then(success => {
                 if (success) {
@@ -51,7 +59,7 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
               });
             }
 
-          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton>
+          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton></TouchableWithoutFeedback>
         </>
       }
       {subscription.subscribed_to && 
@@ -62,6 +70,7 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
             nickname={subscription.subscribed_to.username || ""}
             size={"big"}
           />
+          <TouchableWithoutFeedback>
           <SubmitButton width={120} height={32} onPress={() => {
             if (subscription.subscribed_to?.is_subscribed) {
               mainService.unsubscribe(subscription.subscribed_to?.id || "", authContext).then(success => {
@@ -78,8 +87,10 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
                 }
               });
             }
-          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton>
+          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton></TouchableWithoutFeedback>
         </>
       }
-    </View>;
+    </View>
+    </TouchableWithoutFeedback>
+    );
   }

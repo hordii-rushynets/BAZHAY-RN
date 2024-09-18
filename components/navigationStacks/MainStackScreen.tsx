@@ -14,7 +14,8 @@ export type MainStackParamList = {
     Search: undefined;
     Center: undefined;
     Community: { mode?: userType };
-    Profile: undefined;
+    Profile: { userId?: string };
+    CommunityProfile: { userId?: string };
 };
 
 const Tab = createBottomTabNavigator<MainStackParamList>();
@@ -30,6 +31,7 @@ const MainStackScreen: React.FC = () => {
       <Tab.Screen name="Center" component={CenterFunc} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="Community" component={CommunityScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="CommunityProfile" component={ProfileScreen} options={{ unmountOnBlur: true }}/>
     </Tab.Navigator>
     {showPopUp && <AddWishPopUp />}
   </>

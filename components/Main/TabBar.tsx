@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { View, TouchableOpacity, Keyboard } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styles from "../../screens/main/styles"
 import Home from '../ui/icons/Home';
@@ -17,68 +17,89 @@ type TabBarProps = BottomTabBarProps & {
 
 export const TabBar: React.FC<TabBarProps> = ({ state, descriptors, navigation, setShowPopUp, showPopUp }) => {
     const { staticData } = useLocalization();
-    return (
-      <View style={styles.tabBar}>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key];
-          const isFocused = state.index === index;
-  
-          const onPress = () => {
-            if (index !== 2) {
-              navigation.navigate(route.name);
+
+    const [ keyboardVisible, setKeyboardVisible ] = useState(false);
+
+    useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+        setKeyboardVisible(true);
+      });
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+        setKeyboardVisible(false);
+      });
+
+      return () => {
+        keyboardDidHideListener.remove();
+        keyboardDidShowListener.remove();
+      };
+    }, []);
+
+    if (!keyboardVisible) {
+      return (
+        <View style={styles.tabBar}>
+          {state.routes.map((route, index) => {
+            const { options } = descriptors[route.key];
+            const isFocused = state.index === index || (state.index === 5 && index === 3);
+    
+            const onPress = () => {
+              if (index !== 2 && index !== 5) {
+                navigation.navigate(route.name);
+              }
+              setShowPopUp(false);
+            };
+    
+            let icon: ReactElement = <></>;
+            let span: string = "";
+            if (route.name === 'Home') {
+              icon = <Home />;
+              span = staticData.main.tabBar.home
             }
-            setShowPopUp(false);
-          };
-  
-          let icon: ReactElement = <></>;
-          let span: string = "";
-          if (route.name === 'Home') {
-            icon = <Home />;
-            span = staticData.main.tabBar.home
-          }
-          else if (route.name === 'Search') {
-            icon = <Search />;
-            span = staticData.main.tabBar.search;
-          }
-          else if (route.name === 'Community') {
-            icon = <Community />;
-            span = staticData.main.tabBar.community
-          }
-          else if (route.name === 'Profile') {
-            icon = <Profile />;
-            span = staticData.main.tabBar.profile
-          }
-  
-          return (
-            <TouchableOpacity
-              key={index}
-              onPress={onPress}
-              style={styles.tabButton}
-            >
-              {index === 2 ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    if (!showPopUp) {
-                      setShowPopUp(true);
-                    }
-                    else {
-                      setShowPopUp(false);
-                    }
-                  }}
-                  style={styles.centerButton}
-                >
-                  <PlusInCircle />
-                  {showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>{staticData.main.tabBar.createWish}</DesignedText>}
-                </TouchableOpacity>
-              ) : (
-                <>
-                  {icon}
-                  {isFocused && !showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>{span}</DesignedText>}
-                </>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
+            else if (route.name === 'Search') {
+              icon = <Search />;
+              span = staticData.main.tabBar.search;
+            }
+            else if (route.name === 'Community') {
+              icon = <Community />;
+              span = staticData.main.tabBar.community
+            }
+            else if (route.name === 'Profile') {
+              icon = <Profile />;
+              span = staticData.main.tabBar.profile
+            }
+    
+            if (index !== 5) {
+              return (
+              <TouchableOpacity
+                key={index}
+                onPress={onPress}
+                style={styles.tabButton}
+              >
+                {index === 2 ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (!showPopUp) {
+                        setShowPopUp(true);
+                      }
+                      else {
+                        setShowPopUp(false);
+                      }
+                    }}
+                    style={styles.centerButton}
+                  >
+                    <PlusInCircle />
+                    {showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>{staticData.main.tabBar.createWish}</DesignedText>}
+                  </TouchableOpacity>
+                ) : (
+                  <>
+                    {icon}
+                    {isFocused && !showPopUp && <DesignedText bold={true} size={"smallest"} style={styles.buttonText}>{span}</DesignedText>}
+                  </>
+                )}
+              </TouchableOpacity>
+            );}
+          })}
+        </View>
+      );
+    }
+    
   };

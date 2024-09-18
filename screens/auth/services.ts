@@ -59,8 +59,15 @@ export class AccountService {
         return response.ok
     }
 
-    public async getUser(authContext: any):Promise<UserFields> {
-        const response = await this.daoService.getUser(authContext);
+    public async getUser(authContext: any, userId?: string):Promise<UserFields> {
+        let response = new Response();
+
+        if (userId) {
+            response = await this.daoService.getUserById(userId, authContext);
+        }
+        else {
+            response = await this.daoService.getUser(authContext);
+        }
 
         if (response.ok) {
             const userData = await response.json(); 

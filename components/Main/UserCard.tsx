@@ -8,6 +8,8 @@ import { UserFields } from "../../screens/auth/interfaces";
 import { UserSmallInfo } from "../UserSmallInfo";
 import SubmitButton from "../ui/buttons/SubmitButton";
 import { MainService } from "../../screens/main/services";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type UserCardProps = {
     user: UserFields;
@@ -16,6 +18,7 @@ type UserCardProps = {
 type UserCardNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
 export default function UserCard({ user }: UserCardProps) {
+    const navigation = useNavigation<UserCardNavigationProp>(); 
     const mainService = new MainService();
     const authContext = useAuth();
     const [buttonText, setButtonText] = useState(
@@ -24,7 +27,9 @@ export default function UserCard({ user }: UserCardProps) {
         "Стежити"
     );
 
-    return <View style={styles.userInfoContainer}>
+    return (
+      <TouchableWithoutFeedback onPress={() => {navigation.navigate("CommunityProfile", { userId: user.id } )}}>
+      <View style={styles.userInfoContainer}>
         <>
           <UserSmallInfo
             avatar={user.photo || ""} 
@@ -32,6 +37,7 @@ export default function UserCard({ user }: UserCardProps) {
             nickname={user.username || ""}
             size={"big"}
           />
+          <TouchableWithoutFeedback>
           <SubmitButton width={120} height={32} onPress={() => {
             if (user.is_subscribed) {
               mainService.unsubscribe(user.id || "", authContext).then(success => {
@@ -48,7 +54,8 @@ export default function UserCard({ user }: UserCardProps) {
               });
             }
 
-          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton>
+          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton></TouchableWithoutFeedback>
         </>
-    </View>;
+    </View>
+    </TouchableWithoutFeedback>);
   }

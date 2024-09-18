@@ -88,6 +88,11 @@ export class AccountDAOService {
         return response;
     }
 
+    public async getUserById(userId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/users/${userId}/`, {}, authContext)
+      return response;
+  }
+
     public async deleteUser(authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/`, {
         method: "DELETE",

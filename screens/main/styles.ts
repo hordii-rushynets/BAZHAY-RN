@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       position: 'absolute',
     },
+    backButtonContainer: {
+      position: 'absolute',
+      left: 20,
+      top: 64
+    },
     settingsContainer: {
       position: "absolute",
       top: 64,
@@ -38,6 +43,11 @@ const styles = StyleSheet.create({
       gap: 24,
       alignItems: 'center',
       justifyContent: "center"
+    },
+    addressesContainer: {
+      flexDirection: "row",
+      gap: 16,
+      marginVertical: 24
     },
     avatarContainer: {
       alignSelf: "center",

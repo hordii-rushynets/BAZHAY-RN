@@ -37,6 +37,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
   const [users, setUsers] = useState<UserFields[]>([]);
   const [nextUsersUrl, setNextUsersUrl] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchTrigger, setSearchTrigger] = useState(false);
   const mainService = new MainService();
   const accountService = new AccountService();
   const authContext = useAuth();
@@ -59,7 +60,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
     }, 500)
 
     return () => clearTimeout(timeout);
-  }, [searchPrompt])
+  }, [searchPrompt, searchTrigger])
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
@@ -96,7 +97,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
   useFocusEffect(
     useCallback(() => {
       mainService.getSubscription(userType, authContext).then(paginatedResults => {
-        if (paginatedResults.count > 0) {
+        if (paginatedResults.count >= 0) {
           setSubscriptions(paginatedResults.results);
           if (paginatedResults.next) {
             setNextUrl(paginatedResults.next);
@@ -112,7 +113,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
           <BackButton/>
           <DesignedText italic={true}>{userType === "subscribers" ? "підписники" : "підписки"}</DesignedText>
         </View>}
-        <SearchInput placeholder={"Знайди близьких"} value={searchPrompt} error={undefined} onChange={(text) => {setSearchPrompt(text)}} onFocus={() => {setIsSearchActive(true)}} onBlur={() => {setIsSearchActive(false)}}/>
+        <SearchInput placeholder={"Знайди близьких"} value={searchPrompt} error={undefined} onChange={(text) => {setSearchPrompt(text)}} onFocus={() => {setSearchTrigger(!searchTrigger); setIsSearchActive(true)}} onBlur={() => {setUsers([]); setIsSearchActive(false)}}/>
         {!isSearchActive ?
           <>
             <View style={styles.subscriptionsChoosing}>
