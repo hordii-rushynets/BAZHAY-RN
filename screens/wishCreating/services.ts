@@ -121,6 +121,18 @@ export class WishService {
         }
     }
 
+    public async getMyWish(wishId: string, authContext: any):Promise<Wish> {
+        const response = await this.daoService.getMyWish(wishId, authContext);
+
+        if (response.ok) {
+            const wishData = await response.json(); 
+            return wishData;
+        }
+        else {
+            throw new Error("Error fetching wishinfo");
+        }
+    }
+
     public async deleteWish(wishId: string, authContext: any):Promise<boolean> {
         const response = await this.daoService.deleteWish(wishId, authContext);
         return response.ok;

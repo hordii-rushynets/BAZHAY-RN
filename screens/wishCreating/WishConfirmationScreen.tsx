@@ -36,7 +36,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
 
   useFocusEffect(
     useCallback(() => {
-      wishService.getWish(wishId || "", authContext).then(wish => setWish(wish));
+      wishService.getMyWish(wishId || "", authContext).then(wish => setWish(wish));
     }, [])
   );
 
@@ -71,7 +71,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
               <TouchableOpacity onPress={() => {wishService.deleteWish(wish?.id || "", authContext).then(success => {
                 if (success) {
                   setWishId(undefined);
-                  navigation.navigate("Profile");
+                  navigation.navigate("Profile", {});
                 }
               })}}>
                 <DesignedText style={styles.deleteButton} isUppercase={false}>
