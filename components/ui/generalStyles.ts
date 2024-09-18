@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         width: "100%",
         gap: 16,
         justifyContent: "space-between",
+        alignItems: "center",
     },
     textInputWithArrow: {
         flex: 1,
@@ -42,6 +43,9 @@ const styles = StyleSheet.create({
         fontFamily: "Inter-V",
         paddingHorizontal: 24,
         width: "100%",
+        flexDirection: "row",
+        alignContent: "center",
+        gap: 8,
     },
     textInputWithArrowError: {
         marginTop: 5,

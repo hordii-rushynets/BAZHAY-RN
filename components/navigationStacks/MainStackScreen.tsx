@@ -7,13 +7,15 @@ import ProfileScreen from '../../screens/main/ProfileScreen';
 import CommunityScreen from '../../screens/main/CommunityScreen';
 import { TabBar } from '../Main/TabBar';
 import AddWishPopUp from '../WishCreating/AddWishPopUp';
+import { userType } from '../../screens/main/interfaces';
 
 export type MainStackParamList = {
     Home: undefined;
     Search: undefined;
     Center: undefined;
-    Community: undefined;
-    Profile: undefined;
+    Community: { mode?: userType };
+    Profile: { userId?: string };
+    CommunityProfile: { userId?: string };
 };
 
 const Tab = createBottomTabNavigator<MainStackParamList>();
@@ -29,6 +31,7 @@ const MainStackScreen: React.FC = () => {
       <Tab.Screen name="Center" component={CenterFunc} options={{ tabBarButton: () => null }} />
       <Tab.Screen name="Community" component={CommunityScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="CommunityProfile" component={ProfileScreen} options={{ unmountOnBlur: true }}/>
     </Tab.Navigator>
     {showPopUp && <AddWishPopUp />}
   </>

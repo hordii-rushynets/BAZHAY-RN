@@ -1,6 +1,5 @@
-import Constants from 'expo-constants';
 import { AccountDAOService } from "./dao-services"
-import { UserFields } from "./interfaces";
+import { PaginatedUserFields, UserFields } from "./interfaces";
 import config from "../../config.json"
 import { getBlobFromUri } from '../../utils/helpers';
 
@@ -60,8 +59,15 @@ export class AccountService {
         return response.ok
     }
 
-    public async getUser(authContext: any):Promise<UserFields> {
-        const response = await this.daoService.getUser(authContext);
+    public async getUser(authContext: any, userId?: string):Promise<UserFields> {
+        let response = new Response();
+
+        if (userId) {
+            response = await this.daoService.getUserById(userId, authContext);
+        }
+        else {
+            response = await this.daoService.getUser(authContext);
+        }
 
         if (response.ok) {
             const userData = await response.json(); 
@@ -75,5 +81,24 @@ export class AccountService {
     public async deleteUser(authContext: any): Promise<boolean> {
         const response = await this.daoService.deleteUser(authContext);
         return response.ok
+    }
+
+    public async getUsers(searchPrompt: string, authContext: any, link?: string): Promise<PaginatedUserFields> {
+        const queryParams = {
+            "first_name": searchPrompt,
+            "last_name": searchPrompt,
+            "username": searchPrompt
+        }
+        const urlParams = new URLSearchParams(queryParams);
+
+        const response = await this.daoService.getUsers(urlParams, authContext, link);
+
+        if (response.ok) {
+            const userData = await response.json();
+            return userData; 
+        }
+        else {
+            throw new Error("Error fetching users info");
+        }
     }
 }

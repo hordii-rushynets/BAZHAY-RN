@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       position: 'absolute',
     },
+    backButtonContainer: {
+      position: 'absolute',
+      left: 20,
+      top: 64
+    },
     settingsContainer: {
       position: "absolute",
       top: 64,
@@ -38,6 +43,11 @@ const styles = StyleSheet.create({
       gap: 24,
       alignItems: 'center',
       justifyContent: "center"
+    },
+    addressesContainer: {
+      flexDirection: "row",
+      gap: 16,
+      marginVertical: 24
     },
     avatarContainer: {
       alignSelf: "center",
@@ -267,7 +277,51 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: "white"
-    }
+    },
+    subscriptionsChoosing: {
+      width: "100%",
+      height: 32,
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 30,
+      flexDirection: "row",
+      alignItems: "center"
+    },
+    subscriptionsOption: {
+      width: "50%",
+      alignItems: "center",
+      justifyContent: "center",
+      height: 32,
+    },
+    subscriptionsOptionActive: {
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 30,
+      shadowColor: "black",
+      shadowOpacity: 0.25,
+      shadowRadius: 2,
+      elevation: 2,
+      shadowOffset: { width: -2, height: 2 },
+      backgroundColor: "white",
+    },
+    userInfoContainer: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    usersContainer: {
+      paddingTop: 16,
+      gap: 16,
+    },
+    addFriendsButton: {
+      flexDirection: "row",
+      gap: 9,
+      alignItems: "center",
+      marginTop: 32
+    },
 });
 
 export default styles

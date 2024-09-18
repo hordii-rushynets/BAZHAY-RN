@@ -37,6 +37,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         overflow: "hidden",
     },
+    userSmallInfoText: {
+      justifyContent: "center",
+    },
     wishContentContainer: {
         gap: 16
     },

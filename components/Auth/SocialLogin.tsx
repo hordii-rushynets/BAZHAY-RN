@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import styles from '../../screens/auth/styles'
 import AppleIcon from './AppleIcon';
 import GoogleIcon from './GoogleIcon';
