@@ -57,7 +57,7 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
       const assetFiles = await Promise.all(
         assets.assets.map(async (asset) => {
           const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
-          const uri = await getLocalUri(assetInfo.localUri || asset.uri); // Use localUri if available
+          const uri = await getLocalUri(assetInfo.localUri || asset.uri);
           return {
             name: asset.filename, 
             type: [asset.mediaType, "/", asset.filename.split(".").at(-1)].join(""), 
@@ -89,7 +89,7 @@ const AddWishFromGalleryScreen = ({ navigation }: AddWishFromGalleryScreenProps)
       const assetFiles = await Promise.all(
         assets.assets.map(async (asset) => {
           const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
-          const uri = await getLocalUri(assetInfo.localUri || asset.uri); // Use localUri if available
+          const uri = await getLocalUri(assetInfo.localUri || asset.uri);
           return {
             name: asset.filename, 
             type: [asset.mediaType, "/", asset.filename.split(".").at(-1)].join(""), 
