@@ -1,9 +1,9 @@
 import React from "react";
 import { Image, View } from "react-native";
 import DesignedText from "./ui/DesignedText";
-import Profile from "./ui/icons/Profile";
 import styles from "../screens/styles";
 import UserSmallAvatar from "./ui/icons/UserSmallAvatar";
+import UserTinyAvatar from "./ui/icons/UserTinyAvatar";
 
 type UserSmallInfoProps = {
     avatar: string;
@@ -16,7 +16,7 @@ export function UserSmallInfo({ avatar, name, nickname, size = "small" }: UserSm
   return (
     <View style={styles.userSmallInfoContainer}>
         <View style={[styles.userSmallInfoAvatarContainer, size === "big" ? { width: 56, height: 56 } : {}]}>
-            {avatar ? <Image source={{ uri: avatar }} style={styles.wishImage}/> : size === "small" ? <Profile /> : <UserSmallAvatar />}
+            {avatar ? <Image source={{ uri: avatar }} style={styles.wishImage}/> : size === "small" ? <UserTinyAvatar /> : <UserSmallAvatar />}
         </View>
         <View style={styles.userSmallInfoText}>
             <DesignedText size="small">{name || ""}</DesignedText>

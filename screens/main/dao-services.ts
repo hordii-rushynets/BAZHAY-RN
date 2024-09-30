@@ -58,5 +58,10 @@ export class MainDAOService {
     }, authContext);
     return response;
   }
+
+  public async search(prompt: string, authContext: any): Promise<Response> {
+    const response = await fetchWithAuth(`${this.apiUrl}/api/wish/search/?query=${prompt}`, {}, authContext)
+    return response;
+  }
 }
   

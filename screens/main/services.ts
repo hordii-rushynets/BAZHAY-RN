@@ -1,6 +1,8 @@
 import { MainDAOService } from "./dao-services"
 import config from "../../config.json"
 import { Article, Brand, SubscriptionPagination, userType } from "./interfaces";
+import { Wish } from "../wishCreating/interfaces";
+import { UserFields } from "../auth/interfaces";
 
 export class MainService {
     private daoService: MainDAOService;
@@ -67,5 +69,14 @@ export class MainService {
     public async unsubscribe(userId: string, authContext: any): Promise<boolean> {
         const response = await this.daoService.unsubscribe(userId, authContext);
         return response.ok;
+    }
+
+    public async search(prompt: string, authContext: any): Promise<{wishes: Wish[], users: UserFields[]}> {
+        const response = await this.daoService.search(prompt, authContext);
+        if (response.ok) {
+            const result = await response.json();
+            return result;
+        }
+        return {wishes: [], users: []};
     }
 }

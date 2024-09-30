@@ -13,11 +13,12 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 type UserCardProps = {
     user: UserFields;
+    size?: "small" | "normal";
 }
 
 type UserCardNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
-export default function UserCard({ user }: UserCardProps) {
+export default function UserCard({ user, size = "normal" }: UserCardProps) {
     const navigation = useNavigation<UserCardNavigationProp>(); 
     const mainService = new MainService();
     const authContext = useAuth();
@@ -35,26 +36,29 @@ export default function UserCard({ user }: UserCardProps) {
             avatar={user.photo || ""} 
             name={user.first_name || ""}
             nickname={user.username || ""}
-            size={"big"}
+            size={size === "small" ? "small" : "big"}
           />
           <TouchableWithoutFeedback>
-          <SubmitButton width={120} height={32} onPress={() => {
-            if (user.is_subscribed) {
-              mainService.unsubscribe(user.id || "", authContext).then(success => {
-                if (success) {
-                  setButtonText("Стежити");
+            {size !== "small" &&
+              <SubmitButton width={120} height={32} onPress={() => {
+                if (user.is_subscribed) {
+                  mainService.unsubscribe(user.id || "", authContext).then(success => {
+                    if (success) {
+                      setButtonText("Стежити");
+                    }
+                  });
                 }
-              });
-            }
-            else {
-              mainService.subscribe(user.id || "", authContext).then(success => {
-                if (success) {
-                  setButtonText("Відстежується");
+                else {
+                  mainService.subscribe(user.id || "", authContext).then(success => {
+                    if (success) {
+                      setButtonText("Відстежується");
+                    }
+                  });
                 }
-              });
-            }
 
-          }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton></TouchableWithoutFeedback>
+              }} textStyle={{fontSize: 12, textTransform: "none"}}>{buttonText}</SubmitButton>
+            }
+          </TouchableWithoutFeedback>
         </>
     </View>
     </TouchableWithoutFeedback>);
