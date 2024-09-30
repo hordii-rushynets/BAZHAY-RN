@@ -101,4 +101,15 @@ export class AccountService {
             throw new Error("Error fetching users info");
         }
     }
+
+    public async googleSignIn(tokenId: string): Promise<{access: string, refresh: string}> {
+      const response = await this.daoService.googleSignIn(tokenId);
+      if (response.ok) {
+        const tokens = await response.json();
+        return tokens;
+      }
+      else {
+          return { access: "", refresh: "" };
+      }
+    }
 }
