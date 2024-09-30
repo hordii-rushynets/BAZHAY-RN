@@ -8,6 +8,7 @@ import styles from "./styles"
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { getLocalUri } from '../../utils/helpers';
 
 type ImageFromGalleryScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromGallery'>;
 
@@ -50,7 +51,7 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
         assets.assets.map(async (asset) => {
           // Get asset info to handle iOS URIs
           const assetInfo = await MediaLibrary.getAssetInfoAsync(asset);
-          return assetInfo.localUri || asset.uri; // Use localUri if available
+          return await getLocalUri(assetInfo.localUri || asset.uri); // Use localUri if available
         })
       );
 
