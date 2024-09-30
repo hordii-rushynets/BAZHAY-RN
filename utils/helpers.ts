@@ -3,6 +3,7 @@ import { Dimensions, Image, Linking } from "react-native";
 import { AuthContextData } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as VideoThumbnails from 'expo-video-thumbnails';
+import * as FileSystem from "expo-file-system";
 
 
 export const cropPhoto = async (uri: string) => {
@@ -130,3 +131,15 @@ export const cropPhoto = async (uri: string) => {
 
     return uri;
   }
+
+  export const getLocalUri = async (uri: string) => {
+    if (uri.startsWith('ph://')) {
+      const fileUri = `${FileSystem.cacheDirectory}${uri.split('/').pop()}`;
+      await FileSystem.copyAsync({
+        from: uri,
+        to: fileUri
+      });
+      return fileUri;
+    }
+    return uri;
+  };
