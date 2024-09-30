@@ -75,9 +75,9 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                                 />
                                 <DropDownInput options={currencies} defaultValue={'UAH'} onChange={handleChange("currency")}/>
                                 <TouchableOpacity onPress={() => {handleSubmit()}}>
-                                <View style={generalStyles.arrowContainer}>
-                                  <ArrowRight />
-                                </View>
+                                  <View style={generalStyles.arrowContainer}>
+                                    <ArrowRight />
+                                  </View>
                                 </TouchableOpacity>
                             </View>
                         )}
