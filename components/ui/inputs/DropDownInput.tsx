@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import DesignedText from '../DesignedText';
 import ArrowDown from '../icons/ArrowDown';
 import styles from '../generalStyles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type DropDownInputProps = {
   options: string[],
@@ -30,18 +31,20 @@ const DropDownInput = ({options, defaultValue, onChange}: DropDownInputProps) =>
         <DesignedText>{selectedValue}</DesignedText>
         <ArrowDown />
       </TouchableOpacity>
-      {isDropdownVisible && options.map((value, indx) => {
-        if (value === selectedValue) {
-          return <></>
-        }
-        else {
-          return (
-            <TouchableOpacity key={indx} style={styles.dropdownItem} onPress={() => {handleValueSelect(value)}}>
-              <DesignedText >{value}</DesignedText>
-            </TouchableOpacity>
-          );
-        }
-      })}
+          {isDropdownVisible && <ScrollView style={{ maxHeight: 80 }} contentContainerStyle={{ gap: 8 }} persistentScrollbar={true}>
+            {options.map((value, indx) => {
+              if (value === selectedValue) {
+                return <View key={indx}></View>
+              }
+              else {
+                return (
+                  <TouchableOpacity key={indx} style={styles.dropdownItem} onPress={() => {handleValueSelect(value)}}>
+                    <DesignedText >{value}</DesignedText>
+                  </TouchableOpacity>
+                );
+              }
+            })}
+          </ScrollView>}
     </View>
   );
 };

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         width: "100%",
         gap: 16,
         justifyContent: "space-between",
-        alignItems: "center",
+        alignItems: "flex-start",
     },
     textInputWithArrow: {
         flex: 1,
