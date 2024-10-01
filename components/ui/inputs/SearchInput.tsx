@@ -39,7 +39,7 @@ export default function SearchInput({ placeholder, value, error, onChange, onFoc
               }}
             />
         </View>
-        {(isInFocus || value) && <TouchableOpacity onPress={() => { setIsInFocus(false); Keyboard.dismiss() }}>
+        {(isInFocus || value) && <TouchableOpacity onPress={() => { setIsInFocus(false); Keyboard.dismiss() }} style={{alignSelf: "center"}}>
           <View>
             <CrissCross />
           </View>
