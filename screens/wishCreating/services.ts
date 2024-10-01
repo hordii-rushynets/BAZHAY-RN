@@ -68,7 +68,7 @@ export class WishService {
             return wishData;
         }
         else {
-            throw new Error("Error fetching userinfo");
+            throw new Error("Error creating wish");
         }
     }
 

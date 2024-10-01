@@ -56,6 +56,8 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                           setWishId(wish?.id || undefined);
                           navigation.navigate("AddWishPhotoOrVideo");
                         }
+                      }).catch(error => {
+                        navigation.navigate("Premium")
                       })
                     }
                   }}

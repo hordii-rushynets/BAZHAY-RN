@@ -224,6 +224,77 @@ const styles = StyleSheet.create({
     deleteButton: {
         color: "#8A8A8A",
         textDecorationLine: "underline",
+    },
+    crissCross: {
+        position: "absolute",
+    },
+    premiumDesignStars: {
+        alignSelf: "flex-end"
+    },
+    premiumContentContainer: {
+        gap: 32,
+    },
+    premiumTitleContainer: {
+        alignItems: "center",
+    },
+    premiumAdvantagesContainer: {
+        gap: 8
+    },
+    premiumAdvantage: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 8
+    },
+    premiumButtonsContainer: {
+        gap: 16
+    },
+    premiumTryButtonContainer: {
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        borderColor: "#B70000",
+        borderWidth: 1,
+        borderRadius: 30,
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
+        elevation: 2,
+        backgroundColor: "white",
+    },
+    premiumTryButtonTitle: {
+        color: "#B70000",
+    },
+    premiumTryButtonSpan: {
+        color: "#B70000",
+        opacity: 0.6
+    },
+    premiumMonthButtonContainer: {
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 30,
+        shadowColor: 'black',
+        shadowOffset: { width: -2, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
+        elevation: 2,
+        backgroundColor: "white",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
+    premiumBottomButtonsContainer: {
+        position: "absolute",
+        bottom: 100,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        width: "100%",
+        alignSelf: "center"
+    },
+    premiumBottonButton: {
+        color: "#8A8A8A"
     }
 });
 
