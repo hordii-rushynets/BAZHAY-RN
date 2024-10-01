@@ -1,3 +1,5 @@
 {
-    "apiUrl": "https://test.bazhay-internet-technology-hub.online"
+    "apiUrl": "https://test.bazhay-internet-technology-hub.online",
+    "webClientId": "your-web-client-id",
+    "iosClientId": "your-ios-client-id"
 }

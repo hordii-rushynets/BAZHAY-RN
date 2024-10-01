@@ -4,42 +4,44 @@
     "slug": "BAZHAY-RN",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "jsEngine": "jsc"
+      "jsEngine": "jsc",
+      "bundleIdentifier": "com.ivanfranco.BAZHAYRN"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ivanfranco.BAZHAYRN"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "web": {},
     "assetBundlePatterns": [
       "assets/**/*",
       "node_modules/react-native-vector-icons/fonts/*"
     ],
     "jsEngine": "hermes",
     "plugins": [
-      "expo-localization"
+      "expo-localization",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.991120161724-gosdu3k36tgp9jv9n0ae430arbosta2t"
+        }
+      ]
     ],
     "extra": {
       "eas": {
         "projectId": "0c1f1056-0284-4a2e-91b2-976361524e6e"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "0.0.1",
     "updates": {
       "url": "https://u.expo.dev/0c1f1056-0284-4a2e-91b2-976361524e6e"
     }

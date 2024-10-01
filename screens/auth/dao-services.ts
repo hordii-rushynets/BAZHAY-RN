@@ -104,5 +104,18 @@ export class AccountDAOService {
       const response = await fetchWithAuth((link ? link : `${this.apiUrl}/api/account/users/?`) + urlParams, {}, authContext)
       return response;
     }
+
+    public async googleSignIn(tokenId: string): Promise<Response> {
+      const response = await fetch((`${this.apiUrl}/api/account/auth/google/`), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "token": tokenId
+        })
+      })
+      return response;
+    }
 }
   
