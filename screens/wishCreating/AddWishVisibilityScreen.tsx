@@ -53,6 +53,10 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
             if (success) {
               navigation.navigate("WishConfirmation")
             }
+            else {
+              setVisibility("everyone")
+              navigation.navigate("Premium")
+            }
           })
           }} width={200} style={authStyles.gridButton}>{editingMode ? staticData.wishCreating.addWishVisibilityScreen.editingButton : staticData.wishCreating.addWishVisibilityScreen.button}</SubmitButton>}
     </WishCreatingLayout>
