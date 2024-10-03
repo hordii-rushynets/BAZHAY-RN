@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AccountService } from '../screens/auth/services';
 import config from "../config.json"
+import { useNotifications } from './NotificationContext';
 
 export interface AuthContextData {
   isAuthenticated: boolean;
@@ -27,6 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean>(false);
   const [isAccountFilled, setIsAccountFilled] = useState<boolean>(false);
   const accountService = new AccountService();
+  const { reconnect } = useNotifications();
 
   const checkAuth = async () => {
     try {
@@ -46,6 +48,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await AsyncStorage.setItem('AccessToken', access);
       await AsyncStorage.setItem('RefreshToken', refresh);
       setIsAuthenticated(true);
+      reconnect();
     } catch (error) {
       console.error('Failed to set authenticated state:', error);
     }
@@ -68,6 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         await AsyncStorage.removeItem('AccessToken');
         await AsyncStorage.removeItem('RefreshToken');
         setIsAuthenticated(false);
+        reconnect();
       }
     } catch (error) {
       console.error('Failed to set authenticated state:', error);
@@ -82,6 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return
       }
       await AsyncStorage.setItem("AccessToken", tokens.access);
+      reconnect();
     })
   }
 

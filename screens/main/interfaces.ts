@@ -29,3 +29,10 @@ export interface SubscriptionPagination {
     prvious: string;
     results: Subscription[];
 }
+
+export interface Paginated<T> {
+    count: number;
+    next: string;
+    previous: string;
+    results: T[];
+}

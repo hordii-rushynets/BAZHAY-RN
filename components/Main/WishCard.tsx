@@ -27,10 +27,13 @@ export default function WishCard({ wish }: WishCardProps) {
     return (
         <TouchableOpacity onPress={() => {navigation.navigate("Wish", { wishId: wish.id || "" })}}>
             <View style={[styles.wishCardImageContainer, { width: 164, aspectRatio: wish.image_size || 3/4 }]} >
-                {wish.photo && <Image source={ {uri: wish.photo} } style={styles.wishCardImage} resizeMode={"cover"}/>}
-                <View style={styles.wishCardStarsContainer}>
-                    <DesignStars width={72} height={80}/>
-                </View>
+                {wish.photo ?
+                    <Image source={ {uri: wish.photo} } style={styles.wishCardImage} resizeMode={"cover"}/>
+                    :
+                    <View style={styles.wishCardStarsContainer}>
+                        <DesignStars width={72} height={80}/>
+                    </View>
+                }
                 <View style={styles.buttonsContainer}>
                     {!wish.is_your_wish && <TouchableOpacity onPress={async () => {
                         const copyOfWish: Wish = {

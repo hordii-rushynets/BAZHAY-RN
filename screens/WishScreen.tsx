@@ -102,13 +102,12 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                       console.error('Video Error:', error);
                     }}
                   />
-                : wish.photo && 
-                  <>
-                    <Image source={ {uri: wish.photo} } style={styles.wishImage} resizeMode={"cover"}/>
-                    <View style={styles.wishStarsContainer}>
-                      <DesignStars width={160} height={172}/>
-                    </View>
-                  </>
+                : wish.photo ?
+                  <Image source={ {uri: wish.photo} } style={styles.wishImage} resizeMode={"cover"}/>
+                  :
+                  <View style={styles.wishStarsContainer}>
+                    <DesignStars width={160} height={172}/>
+                  </View>
                 }
                 <View style={mainStyles.buttonsContainer}>
                     {!wish.is_your_wish && <TouchableOpacity onPress={async () => {

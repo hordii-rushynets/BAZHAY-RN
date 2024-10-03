@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { MainStackParamList } from '../../components/navigationStacks/MainStackScreen';
 import Logo from '../../components/ui/icons/Logo';
-import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, TouchableOpacity, View } from 'react-native';
 import Bell from '../../components/ui/icons/Bell';
 import { ForYouTab } from '../../components/Main/ForYouTab';
 import { BrandsTab } from '../../components/Main/BrandsTab';
@@ -19,8 +18,11 @@ import { WishService } from '../wishCreating/services';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Article, Brand } from './interfaces';
 import { MainService } from './services';
+import { RootStackParamList } from '../../components/RootNavigator';
+import { useNotifications } from '../../contexts/NotificationContext';
+import BellWithDot from '../../components/ui/icons/BellWithDot';
 
-type HomeScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Home'>;
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 interface HomeScreenProps {
   navigation: HomeScreenNavigationProp;
@@ -37,6 +39,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
   const [isFetching, setIsFetching] = useState(false);
   const [news, setNews] = useState<Article[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
+  const { hasUnread } = useNotifications();
 
   const renderItem = ({ item, i }: {item: unknown, i: number}) => (
     <WishCard wish={item as Wish} key={i}/>
@@ -76,7 +79,9 @@ function HomeScreen({ navigation }: HomeScreenProps) {
     <ScreenContainer>
         <View style={styles.topBar}>
           <Logo/>
-          <Bell />
+          <TouchableOpacity onPress={() => { navigation.navigate("HomeScreens", { screen: "Notifications" }) }}>
+            {hasUnread ? <BellWithDot /> : <Bell />}
+          </TouchableOpacity>
         </View>
         <ScrollView onScroll={handleScroll}>
         {news.length !== 0 && <ForYouTab news={news}/>}
