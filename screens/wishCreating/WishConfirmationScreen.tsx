@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../contexts/AuthContext';
 import { RootStackParamList } from '../../components/RootNavigator';
@@ -10,15 +10,15 @@ import authStyles from "../auth/styles";
 import styles from "./styles";
 import DesignedText from '../../components/ui/DesignedText';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
-import { Touchable, View } from 'react-native';
+import { View } from 'react-native';
 import ImageButton from '../../components/ui/buttons/ImageButton';
 import ButtonWithArrow from '../../components/ui/buttons/ButtonWithArrow';
 import { Wish } from './interfaces';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import generalStyles from "../../components/ui/generalStyles"
 import SmoothCorner from '../../components/ui/icons/SmoothCorner';
+import Loader from '../../components/ui/Loader';
 
 type WishConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'WishConfirmation'>;
 
@@ -33,6 +33,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
   const authContext = useAuth();
   const { wishId, setEditingMode, setWishId, copyingMode, setCopyingMode } = useWishCreating();
   const [wish, setWish] = useState<Wish>();
+  const [loading, setLoading] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -42,6 +43,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
         <View style={styles.wishConfirmationTop}>
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
             <BackButton/>
@@ -68,12 +70,16 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishVisibility")}} width={"auto"}>{wish?.access_type ? visibilityChoices?.[wish?.access_type as keyof typeof visibilityChoices] : staticData.wishCreating.wishConfirmationScreen.accessPlaceholder}</ButtonWithArrow>
             </View>
             {wish?.is_fully_created && <View style={{ width: "100%" }}>
-              <TouchableOpacity onPress={() => {wishService.deleteWish(wish?.id || "", authContext).then(success => {
-                if (success) {
-                  setWishId(undefined);
-                  navigation.navigate("Profile", {});
+              <TouchableOpacity onPress={() => {
+                setLoading(true);
+                wishService.deleteWish(wish?.id || "", authContext).then(success => {
+                  setLoading(false);
+                  if (success) {
+                    setWishId(undefined);
+                    navigation.navigate("Profile", {});
+                  }
                 }
-              })}}>
+              )}}>
                 <DesignedText style={styles.deleteButton} isUppercase={false}>
                   Видалити бажання
                 </DesignedText>
@@ -82,7 +88,9 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
         </View>
         <SubmitButton 
             onPress={() => {
+              setLoading(true);
               wishService.wishUpdate({ is_fully_created: true }, wishId || "", authContext).then(success => {
+                setLoading(false);
                 if (success) {
                   setWishId(undefined);
                   setEditingMode(false);

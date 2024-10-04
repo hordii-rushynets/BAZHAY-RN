@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Title from '../../components/ui/Title';
 import authStyles from '../auth/styles';
@@ -17,6 +17,7 @@ import ArrowRight from '../../components/ui/icons/ArrowRight';
 import DropDownInput from '../../components/ui/inputs/DropDownInput';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type AddWishPriceScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishPrice'>;
 
@@ -28,6 +29,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating(); 
+  const [loading, setLoading] = useState(false);
 
   const { staticData } = useLocalization();
 
@@ -40,6 +42,7 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
 
   return (
     <WishCreatingLayout index={2} link={editingMode ? "WishConfirmation" :"AddWishPhotoOrVideo"} editingMode={editingMode}>
+      {loading && <Loader />}
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={authStyles.titleContainer}>
@@ -53,7 +56,9 @@ function AddWishPriceScreen({ navigation }: AddWishPriceScreenProps) {
                           validationSchema={validationSchema}
                           onSubmit={(values, { setErrors }) => {
                             if (wishId) {
+                              setLoading(true);
                               wishService.wishUpdate({ price: +values.price, currency: values.currency }, wishId, authContext).then(success => {
+                                setLoading(false);
                                 if (success) {
                                   navigation.navigate(editingMode ? "WishConfirmation" :"AddWishLink")
                                 }

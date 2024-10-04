@@ -1,6 +1,5 @@
-import React from 'react';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -13,6 +12,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import Loader from '../../components/ui/Loader';
 
 type AccountFillNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillName'>;
 
@@ -23,6 +23,7 @@ interface AccountFillNameScreenProps {
 function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const { staticData } = useLocalization();
 
@@ -32,6 +33,7 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
 
   return (
     <AccountFillLayout index={0}>
+        {loading && <Loader />}
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -46,7 +48,9 @@ function AccountFillNameScreen({ navigation }: AccountFillNameScreenProps) {
                   initialValues={{ name: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     accountService.userUpdate({ first_name: values.name.toLowerCase() }, authContext).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate("Greeting", { name: values.name })
                       }

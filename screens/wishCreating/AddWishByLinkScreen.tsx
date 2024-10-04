@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -9,15 +9,14 @@ import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout';
 import { RootStackParamList } from '../../components/RootNavigator';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import DesignedText from '../../components/ui/DesignedText';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import BackButton from '../../components/ui/buttons/BackButton';
 import { Wish } from './interfaces';
+import Loader from '../../components/ui/Loader';
 
 type AddWishByLinkScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishByLink'>;
 
@@ -30,6 +29,7 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
   const wishService = new WishService();
   const { setWishId } = useWishCreating();
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
     link: Yup.string().url(staticData.wishCreating.addWishLinkScreen.urlError).required(""),
@@ -37,6 +37,7 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
       <View style={styles.wishConfirmationTop}>
           <BackButton/>
       </View>
@@ -53,8 +54,10 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                 initialValues={{ link: '' }}
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setErrors }) => {
+                  setLoading(true);
                   try {
                     await wishService.getWishByLink(values.link.toLowerCase(), authContext).then(wish => {
+                      setLoading(false);
                       const copyOfWish: Wish = {
                         name: wish.name,
                         description: wish.description,
@@ -74,6 +77,7 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                     });
                   }
                   catch {
+                    setLoading(false);
                     setErrors({ link: "Вкажіть коректне покликання на бажання" })
                   }
                 }}

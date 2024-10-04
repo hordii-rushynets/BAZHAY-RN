@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import { Platform, TextInput, TouchableOpacity, View } from 'react-native';
+import { Platform, TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -17,6 +13,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import Loader from '../../components/ui/Loader';
 
 type AccountFillBirthScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillBirth'>;
 
@@ -31,6 +28,7 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [hideBirthday, setHideBirthday] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleDateChange = (selectedDate: Date) => {
     setDate(selectedDate);
@@ -46,6 +44,7 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
 
   return (
     <AccountFillLayout index={3}>
+        {loading && <Loader />}
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -67,7 +66,9 @@ function AccountFillBirthScreen({ navigation }: AccountFillBirthScreenProps) {
                         <DesignedText style={styles.birthInputText}>{year}</DesignedText>
                     </TouchableOpacity>
                     {year && <TouchableOpacity onPress={() => { 
+                      setLoading(true);
                       accountService.userUpdate({ birthday: `${year}-${month}-${day}`, view_birthday: !hideBirthday }, authContext).then(success => {
+                        setLoading(false);
                         if (success) {
                           navigation.navigate("AccountFillSex");
                         }

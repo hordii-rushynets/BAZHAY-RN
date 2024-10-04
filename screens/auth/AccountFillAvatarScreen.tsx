@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import AccountFillLayout from '../../components/Auth/AccountFillLayout';

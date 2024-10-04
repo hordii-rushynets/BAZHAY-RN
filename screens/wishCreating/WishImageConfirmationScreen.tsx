@@ -12,6 +12,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import Title from '../../components/ui/Title';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type WishImageConfirmationScreenRouteProp = RouteProp<RootStackParamList, 'WishImageConfirmation'>;
 type WishImageConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'WishImageConfirmation'>;
@@ -27,6 +28,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   const authContext = useAuth();
   const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   const [ convertedImage, setConvertedImage ] = useState("");
 
@@ -46,8 +48,10 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
   return (
     <TouchableOpacity onPress={
         async () => {
+          setLoading(true);
           if (convertedImage !== "") {
             wishService.wishPhotoUpdate(convertedImage, image.name, ratio, wishId || "", authContext).then(success => {
+              setLoading(false);
               if (success) {
                   navigation.navigate(editingMode ? "WishConfirmation" :"AddWishPrice");
               }
@@ -55,6 +59,7 @@ function WishImageConfirmationScreen({ route, navigation }: WishImageConfirmatio
           }
         }
         } style={generalStyles.screenContainer}>
+          {loading && <Loader />}
           <View style={generalStyles.centerContainer}>
               <Title style={[authStyles.title, { marginBottom: 16 }]}>
               {staticData.wishCreating.wishImageConfirmationScreen.title}

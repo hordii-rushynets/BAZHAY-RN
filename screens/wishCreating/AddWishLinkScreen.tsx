@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -7,7 +7,6 @@ import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
 import authStyles from '../auth/styles'
 import styles from './styles'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout';
@@ -16,6 +15,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import DesignedText from '../../components/ui/DesignedText';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type AddWishLinkScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishLink'>;
 
@@ -28,6 +28,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
     link: Yup.string().url(staticData.wishCreating.addWishLinkScreen.urlError).required(""),
@@ -35,6 +36,7 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
 
   return (
     <WishCreatingLayout index={3} link={editingMode ? "WishConfirmation" : "AddWishPrice"} editingMode={editingMode}>
+      {loading && <Loader />}
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={styles.linkTitleContainer}>
@@ -46,7 +48,9 @@ function AddWishLinkScreen({ navigation }: AddWishLinkScreenProps) {
                   initialValues={{ link: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     wishService.wishUpdate({ link: values.link.toLowerCase() }, wishId||"", authContext).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate(editingMode ? "WishConfirmation" : "AddWishDescription")
                       }

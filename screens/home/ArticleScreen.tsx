@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Title from '../../components/ui/Title';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import { RootStackParamList } from '../../components/RootNavigator';
 import { Image, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import BackButton from '../../components/ui/buttons/BackButton';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import Upload from '../../components/ui/icons/Upload';
-import BigProfile from '../../components/ui/icons/BigProfile';
+import { ScrollView } from 'react-native-gesture-handler';
 import DesignedText from '../../components/ui/DesignedText';
 import mainStyles from "../main/styles";
 import MasonryList from '@react-native-seoul/masonry-list';
@@ -20,6 +17,7 @@ import { MainService } from '../main/services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { WishService } from '../wishCreating/services';
+import Loader from '../../components/ui/Loader';
 
 type ArticleScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Article'>;
 type ArticleScreenRouteProp = RouteProp<RootStackParamList, 'Article'>;
@@ -39,6 +37,7 @@ function ArticleScreen({ navigation, route }: ArticleScreenProps) {
   const [isFetching, setIsFetching] = useState(false);
   const { localization } = useLocalization();
   const [ wishes, setWishes ] = useState<Wish[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
@@ -59,7 +58,7 @@ function ArticleScreen({ navigation, route }: ArticleScreenProps) {
   }
 
   useEffect(() => {
-    mainService.getArticle(slug, authContext).then(article => { setArticle(article) });
+    mainService.getArticle(slug, authContext).then(article => { setArticle(article); setLoading(false) });
     wishService.getArticleWishes(slug, authContext, nextUrl).then(response => {
       setWishes(prevWishes => [...prevWishes, ...response.results]);
       setNextUrl(response.next || "");
@@ -68,6 +67,7 @@ function ArticleScreen({ navigation, route }: ArticleScreenProps) {
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
         <View style={[styles.topBrand, { paddingHorizontal: 0 }]}>
           <BackButton/>
         </View>

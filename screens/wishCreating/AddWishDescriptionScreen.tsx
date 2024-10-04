@@ -15,6 +15,7 @@ import DesignedText from '../../components/ui/DesignedText';
 import TextFieldInput from '../../components/ui/inputs/TextFieldInput';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type AddWishDescriptionScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishDescription'>;
 
@@ -27,6 +28,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating();
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
     description: Yup.string().required(),
@@ -50,6 +52,7 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
 
   return (
     <WishCreatingLayout index={4} link={editingMode ? "WishConfirmation" : "AddWishLink"} editingMode={editingMode}>
+      {loading && <Loader />}
         <View style={authStyles.contentContainer}>
               {Platform.OS === "ios" ? 
               <KeyboardAvoidingView
@@ -66,7 +69,9 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   initialValues={{ description: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     wishService.wishUpdate({ description: values.description.toLowerCase() }, wishId || "", authContext).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate(editingMode ? "WishConfirmation" :"AddWishVisibility")
                       }
@@ -99,7 +104,9 @@ function AddWishDescriptionScreen({ navigation }: AddWishDescriptionScreenProps)
                   initialValues={{ description: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     wishService.wishUpdate({ description: values.description.toLowerCase() }, wishId || "", authContext).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate(editingMode ? "WishConfirmation" :"AddWishVisibility")
                       }

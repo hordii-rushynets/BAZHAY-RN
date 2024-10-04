@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     screenContainer: {
@@ -206,6 +206,15 @@ const styles = StyleSheet.create({
       gap: 16,
       alignItems: "center",
       justifyContent: "center"
+    },
+    loadingContainer: {
+      position: "absolute",
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      justifyContent: "center",
+      alignItems: "center",
+      width: Dimensions.get("screen").width,
+      height: Dimensions.get("screen").height,
+      zIndex: 999 
     }
 })
 
