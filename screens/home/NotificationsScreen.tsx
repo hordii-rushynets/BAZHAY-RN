@@ -1,0 +1,63 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
+import ScreenContainer from '../../components/ui/ScreenContainer';
+import { RootStackParamList } from '../../components/RootNavigator';
+import { ScrollView, View } from 'react-native';
+import BackButton from '../../components/ui/buttons/BackButton';
+import DesignedText from '../../components/ui/DesignedText';
+import wishStyles from "../wishCreating/styles";
+import { Notification, useNotifications } from '../../contexts/NotificationContext';
+import { NotificationCard } from '../../components/Home/NotificationCard';
+import styles from './styles';
+import { HomeService } from './services';
+import { useAuth } from '../../contexts/AuthContext';
+
+
+type NotificationsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Notifications'>;
+
+interface NotificationsScreenProps {
+  navigation: NotificationsScreenNavigationProp;
+}
+
+function NotificationsScreen({ navigation }: NotificationsScreenProps) {
+  const { notifications: newNotifications, markAllAsRead } = useNotifications();
+  const homeService = new HomeService();
+  const authContext = useAuth();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    markAllAsRead();
+    homeService.getNotifications(authContext).then(result => {
+      if (result.length > 0) {
+        setNotifications(result);
+      }
+    });
+
+    return () => {
+      markAllAsRead();
+    }
+  }, []);
+
+  return (
+    <ScreenContainer>
+        <View style={wishStyles.wishConfirmationTop}>
+          <BackButton />
+          <DesignedText italic={true}>Сповіщення</DesignedText>
+        </View>
+        <ScrollView ref={scrollRef} contentContainerStyle={styles.notificationsContainer} onContentSizeChange={() => {scrollRef.current?.scrollToEnd()}}>
+          {newNotifications.length === 0 && notifications.length === 0 && 
+            <DesignedText size="small" style={{alignSelf: "center"}}>У вас немає повідомлень</DesignedText>
+          }
+          {notifications.map((notification, indx) => (
+            <NotificationCard notification={notification} key={indx}/>
+          ))}
+          {newNotifications.map((notification, indx) => (
+            <NotificationCard notification={notification} key={indx}/>
+          ))}
+        </ScrollView>
+    </ScreenContainer>
+  );
+};
+
+export default NotificationsScreen;

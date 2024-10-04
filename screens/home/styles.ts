@@ -48,6 +48,30 @@ const styles = StyleSheet.create({
     },
     wishesContainer: {
       
+    },
+    notificationContainer: {
+      flexDirection: "row",
+      gap: 8,
+    },
+    notificationAvatarContainer: {
+      width: 40,
+      height: 40,
+      backgroundColor: "#B70000",
+      borderRadius: 40,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    notificationMessageContainer: {
+      backgroundColor: "#B70000",
+      padding: 16,
+      borderRadius: 20,
+      borderTopLeftRadius: 0,
+    },
+    notificationMessage: {
+      color: "white"
+    },
+    notificationsContainer: {
+      gap: 24
     }
 });
 
