@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import TextInputWithArrow from '../../components/ui/inputs/TextInputWithArrow';
-import SocialLogin from '../../components/Auth/SocialLogin';
 import styles from './styles'
-import DesignStars from '../../components/ui/icons/DesignStars';
-import BigLogo from '../../components/ui/icons/BigLogo';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { AuthStackParamList } from '../../components/navigationStacks/AuthStackScreen';
 import { AccountService } from './services';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import Loader from '../../components/ui/Loader';
 
 type ChangeEmailScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ChangeEmail'>;
 
@@ -24,6 +22,7 @@ interface ChangeEmailScreenProps {
 function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
   const accountService = new AccountService();
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email(staticData.auth.changeEmailScreen.emailError).required(staticData.auth.changeEmailScreen.requiredError),
@@ -31,6 +30,7 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -45,7 +45,9 @@ function ChangeEmailScreen({ navigation }: ChangeEmailScreenProps) {
                   initialValues={{ email: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     accountService.authenticate(values.email.toLowerCase()).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate("EmailConfirmation", { email: values.email.toLowerCase() })
                       }

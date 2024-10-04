@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import { RootStackParamList } from '../../components/RootNavigator';
@@ -10,6 +10,7 @@ import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useAuth } from '../../contexts/AuthContext';
 import { AccountService } from '../auth/services';
+import Loader from '../../components/ui/Loader';
 type DeleteAccountScreenNavigationProp = StackNavigationProp<RootStackParamList, 'DeleteAccount'>;
 
 interface DeleteAccountScreenProps {
@@ -19,9 +20,11 @@ interface DeleteAccountScreenProps {
 function DeleteAccountScreen({ navigation }: DeleteAccountScreenProps) {
   const authContext = useAuth();
   const accountService = new AccountService();
+  const [loading, setLoading] = useState(false);
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
       <View style={styles.deleteAccountContentContainer}>
         <View style={styles.deleteAccountTextContainer}>
             <Title style={styles.deleteAccountText}>Упевнений/а, що хочеш видалити акаунт?</Title>
@@ -33,7 +36,9 @@ function DeleteAccountScreen({ navigation }: DeleteAccountScreenProps) {
         </View>
       </View>
       <TouchableOpacity onPress={() => {
+        setLoading(true);
         accountService.deleteUser(authContext).then(success => {
+          setLoading(false);
             if (success) {
                 authContext.logout();
             }

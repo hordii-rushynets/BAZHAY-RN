@@ -12,6 +12,7 @@ import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout
 import { RootStackParamList } from '../../components/RootNavigator';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type AddWishVisibilityScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishVisibility'>;
 
@@ -25,9 +26,11 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
   const authContext = useAuth(); 
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating();
+  const [loading, setLoading] = useState(false);
 
   return (
     <WishCreatingLayout index={5} link={editingMode ? "WishConfirmation" :"AddWishDescription"} editingMode={editingMode}>
+      {loading && <Loader />}
         <View style={authStyles.contentContainer}>
             <View>
                 <View style={authStyles.titleContainer}>
@@ -49,7 +52,9 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
             </View>
         </View>
         {visibility !== "" && <SubmitButton onPress={() => {
+          setLoading(true);
           wishService.wishUpdate({ access_type: visibility as string }, wishId||"", authContext).then(success => {
+            setLoading(false);
             if (success) {
               navigation.navigate("WishConfirmation")
             }

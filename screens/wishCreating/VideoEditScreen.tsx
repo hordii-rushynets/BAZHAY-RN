@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import authStyles from "../auth/styles"
 import styles from './styles';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -11,7 +11,7 @@ import BackButton from '../../components/ui/buttons/BackButton';
 import { ResizeMode, Video } from 'expo-av';
 import VideoCropBar from '../../components/WishCreating/VideoCropBar';
 import VideoCoverBar from '../../components/WishCreating/VideoCoverBar';
-import { blobToBase64, extractFrame, getBlobFromUri } from '../../utils/helpers';
+import { extractFrame } from '../../utils/helpers';
 import DesignedText from '../../components/ui/DesignedText';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';

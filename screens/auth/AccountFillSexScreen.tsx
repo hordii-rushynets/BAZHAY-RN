@@ -11,6 +11,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import Loader from '../../components/ui/Loader';
 
 type AccountFillSexScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillSex'>;
 
@@ -23,9 +24,11 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth(); 
   const { staticData } = useLocalization();
+  const [loading, setLoading] = useState(false);
 
   return (
     <AccountFillLayout index={4}>
+        {loading && <Loader />}
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -47,7 +50,9 @@ function AccountFillSexScreen({ navigation }: AccountFillSexScreenProps) {
             </View>
         </View>
         {sex !== "" && <SubmitButton onPress={() => {
+          setLoading(true);
           accountService.userUpdate({sex: sex}, authContext).then(success => {
+            setLoading(false);
             if (success) {
               navigation.navigate("AccountFillEnding")
             }

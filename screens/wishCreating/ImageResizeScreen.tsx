@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import authStyles from "../auth/styles"
 import styles from './styles';
-import generalStyles from '../../components/ui/generalStyles'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { useAuth } from '../../contexts/AuthContext';
-import { blobToBase64, getBlobFromUri } from '../../utils/helpers';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { RootStackParamList } from '../../components/RootNavigator';
 import ScreenContainer from '../../components/ui/ScreenContainer';

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { Platform, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -17,6 +17,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import * as Application from 'expo-application';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
+import Loader from '../../components/ui/Loader';
 
 type AuthScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Authentication'>;
 
@@ -31,12 +32,15 @@ function AuthScreen({ navigation }: AuthScreenProps) {
   const { staticData } = useLocalization();
   const { setIsOpen, setText, setButtonText, setButtonAction, setWidth } = usePopUpMessageContext();
 
+  const [loading, setLoading] = useState(false);
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().email(staticData.auth.authentificationScreen.emailError).required(staticData.auth.authentificationScreen.requiredError),
   });
  
   return (
     <ScreenContainer>
+        {loading && <Loader />}
         <View style={styles.logoContainer}>
           <BigLogo width={110} height={30}/>
         </View>
@@ -57,7 +61,9 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                   initialValues={{ email: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     accountService.authenticate(values.email.toLowerCase()).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate("EmailConfirmation", { email: values.email.toLowerCase() })
                       }
@@ -88,10 +94,11 @@ function AuthScreen({ navigation }: AuthScreenProps) {
             </View>
             <View style={styles.bottomContainer}>
                 <TouchableOpacity onPress={async () => {
-
+                  setLoading(true);
                   const id = Platform.OS === "ios" ? await Application.getIosIdForVendorAsync() : Application.getAndroidId()
 
                   accountService.authGuest(id || "").then(token => {
+                    setLoading(false);
                     if (token.access !== "") {
                       setText("Ти увійшов(ла) як гість. Якщо вийдеш\n з системи або втратиш пристрій,\n на жаль, всі твої дані буде втрачено.");
                       setButtonText("Увійти в обліковий запис");

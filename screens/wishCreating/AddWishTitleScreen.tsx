@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -12,6 +12,7 @@ import WishCreatingLayout from '../../components/WishCreating/WishCreatingLayout
 import { RootStackParamList } from '../../components/RootNavigator';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
+import Loader from '../../components/ui/Loader';
 
 type AddWishTitleScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishTitle'>;
 
@@ -23,6 +24,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
   const authContext = useAuth();
   const wishService = new WishService();
   const { wishId, setWishId, editingMode } = useWishCreating(); 
+  const [loading, setLoading] = useState(false);
 
   const { staticData } = useLocalization();
 
@@ -32,6 +34,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
 
   return (
     <WishCreatingLayout index={0} link={editingMode ? "WishConfirmation" : "Main"} editingMode={editingMode}>
+      {loading && <Loader />}
         <View style={styles.contentContainer}>
             <View>
                 <View style={styles.titleContainer}>
@@ -43,8 +46,10 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                   initialValues={{ name: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     if ( wishId ) {
                       wishService.wishUpdate({ name: values.name.toLowerCase() }, wishId, authContext).then(success => {
+                        setLoading(false);
                         if (success) {
                           navigation.navigate(editingMode ? "WishConfirmation" : "AddWishPhotoOrVideo");
                         }
@@ -52,6 +57,7 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                     }
                     else {
                       wishService.wishCreate({ name: values.name }, authContext).then(wish => {
+                        setLoading(false);
                         if (wish) {
                           setWishId(wish?.id || undefined);
                           navigation.navigate("AddWishPhotoOrVideo");

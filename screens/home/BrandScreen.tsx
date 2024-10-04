@@ -21,6 +21,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { Brand } from '../main/interfaces';
 import { WishService } from '../wishCreating/services';
+import Loader from '../../components/ui/Loader';
 
 type BrandScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Brand'>;
 type BrandScreenRouteProp = RouteProp<RootStackParamList, 'Brand'>;
@@ -40,6 +41,7 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
   const [isFetching, setIsFetching] = useState(false);
   const { localization } = useLocalization();
   const [wishes, setWishes] = useState<Wish[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
@@ -60,12 +62,13 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
   }
 
   useEffect(() => {
-    mainService.getBrand(slug, authContext).then(brand => { setBrand(brand) });
+    mainService.getBrand(slug, authContext).then(brand => { setBrand(brand); setLoading(false); });
     wishService.getWishes({brand: slug}, authContext).then(response => { setWishes(response.results); setNextUrl(response.next || ""); });
   }, [slug]);
 
   return (
     <SafeAreaView style={styles.grayBackground}>
+      {loading && <Loader />}
       <ScrollView contentContainerStyle={{ flex: 1 }} onScroll={handleScroll}>
         <View style={styles.topBrand}>
           <BackButton/>

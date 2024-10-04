@@ -1,7 +1,5 @@
-import React from 'react';
-import ScreenContainer from '../../components/ui/ScreenContainer';
-import { TouchableOpacity, View } from 'react-native';
-import DesignedText from '../../components/ui/DesignedText';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -13,6 +11,7 @@ import { AccountFillingStackParamList } from '../../components/navigationStacks/
 import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import Loader from '../../components/ui/Loader';
 
 type AccountFillNickNameScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AccountFillNickName'>;
 
@@ -23,6 +22,7 @@ interface AccountFillNickNameScreenProps {
 function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const { staticData } = useLocalization();
 
@@ -32,6 +32,7 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
 
   return (
     <AccountFillLayout index={1}>
+        {loading && <Loader />}
         <View style={styles.contentNickNameContainer}>
             <View>
                 <View style={styles.titleNickNameContainer}>
@@ -43,7 +44,9 @@ function AccountFillNickNameScreen({ navigation }: AccountFillNickNameScreenProp
                   initialValues={{ nickname: '' }}
                   validationSchema={validationSchema}
                   onSubmit={(values, { setErrors }) => {
+                    setLoading(true);
                     accountService.userUpdate({ username: values.nickname.toLowerCase() }, authContext).then(success => {
+                      setLoading(false);
                       if (success) {
                         navigation.navigate("AccountFillAvatar");
                       }

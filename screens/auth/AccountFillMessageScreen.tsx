@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import styles from './styles'
 import generalStyles from '../../components/ui/generalStyles'

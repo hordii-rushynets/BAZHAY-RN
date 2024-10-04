@@ -10,6 +10,7 @@ import { AccountService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import * as ImageManipulator from 'expo-image-manipulator';
+import Loader from '../../components/ui/Loader';
 
 type AvatarConfirmationScreenRouteProp = RouteProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
 type AvatarConfirmationScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'AvatarConfirmation'>;
@@ -26,6 +27,7 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
   const { staticData } = useLocalization();
 
   const [ convertedImage, setConvertedImage ] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const loadImageSize = async (uri: string) => {
     const manipulatedImage = await ImageManipulator.manipulateAsync(
@@ -44,7 +46,9 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
     <TouchableOpacity onPress={
       async () => {
         if (convertedImage !== "") {
+          setLoading(true);
           accountService.userPhotoUpdate(convertedImage, authContext).then(success => {
+            setLoading(false);
             if (success) {
               navigation.navigate("AccountFillBirth");
             }
@@ -52,6 +56,7 @@ function AvatarConfirmationScreen({ route, navigation }: AvatarConfirmationScree
         }
       }
       } style={generalStyles.screenContainer}>
+        {loading && <Loader />}
         <View style={generalStyles.centerContainer}>
             <Title style={styles.title}>
                 {staticData.auth.avatarConfirmationScreen.title}
