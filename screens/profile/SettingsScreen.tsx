@@ -47,7 +47,7 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
             <DesignedText>Обліковий запис та додаток</DesignedText>
             <View style={styles.settingsButtonsContainer}>
               <ButtonWithArrow onPress={() => { }} width="auto" icon={<Profile width={16} height={16}/>}>Акаунт</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Translate />}>Мова</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("ChangeLanguage") }} width="auto" icon={<Translate />}>Мова</ButtonWithArrow>
               <ButtonWithArrow onPress={() => { }} width="auto" icon={<PremiumProfile />}>преміум підписка</ButtonWithArrow>
             </View>
           </View>

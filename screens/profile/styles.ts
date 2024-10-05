@@ -42,6 +42,20 @@ const styles = StyleSheet.create({
         color: "#8A8A8A",
         textDecorationLine: "underline",
         textAlign: "center"
+    },
+    languagesContainer: {
+        marginTop: 24,
+        gap: 16,
+    },
+    languageContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    languageInfoContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 16
     }
 });
 
