@@ -67,5 +67,19 @@ export class MainDAOService {
       , {}, authContext)
     return response;
   }
+
+  public async viewWish(wishId: string, authContext: any): Promise<Response> {
+    const response = await fetchWithAuth(`${this.apiUrl}/api/wish/all-wishes/${wishId}/view/`, {
+      method: "POST"
+    }, authContext);
+    return response;
+  }
+
+  public async viewBrand(brandSlug: string, authContext: any): Promise<Response> {
+    const response = await fetchWithAuth(`${this.apiUrl}/api/brand/${brandSlug}/view/`, {
+      method: "POST"
+    }, authContext);
+    return response;
+  }
 }
   

@@ -106,4 +106,14 @@ export class MainService {
         }
         return {count: 0, next: "", previous: "", results: {wishes: [], users: [], brands: []}};
     }
+
+    public async viewWish(wishId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.viewWish(wishId, authContext);
+        return response.ok;
+    }
+
+    public async viewBrand(brandSlug: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.viewBrand(brandSlug, authContext);
+        return response.ok;
+    }
 }

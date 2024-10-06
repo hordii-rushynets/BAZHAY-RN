@@ -63,6 +63,7 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
 
   useEffect(() => {
     mainService.getBrand(slug, authContext).then(brand => { setBrand(brand); setLoading(false); });
+    mainService.viewBrand(slug, authContext);
     wishService.getWishes({brand: slug}, authContext).then(response => { setWishes(response.results); setNextUrl(response.next || ""); });
   }, [slug]);
 
