@@ -13,6 +13,7 @@ export interface Brand {
     nickname: string;
     photo: string;
     description: string;
+    cover_photo?: string;
 }
 
 export type userType = "subscriptions" | "subscribers";

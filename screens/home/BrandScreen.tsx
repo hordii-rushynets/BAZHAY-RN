@@ -3,7 +3,7 @@ import Title from '../../components/ui/Title';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import { RootStackParamList } from '../../components/RootNavigator';
-import { Image, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
+import { Image, ImageBackground, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import BackButton from '../../components/ui/buttons/BackButton';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Upload from '../../components/ui/icons/Upload';
@@ -68,7 +68,8 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
   }, [slug]);
 
   return (
-    <SafeAreaView style={styles.grayBackground}>
+    <ImageBackground source={{ uri: brand?.cover_photo }} resizeMode="repeat" style={styles.grayBackground}>
+    <SafeAreaView style={{ flex: 1 }}>
       {loading && <Loader />}
       <ScrollView contentContainerStyle={{ flex: 1 }} onScroll={handleScroll}>
         <View style={styles.topBrand}>
@@ -100,6 +101,7 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
         </View>
         </ScrollView>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 
