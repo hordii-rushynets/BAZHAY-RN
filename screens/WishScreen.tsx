@@ -27,6 +27,7 @@ import { useWishCreating } from '../contexts/WishCreatingContext';
 import { Brand } from './main/interfaces';
 import Copy from '../components/ui/icons/Copy';
 import config from '../config.json'
+import { MainService } from './main/services';
 
 const apiUrl = config.apiUrl;
 
@@ -42,6 +43,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const { staticData, localization } = useLocalization(); 
   const { wishId } = route.params;
   const wishService = new WishService();
+  const mainService = new MainService();
   const authContext = useAuth();
 
   const [ wish, setWish ] = useState<Wish>({});
@@ -56,7 +58,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
         setUser(wishData.author || {});
         setLoading(false);
       });
-      
+      mainService.viewWish(wishId, authContext);
     }, [])
   );
 
