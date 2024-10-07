@@ -4,19 +4,19 @@ import * as MediaLibrary from 'expo-media-library';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import BackButton from '../../components/ui/buttons/BackButton';
-import styles from "./styles"
+import styles from "../auth/styles"
 import { StackNavigationProp } from '@react-navigation/stack';
-import { AccountFillingStackParamList } from '../../components/navigationStacks/AccountFillingStackScreen';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { getLocalUri } from '../../utils/helpers';
+import { RootStackParamList } from '../../components/RootNavigator';
 
-type ImageFromGalleryScreenNavigationProp = StackNavigationProp<AccountFillingStackParamList, 'ImageFromGallery'>;
+type AvatarFromGalleryScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AvatarFromGallery'>;
 
-interface ImageFromGalleryScreenProps {
-  navigation: ImageFromGalleryScreenNavigationProp;
+interface AvatarFromGalleryScreenProps {
+  navigation: AvatarFromGalleryScreenNavigationProp;
 }
 
-const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => {
+const AvatarFromGalleryScreen = ({ navigation }: AvatarFromGalleryScreenProps) => {
   const [images, setImages] = useState<string[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
@@ -81,7 +81,7 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
 
   return (
     <ScreenContainer>
-      <BackButton link={"AccountFillAvatar"}/>
+      <BackButton />
       <FlatList
         data={images}
         renderItem={renderItem}
@@ -91,9 +91,9 @@ const ImageFromGalleryScreen = ({ navigation }: ImageFromGalleryScreenProps) => 
         onEndReached={loadImages}
         onEndReachedThreshold={0.5}
       />
-      {selectedImage && <SubmitButton onPress={() => {navigation.navigate("AvatarConfirmation", { image: selectedImage })}} width={232} style={styles.gridButton}>{staticData.auth.imageFromGalleryScreen.continueButton}</SubmitButton>}
+      {selectedImage && <SubmitButton onPress={() => {navigation.navigate("UpdateAvatarConfirmation", { image: selectedImage })}} width={232} style={styles.gridButton}>{staticData.auth.imageFromGalleryScreen.continueButton}</SubmitButton>}
     </ScreenContainer>
   );
 };
 
-export default ImageFromGalleryScreen;
+export default AvatarFromGalleryScreen;

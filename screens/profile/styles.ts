@@ -56,6 +56,28 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: 16
+    profileUpdateTop: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    profileUpdateAvatar: {
+        alignSelf: "center",
+        marginTop: -60
+    },
+    updateProfileContent: {
+        marginTop: 32,
+    },
+    updateProfileContentContainer: {
+        gap: 32,
+        paddingBottom: 20
+    },
+    updateProfileBlockContainer: {
+        gap: 8
+    },
+    centerContent: {
+        marginVertical: "auto",
+        alignItems: "center",
     }
 });
 

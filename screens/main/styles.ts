@@ -322,6 +322,33 @@ const styles = StyleSheet.create({
       alignItems: "center",
       marginTop: 32
     },
+    categoriesContainer: {
+      gap: 16,
+      height: 40,
+    },
+    category: {
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      borderRadius: 30,
+      shadowColor: "black",
+      paddingVertical: 8,
+      paddingHorizontal: 30,
+      
+    },
+    selectedCategory: {
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "#B70000",
+      borderRadius: 30,
+      shadowColor: "#B70000",
+      paddingVertical: 8,
+      paddingHorizontal: 30,
+      
+    },
+    searchResultContainer: {
+      paddingBottom: 50,
+    }
 });
 
 export default styles
