@@ -112,4 +112,14 @@ export class AccountService {
           return { access: "", refresh: "" };
       }
     }
+
+    public async updateEmail(email: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.updateEmail(email, authContext);
+        return response.ok;
+    }
+
+    public async updateOtpConfirm(email: string, otp: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.updateOtpConfirm(email, otp, authContext);
+        return response.ok;
+    }
 }

@@ -50,7 +50,7 @@ function UpdateProfileScreen({ navigation }: UpdateProfileScreenProps) {
         <AvatarButton onPress={() => { navigation.navigate("UpdateAvatar", { image: user?.photo || "" }) }} url={user?.photo || ""} style={styles.profileUpdateAvatar}/>
         <ScrollView style={styles.updateProfileContent} contentContainerStyle={styles.updateProfileContentContainer}>
             <View style={styles.updateProfileBlockContainer}>
-                <ProfileButtonWithArrow placeholder={"Твоя електронна пошта"} onPress={() => {}} width="auto">{user?.email || "Ел.пошта"}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={"Твоя електронна пошта"} onPress={() => { navigation.navigate("UpdateEmail") }} width="auto">{user?.email || "Ел.пошта"}</ProfileButtonWithArrow>
             </View>
             <View style={styles.updateProfileBlockContainer}>
                 <ProfileButtonWithArrow placeholder={"Як тебе звати?"} onPress={() => { navigation.navigate("UpdateName") }} width="auto">{user?.first_name || "Ім’я"}</ProfileButtonWithArrow>

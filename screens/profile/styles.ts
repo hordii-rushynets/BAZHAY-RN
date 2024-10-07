@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     },
     updateProfileContent: {
         marginTop: 32,
+        overflow: "visible"
     },
     updateProfileContentContainer: {
         gap: 32,
