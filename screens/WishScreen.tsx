@@ -143,10 +143,10 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             {wish.author && <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>}
             {wish.brand_author && <UserSmallInfo avatar={wish.brand_author.photo} name={wish.brand_author[`name_${localization}` as keyof Brand]} nickname={wish.brand_author.nickname} />}
             <View>
-              <DesignedText bold={true}>{wish.name || ""}</DesignedText>
+              <DesignedText bold={true}>{wish[`name_${localization}` as keyof Wish] as string || wish.name || ""}</DesignedText>
               <DesignedText>{wish.price || ""} {wish.currency || ""}</DesignedText>
             </View>
-            <DesignedText size="small">{wish.description || ""}</DesignedText>
+            <DesignedText size="small">{wish[`description_${localization}` as keyof Wish] as string || wish.description || ""}</DesignedText>
             {wish.link && <TouchableOpacity onPress={()=>{ openExternalLink(wish.link || "") }}>
               <DesignedText isUppercase={false} style={authStyles.underlined}>{staticData.wishScreen.buyByLink}</DesignedText>
             </TouchableOpacity>}

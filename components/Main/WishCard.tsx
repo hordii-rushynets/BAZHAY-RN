@@ -11,6 +11,7 @@ import CopySmall from "../ui/icons/CopySmall";
 import { WishService } from "../../screens/wishCreating/services";
 import { useAuth } from "../../contexts/AuthContext";
 import { useWishCreating } from "../../contexts/WishCreatingContext";
+import { useLocalization } from "../../contexts/LocalizationContext";
 
 type WishCardProps = {
     wish: Wish;
@@ -23,6 +24,7 @@ export default function WishCard({ wish }: WishCardProps) {
     const wishService = new WishService();
     const authContext = useAuth();
     const { setWishId, setCopyingMode } = useWishCreating();
+    const { localization } = useLocalization();
 
     return (
         <TouchableOpacity onPress={() => {navigation.navigate("Wish", { wishId: wish.id || "" })}}>
@@ -59,7 +61,7 @@ export default function WishCard({ wish }: WishCardProps) {
                 </View>
             </View>
             <View style={styles.wishCardTitle}>
-                <DesignedText size="small" numberOfLines={1} ellipsizeMode="tail" style={{flexShrink: 1}}>{wish.name || ""}</DesignedText>
+                <DesignedText size="small" numberOfLines={1} ellipsizeMode="tail" style={{flexShrink: 1}}>{wish[`name_${localization}` as keyof Wish] as string || wish.name || ""}</DesignedText>
                 <DesignedText size="small"> {wish.price || ""} {wish.currency || ""}</DesignedText>
             </View>
         </TouchableOpacity>
