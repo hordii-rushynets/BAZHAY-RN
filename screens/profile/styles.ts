@@ -43,6 +43,19 @@ const styles = StyleSheet.create({
         textDecorationLine: "underline",
         textAlign: "center"
     },
+    languagesContainer: {
+        marginTop: 24,
+        gap: 16,
+    },
+    languageContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    languageInfoContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 16
     profileUpdateTop: {
         flexDirection: "row",
         justifyContent: "space-between",
