@@ -207,6 +207,11 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center"
     },
+    profileButtonWithArrowText: {
+      flexDirection: "column",
+      gap: 2,
+      justifyContent: "center",
+    },
     loadingContainer: {
       position: "absolute",
       backgroundColor: "rgba(255, 255, 255, 0.5)",

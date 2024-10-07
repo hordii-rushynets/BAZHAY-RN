@@ -42,6 +42,29 @@ const styles = StyleSheet.create({
         color: "#8A8A8A",
         textDecorationLine: "underline",
         textAlign: "center"
+    },
+    profileUpdateTop: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    profileUpdateAvatar: {
+        alignSelf: "center",
+        marginTop: -60
+    },
+    updateProfileContent: {
+        marginTop: 32,
+    },
+    updateProfileContentContainer: {
+        gap: 32,
+        paddingBottom: 20
+    },
+    updateProfileBlockContainer: {
+        gap: 8
+    },
+    centerContent: {
+        marginVertical: "auto",
+        alignItems: "center",
     }
 });
 

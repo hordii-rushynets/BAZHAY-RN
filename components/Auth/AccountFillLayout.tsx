@@ -4,6 +4,7 @@ import ProgressBar from '../ui/ProgressBar';
 import ScreenContainer from '../ui/ScreenContainer';
 import DesignedText from '../ui/DesignedText';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import BackButton from '../ui/buttons/BackButton';
 
 type LayoutProps = {
     children: ReactNode;
@@ -15,6 +16,7 @@ const AccountFillLayout = ({ children, index }: LayoutProps) => {
 
   return (
     <ScreenContainer>
+        {index !== 0 && <BackButton />}
         <View>
             <ProgressBar index={index} n={5}/>
             <DesignedText isUppercase={false} size={"small"}>{staticData.auth.accountFillLayout.topText} {index + 1}/{5}</DesignedText>

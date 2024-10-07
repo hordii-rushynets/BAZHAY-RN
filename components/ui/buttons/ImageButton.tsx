@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { GestureResponderEvent, Image, StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 import generalStyles from '../generalStyles'
-import * as ImageManipulator from 'expo-image-manipulator';
 import Pen from '../icons/Pen';
 
 type ImageButtonProps = {
