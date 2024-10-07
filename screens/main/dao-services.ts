@@ -81,5 +81,10 @@ export class MainDAOService {
     }, authContext);
     return response;
   }
+
+  public async getRequests(query: string, authContext: any): Promise<Response> {
+    const response = await fetchWithAuth(`${this.apiUrl}/api/wish/query/?query=${query}`, {}, authContext);
+    return response;
+  }
 }
   

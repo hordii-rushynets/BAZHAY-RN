@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import { MainStackParamList } from '../../components/navigationStacks/MainStackScreen';
@@ -15,8 +15,11 @@ import { NativeScrollEvent, NativeSyntheticEvent, TouchableOpacity, View } from 
 import styles from "./styles";
 import Connection from '../../components/ui/icons/Connection';
 import DesignedText from '../../components/ui/DesignedText';
-import { Brand } from './interfaces';
+import { Brand, Request } from './interfaces';
 import BigBrandCard from '../../components/Main/BigBrandCard';
+import { useFocusEffect } from '@react-navigation/native';
+import Loader from '../../components/ui/Loader';
+import RequestCard from '../../components/Main/RequestCard';
 
 type SearchScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Search'>;
 
@@ -36,8 +39,11 @@ function SearchScreen({ navigation }: SearchScreenProps) {
     "brands": false,
     "wishes": false
   })
+  const [popularRequests, setPopularRequests] = useState<Request[]>([]);
+  const [requests, setRequests] = useState<Request[]>([]);
   const [nextUrl, setNextUrl] = useState("");
   const [isFetching, setIsFetching] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
@@ -61,6 +67,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      setLoading(true);
       if (searchPrompt !== "") {
         let resultType = null;
         if (query.brands && !query.users && !query.wishes) {
@@ -74,6 +81,9 @@ function SearchScreen({ navigation }: SearchScreenProps) {
         }
 
         if (resultType) {
+          mainService.getRequests(searchPrompt, authContext).then(requests => {
+            setRequests(requests);
+          });
           mainService.searchWithPagination(query, searchPrompt, authContext).then(result => {
             if (result.count > 0) {
               setNextUrl(result.next || "");
@@ -81,14 +91,19 @@ function SearchScreen({ navigation }: SearchScreenProps) {
               setBrands(result.results.brands || []);
               setUsers(result.results.users || []);
             }
+            setLoading(false);
           });
         }
         else {
+          mainService.getRequests(searchPrompt, authContext).then(requests => {
+            setRequests(requests);
+          });
           mainService.search(query, searchPrompt, authContext).then(result => {
             setWishes(result.wishes || []);
             setUsers(result.users || []);
             setBrands(result.brands || []);
             setNextUrl("");
+            setLoading(false);
           });
         }
       }
@@ -97,6 +112,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
         setUsers([]);
         setBrands([]);
         setNextUrl("");
+        setLoading(false);
       }
     }, 500)
 
@@ -113,50 +129,88 @@ function SearchScreen({ navigation }: SearchScreenProps) {
     {key: "wishes", name: "Бажання"},
   ];
 
+  useFocusEffect(
+    useCallback(() => {
+      mainService.getRequests("", authContext).then(requests => {
+        setPopularRequests(requests);
+      });
+    }, [])
+  );
+
   return (
     <ScreenContainer>
+        {loading && <Loader />}
         <SearchInput 
           placeholder={"Знайди друзів, бажання та бренди"}
           value={searchPrompt}
           error={undefined}
           onChange={(text) => {setSearchPrompt(text)}}
         />
-        <ScrollView style={{maxHeight: 50, height: 50}} contentContainerStyle={styles.categoriesContainer} horizontal>
-          {categories.map(category => (
-            <TouchableOpacity key={category.key} onPress={() => { setQuery({...query, [category.key]: !query[category.key as keyof typeof query]}); }}> 
-              <View style={query[category.key as keyof typeof query] ? styles.selectedCategory : styles.category}>
-                <DesignedText size={"small"} style={query[category.key as keyof typeof query] && {color: "#B70000"}}>{category.name}</DesignedText>
+        {searchPrompt !== "" ? 
+          (wishes.length !== 0 || users.length !== 0 || brands.length !== 0) ?
+            <>
+              <ScrollView style={{maxHeight: 50, height: 50}} contentContainerStyle={styles.categoriesContainer} horizontal>
+                {categories.map(category => (
+                  <TouchableOpacity key={category.key} onPress={() => { setQuery({...query, [category.key]: !query[category.key as keyof typeof query]}); }}> 
+                    <View style={query[category.key as keyof typeof query] ? styles.selectedCategory : styles.category}>
+                      <DesignedText size={"small"} style={query[category.key as keyof typeof query] && {color: "#B70000"}}>{category.name}</DesignedText>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              <ScrollView contentContainerStyle={styles.searchResultContainer} onScroll={handleScroll}>
+                <View style={[styles.usersContainer, {gap: 8}]}>
+                  {requests.map((request, indx) => (
+                    <RequestCard key={indx} searchPrompt={searchPrompt} request={request.query} onPress={() => {setSearchPrompt(request.query)}}/>
+                  ))}
+                </View>
+                <View style={styles.usersContainer}>
+                  {users.map((user, indx) =>
+                   <UserCard key={indx} user={user} size={"small"}/>
+                  )}
+                </View>
+                <View style={styles.usersContainer}>
+                  {brands.map((brand, indx) =>
+                   <BigBrandCard key={indx} brand={brand} />
+                  )}
+                </View>
+                <MasonryList
+                  data={wishes}
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                  numColumns={2}
+                  containerStyle={{paddingTop: 16}}
+                />
+              </ScrollView>
+            </>
+            :
+            <>
+              <View style={[styles.usersContainer, {gap: 8, marginBottom: 16}]}>
+                {requests.map((request, indx) => (
+                  <RequestCard key={indx} searchPrompt={searchPrompt} request={request.query} onPress={() => { setSearchPrompt(request.query) }}/>
+                ))}
               </View>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-        {(wishes.length !== 0 || users.length !== 0 || brands.length !== 0) ?
-          <ScrollView contentContainerStyle={styles.searchResultContainer} onScroll={handleScroll}>
-            <View style={styles.usersContainer}>
-              {users.map((user, indx) =>
-               <UserCard key={indx} user={user} size={"small"}/>
-              )}
-            </View>
-            <View style={styles.usersContainer}>
-              {brands.map((brand, indx) =>
-               <BigBrandCard key={indx} brand={brand} />
-              )}
-            </View>
-            <MasonryList
-              data={wishes}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-              containerStyle={{paddingTop: 16}}
-            />
-          </ScrollView>
+              {!loading && <DesignedText size="small" style={{ alignSelf: "center" }}>По вашому запиту нічого не знайдено</DesignedText>}
+            </>
           :
-          <View style={styles.addFriendsButton}>
-            <View style={styles.smallButton}>
-              <Connection />
+          <>
+            <DesignedText>Популярні запити</DesignedText>
+            <View style={styles.popularRequestsContainer}>
+              {popularRequests.map((request, indx) => (
+                <TouchableOpacity key={indx} onPress={() => {setSearchPrompt(request.query)}}>
+                  <View style={styles.popularRequest}>
+                    <DesignedText size="small" isUppercase={false}>{request.query}</DesignedText>
+                  </View>
+                </TouchableOpacity>
+              ))}
             </View>
-            <View><DesignedText size="small">додати друзів</DesignedText></View>
-          </View>
+            <View style={styles.addFriendsButton}>
+              <View style={styles.smallButton}>
+                <Connection />
+              </View>
+              <View><DesignedText size="small">додати друзів</DesignedText></View>
+            </View>
+          </>
         }
     </ScreenContainer>
   );

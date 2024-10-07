@@ -36,3 +36,8 @@ export interface Paginated<T> {
     previous: string;
     results: T[];
 }
+
+export interface Request {
+    count: number;
+    query: string;
+}

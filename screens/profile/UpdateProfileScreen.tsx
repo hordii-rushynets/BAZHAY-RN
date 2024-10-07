@@ -14,7 +14,7 @@ import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
 import AvatarButton from '../../components/ui/buttons/AvatarButton';
 import { ScrollView } from 'react-native-gesture-handler';
-import ProfileButtonWithArrow from '../../components/ui/buttons/ProfileBUttonWithArrow';
+import ProfileButtonWithArrow from '../../components/ui/buttons/ProfileButtonWithArrow';
 import { fromServerDateToFrontDate } from '../../utils/helpers';
 
 type UpdateProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'UpdateProfile'>;

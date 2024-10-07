@@ -1,6 +1,6 @@
 import { MainDAOService } from "./dao-services"
 import config from "../../config.json"
-import { Article, Brand, Paginated, SubscriptionPagination, userType } from "./interfaces";
+import { Article, Brand, Paginated, Request, SubscriptionPagination, userType } from "./interfaces";
 import { Wish } from "../wishCreating/interfaces";
 import { UserFields } from "../auth/interfaces";
 
@@ -116,4 +116,15 @@ export class MainService {
         const response = await this.daoService.viewBrand(brandSlug, authContext);
         return response.ok;
     }
+
+    public async getRequests(query: string, authContext: any): Promise<Request[]> {
+        const response = await this.daoService.getRequests(query, authContext);
+        
+        if (response.ok) {
+            const requests = await response.json();
+            return requests;
+        }
+
+        return [];
+    } 
 }

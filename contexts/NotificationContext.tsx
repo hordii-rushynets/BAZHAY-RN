@@ -34,8 +34,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       };
   
       socket.onmessage = (event) => {
-        const notification: Notification = JSON.parse(event.data);
-        setNotifications((prev) => [...prev, notification]);
+        const notification = JSON.parse(event.data);
+        setNotifications((prev) => [...prev, notification.message]);
         setHasUnread(true);
       };
   

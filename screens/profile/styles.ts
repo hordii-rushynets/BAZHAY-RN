@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     languageInfoContainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 16
+        gap: 16,
+    },
     profileUpdateTop: {
         flexDirection: "row",
         justifyContent: "space-between",
