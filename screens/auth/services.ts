@@ -112,4 +112,14 @@ export class AccountService {
           return { access: "", refresh: "" };
       }
     }
+
+    public async becomePremium(authContext: any): Promise<boolean> {
+        const response = await this.daoService.becomePremium(authContext);
+        return response.ok;
+    }
+
+    public async tryPremium(authContext: any): Promise<boolean> {
+        const response = await this.daoService.tryPremium(authContext);
+        return response.ok;
+    }
 }
