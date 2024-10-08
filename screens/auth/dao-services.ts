@@ -117,5 +117,25 @@ export class AccountDAOService {
       })
       return response;
     }
+
+    public async becomePremium(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/premium/create/`, {
+        method: 'POST',
+        body: JSON.stringify({
+          code: "0"
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }, authContext)
+      return response;
+    }
+
+    public async tryPremium(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/premium/try/`, {
+        method: 'POST',
+      }, authContext)
+      return response;
+    }
 }
   

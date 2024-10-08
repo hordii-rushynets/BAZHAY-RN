@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
     centerContent: {
         marginVertical: "auto",
         alignItems: "center",
+    },
+    premiumButtonsContainer: {
+        marginTop: 24,
+        gap: 16
     }
 });
 

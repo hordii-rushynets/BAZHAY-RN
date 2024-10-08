@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
 import { RootStackParamList } from '../../components/RootNavigator';
@@ -25,6 +25,9 @@ import BrokenHeart from '../../components/ui/icons/BrokenHeart';
 import { ScrollView } from 'react-native-gesture-handler';
 import Logo from '../../components/ui/icons/Logo';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { AccountService } from '../auth/services';
+import { useFocusEffect } from '@react-navigation/native';
+import Loader from '../../components/ui/Loader';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -34,9 +37,23 @@ interface SettingsScreenProps {
 
 function SettingsScreen({ navigation }: SettingsScreenProps) {
   const { logout } = useAuth();
+  const accountService = new AccountService();
+  const authContext = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [isPremium, setIsPremium] = useState<boolean | undefined>(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      accountService.getUser(authContext).then(user => {
+        setIsPremium(user.is_premium);
+        setLoading(false);
+      });
+    }, [])
+  );
 
   return (
     <ScreenContainer>
+      {loading && <Loader />}
       <ScrollView showsVerticalScrollIndicator={false} style={{ overflow: "visible" }}>
         <View style={wishCreatingStyles.wishConfirmationTop}>
           <BackButton />
@@ -48,17 +65,27 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
             <View style={styles.settingsButtonsContainer}>
               <ButtonWithArrow onPress={() => { navigation.navigate("UpdateProfile") }} width="auto" icon={<Profile width={16} height={16}/>}>Акаунт</ButtonWithArrow>
               <ButtonWithArrow onPress={() => { navigation.navigate("ChangeLanguage") }} width="auto" icon={<Translate />}>Мова</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<PremiumProfile />}>преміум підписка</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("ProfilePremium") }} width="auto" icon={<PremiumProfile />}>преміум підписка</ButtonWithArrow>
             </View>
           </View>
-          <View style={styles.settingsBlockContainer}>
-            <DesignedText style={styles.premiumAdvertText}>спробуй <DesignedText bold={true}>Bazhay! преміум</DesignedText></DesignedText>
-            <View style={{gap: 4}}>
-              <DesignedText size="small" style={styles.premiumAdvertText}>Лише 0,80$ на місяць</DesignedText>
-              <DesignedText size="small" isUppercase={false} style={styles.premiumAdvertText}>щороку передплата 10$ </DesignedText>
+          {!isPremium && 
+            <View style={styles.settingsBlockContainer}>
+              <DesignedText style={styles.premiumAdvertText}>спробуй <DesignedText bold={true}>Bazhay! преміум</DesignedText></DesignedText>
+              <View style={{gap: 4}}>
+                <DesignedText size="small" style={styles.premiumAdvertText}>Лише 0,80$ на місяць</DesignedText>
+                <DesignedText size="small" isUppercase={false} style={styles.premiumAdvertText}>щороку передплата 10$ </DesignedText>
+              </View>
+              <SubmitButton onPress={()=>{
+                setLoading(true);
+                accountService.becomePremium(authContext).then(success => {
+                  if (success) {
+                    setIsPremium(true);
+                  }
+                  setLoading(false);
+                })
+              }} width={240} height={32} style={styles.premiumAdvertButton} textStyle={{fontSize: 12}}>спробуй 7 днів безкоштовно</SubmitButton>
             </View>
-            <SubmitButton onPress={()=>{}} width={240} height={32} style={styles.premiumAdvertButton} textStyle={{fontSize: 12}}>спробуй 7 днів безкоштовно</SubmitButton>
-          </View>
+          }
           <View style={styles.settingsBlockContainer}>
             <DesignedText>напиши нам</DesignedText>
             <View style={styles.settingsButtonsContainer}>
