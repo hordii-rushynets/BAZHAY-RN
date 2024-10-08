@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     languageInfoContainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 16,
+        gap: 16
     },
     profileUpdateTop: {
         flexDirection: "row",
@@ -80,6 +80,10 @@ const styles = StyleSheet.create({
     centerContent: {
         marginVertical: "auto",
         alignItems: "center",
+    },
+    premiumButtonsContainer: {
+        marginTop: 24,
+        gap: 16
     }
 });
 

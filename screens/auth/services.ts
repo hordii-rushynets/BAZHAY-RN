@@ -122,4 +122,14 @@ export class AccountService {
         const response = await this.daoService.updateOtpConfirm(email, otp, authContext);
         return response.ok;
     }
+
+    public async becomePremium(authContext: any): Promise<boolean> {
+        const response = await this.daoService.becomePremium(authContext);
+        return response.ok;
+    }
+
+    public async tryPremium(authContext: any): Promise<boolean> {
+        const response = await this.daoService.tryPremium(authContext);
+        return response.ok;
+    }
 }

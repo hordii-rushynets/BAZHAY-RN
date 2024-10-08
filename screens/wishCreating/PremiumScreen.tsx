@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../components/RootNavigator';
 import ScreenContainer from '../../components/ui/ScreenContainer';
@@ -11,6 +11,12 @@ import { View } from 'react-native';
 import Checkmark from '../../components/ui/icons/Checkmark';
 import DesignedText from '../../components/ui/DesignedText';
 import styles from './styles';
+import { PremiumBottomButtons } from '../../components/WishCreating/PremiumBottomButtons';
+import { PremiumMonthButton } from '../../components/WishCreating/PremiumMonthButton';
+import { PremiumTryButton } from '../../components/WishCreating/PremiumTryButton';
+import { AccountService } from '../auth/services';
+import { useAuth } from '../../contexts/AuthContext';
+import Loader from '../../components/ui/Loader';
 
 type PremiumScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Premium'>;
 
@@ -19,6 +25,9 @@ interface PremiumScreenProps {
 }
 
 function PremiumScreen({ navigation }: PremiumScreenProps) {
+  const accountService = new AccountService();
+  const authContext = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const premiumAdvantages = [
     "Створюй необмежену кількість бажань",
@@ -30,6 +39,7 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
 
   return (
     <ScreenContainer>
+        {loading && <Loader />}
         <TouchableOpacity onPress={ () => { navigation.goBack() } } style={styles.crissCross}>
             <View style={{width: 24, height: 24}}>
                 <CrissCross />
@@ -52,24 +62,27 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
                 ))}
             </View>
             <View style={styles.premiumButtonsContainer}>
-                <View style={styles.premiumTryButtonContainer}>
-                    <DesignedText style={styles.premiumTryButtonTitle}>Спробувати безкоштовно </DesignedText>
-                    <DesignedText size="small" isUppercase={false} style={styles.premiumTryButtonSpan}>7-ми денний пробний період, потім 9,99 USD на рік (0,83 USD в місяць)</DesignedText>
-                </View>
-                <View style={styles.premiumMonthButtonContainer}>
-                    <DesignedText>місяць</DesignedText>
-                    <DesignedText size="small">2,99 USD</DesignedText>
-                </View>
+                <PremiumTryButton onPress={() => {
+                    setLoading(true);
+                    accountService.tryPremium(authContext).then(success => {
+                        if (success) {
+                            navigation.goBack();
+                        }
+                        setLoading(false);
+                    })
+                }}/>
+                <PremiumMonthButton onPress={() => {
+                    setLoading(true);
+                    accountService.becomePremium(authContext).then(success => {
+                        if (success) {
+                            navigation.goBack();
+                        }
+                        setLoading(false);
+                    })
+                }}/>
             </View>
         </View>
-        <View style={styles.premiumBottomButtonsContainer}>
-            <TouchableOpacity>
-                <DesignedText size="small" isUppercase={false} style={styles.premiumBottonButton}>Відновити покупки</DesignedText>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <DesignedText size="small" isUppercase={false} style={styles.premiumBottonButton}>Правила та умови</DesignedText>
-            </TouchableOpacity>
-        </View>
+        <PremiumBottomButtons />
     </ScreenContainer>
   );
 };
