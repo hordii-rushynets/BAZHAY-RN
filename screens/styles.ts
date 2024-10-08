@@ -67,8 +67,14 @@ const styles = StyleSheet.create({
       borderColor: "black",
       borderRadius: 30,
       padding: 24,
+      paddingTop: 40,
       gap: 24,
       alignItems: "center"
+    },
+    popUpMessageExit: {
+      position: "absolute",
+      top: 10,
+      right: 10
     },
     popUpMessageText: {
       textAlign: "center",

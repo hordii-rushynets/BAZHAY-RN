@@ -17,6 +17,7 @@ import ScreenContainer from '../../components/ui/ScreenContainer';
 import BackButton from '../../components/ui/buttons/BackButton';
 import { Wish } from './interfaces';
 import Loader from '../../components/ui/Loader';
+import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 
 type AddWishByLinkScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishByLink'>;
 
@@ -30,6 +31,8 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
   const { setWishId } = useWishCreating();
   const { staticData } = useLocalization();
   const [loading, setLoading] = useState(false);
+  const { setIsOpen, setText, setButtonText, setButtonAction, setWidth } = usePopUpMessageContext();
+  const { logout } = useAuth();
 
   const validationSchema = Yup.object().shape({
     link: Yup.string().url(staticData.wishCreating.addWishLinkScreen.urlError).required(""),
@@ -57,7 +60,6 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                   setLoading(true);
                   try {
                     await wishService.getWishByLink(values.link.toLowerCase(), authContext).then(wish => {
-                      setLoading(false);
                       const copyOfWish: Wish = {
                         name: wish.name,
                         description: wish.description,
@@ -69,6 +71,19 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                         image_size: wish.image_size
                       }
                       wishService.wishCreate(copyOfWish, authContext).then(createdWish => {
+                        setLoading(false);
+                        if (createdWish.premiumError) {
+                          navigation.navigate("Premium");
+                          return;
+                        }
+                        if (createdWish.guestError) {
+                          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб створити бажання");
+                          setButtonText("Увійти в обліковий запис");
+                          setWidth(343);
+                          setButtonAction(() => () => {logout(); setIsOpen(false);});
+                          setIsOpen(true);
+                          return;
+                        }
                         if (createdWish.id) {
                             setWishId(createdWish.id);
                             navigation.navigate("WishConfirmation");

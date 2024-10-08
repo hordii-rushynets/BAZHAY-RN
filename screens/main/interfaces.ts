@@ -26,7 +26,7 @@ export interface Subscription {
 export interface SubscriptionPagination {
     count: number;
     next: string;
-    prvious: string;
+    previous: string;
     results: Subscription[];
 }
 

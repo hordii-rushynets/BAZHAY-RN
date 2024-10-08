@@ -12,6 +12,10 @@ export type PopUpMessageContext = {
   setButtonAction: (action: () => void) => void;
   width: number;
   setWidth: (v: number) => void;
+  showExit: boolean;
+  setShowExit: (v: boolean) => void;
+  exitAction: () => void;
+  setExitAction: (action: () => void) => void;
 };
 
 const defaultPopUpMessageValues = {
@@ -25,6 +29,10 @@ const defaultPopUpMessageValues = {
     setButtonAction: () => {},
     width: 280,
     setWidth: () => {},
+    showExit: true,
+    setShowExit: () => {},
+    exitAction: () => {},
+    setExitAction: () => {},
 };
 
 const PopUpMessageContext = createContext<PopUpMessageContext>(defaultPopUpMessageValues);
@@ -39,7 +47,9 @@ export function PopUpMessageProvider(props: PopUpMessageProviderProps) {
   const [text, setText] = useState("");
   const [buttonText, setButtonText] = useState("");
   const [buttonAction, setButtonAction] = useState(() => () => {});
+  const [exitAction, setExitAction] = useState(() => () => {});
   const [width, setWidth] = useState(280);
+  const [showExit, setShowExit] = useState(true);
 
   return (
     <PopUpMessageContext.Provider
@@ -52,8 +62,12 @@ export function PopUpMessageProvider(props: PopUpMessageProviderProps) {
         setButtonText,
         buttonAction,
         setButtonAction,
+        exitAction,
+        setExitAction,
         width, 
-        setWidth
+        setWidth,
+        showExit,
+        setShowExit
       }}
     >
       {children}

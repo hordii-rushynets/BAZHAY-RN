@@ -45,6 +45,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const wishService = new WishService();
   const mainService = new MainService();
   const authContext = useAuth();
+  const { isGuest } = useAuth();
 
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
@@ -112,7 +113,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                   </View>
                 }
                 <View style={mainStyles.buttonsContainer}>
-                    {!wish.is_your_wish && <TouchableOpacity onPress={async () => {
+                    {!wish.is_your_wish && !isGuest && <TouchableOpacity onPress={async () => {
                         const copyOfWish: Wish = {
                             name: wish.name,
                             description: wish.description,
@@ -124,6 +125,10 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                             image_size: wish.image_size
                         }
                         wishService.wishCreate(copyOfWish, authContext).then(createdWish => {
+                            if (createdWish.premiumError) {
+                              navigation.navigate("WishCreating", { screen: "Premium" });
+                              return;
+                            }
                             if (createdWish.id) {
                                 setWishId(createdWish.id);
                                 setCopyingMode(true);

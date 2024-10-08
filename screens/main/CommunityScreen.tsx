@@ -19,6 +19,7 @@ import Connection from '../../components/ui/icons/Connection';
 import UserCard from '../../components/Main/UserCard';
 import { ProfileStackParamList } from '../../components/navigationStacks/ProfileStackScreen';
 import BackButton from '../../components/ui/buttons/BackButton';
+import SubmitButton from '../../components/ui/buttons/SubmitButton';
 
 type CommunityScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Community'> | StackNavigationProp<ProfileStackParamList, 'ProfileCommunity'>;
 type CommunityScreenRouteProp = RouteProp<MainStackParamList, 'Community'> | RouteProp<ProfileStackParamList, 'ProfileCommunity'>;
@@ -41,6 +42,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
   const mainService = new MainService();
   const accountService = new AccountService();
   const authContext = useAuth();
+  const { isGuest, logout } = useAuth();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -133,8 +135,13 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
               </View>
             </View>
             {subscriptions.length === 0 ? 
-              <View style={{marginVertical: "auto", alignSelf: "center"}}>
+              <View style={{marginVertical: "auto", alignSelf: "center", gap: 16}}>
                 <DesignedText style={{ textAlign: "center" }}>У вас ще немає {userType === "subscribers" ? "підписників" : "підписок"}</DesignedText>
+                {isGuest && 
+                  <SubmitButton onPress={() => {
+                    logout();
+                  }} width={"auto"} height={32} textStyle={{ fontSize: 12 }}>Увійти в обліковий запис</SubmitButton>
+                }
               </View>
             : 
             <ScrollView contentContainerStyle={styles.usersContainer} onScroll={handleScroll}>

@@ -13,6 +13,7 @@ export type UserFields = {
     subscription?: number;
     is_subscribed?: boolean;
     is_premium?: boolean;
+    haveErrors?: boolean;
 }
 
 export type PaginatedUserFields = {

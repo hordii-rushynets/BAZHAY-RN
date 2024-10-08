@@ -24,6 +24,7 @@ import { RootStackParamList } from '../../components/RootNavigator';
 import BackButton from '../../components/ui/buttons/BackButton';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { MainService } from './services';
+import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'> | StackNavigationProp<RootStackParamList, 'CommunityProfile'>;
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Profile'> | RouteProp<RootStackParamList, 'CommunityProfile'>
@@ -52,6 +53,8 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
     "price": "",
     "created": ""
   });
+  const { setIsOpen, setText, setButtonText, setButtonAction, setWidth, setExitAction } = usePopUpMessageContext();
+  const { logout, isGuest } = useAuth();
 
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -92,7 +95,17 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
     useCallback(() => {
       scrollViewRef.current?.scrollTo({ y: 0, animated: true });
       accountService.getUser(authContext, userId).then(userData => {
-        setUser(userData);
+        if (!userData.haveErrors) {
+          setUser(userData);
+        }
+        else {
+          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб переглянути профіль");
+          setButtonText("Увійти в обліковий запис");
+          setWidth(343);
+          setExitAction(() => () => { setExitAction(() => () => { }); navigation.navigate("Home"); });
+          setButtonAction(() => () => { setExitAction(() => () => { }); logout(); setIsOpen(false);});
+          setIsOpen(true);
+        }
       });
       if (userId) {
         wishService.getWishes(sortings, authContext).then(response => {
@@ -155,7 +168,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
             <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>
             <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscriptions" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View></TouchableOpacity>
           </View>
-          {userId && <SubmitButton height={32} width={120} onPress={() => {
+          {userId && !isGuest && <SubmitButton height={32} width={120} onPress={() => {
             if (user.is_subscribed) {
               mainService.unsubscribe(user.id || "", authContext).then(success => {
                 if (success) {

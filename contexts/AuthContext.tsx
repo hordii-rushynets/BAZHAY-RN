@@ -8,6 +8,7 @@ export interface AuthContextData {
   isAuthenticated: boolean;
   hasSeenWelcome: boolean;
   isAccountFilled: boolean;
+  isGuest: boolean;
   checkAuth: () => Promise<void>;
   login: (access: string, refresh: string) => Promise<void>;
   logout: () => void;
@@ -15,6 +16,8 @@ export interface AuthContextData {
   completeWelcome: () => void;
   completeFillingAccount: () => void;
   setIsAccountFilled: (v: boolean) => void;
+  becomeGuest: () => Promise<void>;
+  quitGuest: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
@@ -27,6 +30,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [hasSeenWelcome, setHasSeenWelcome] = useState<boolean>(false);
   const [isAccountFilled, setIsAccountFilled] = useState<boolean>(false);
+  const [isGuest, setIsGuest] = useState(false);
   const accountService = new AccountService();
   const { reconnect } = useNotifications();
 
@@ -34,6 +38,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const seenWelcome = await AsyncStorage.getItem('hasSeenWelcome');
       setHasSeenWelcome(seenWelcome === 'true');
+
+      const isGuest = await AsyncStorage.getItem('isGuest');
+      setIsGuest(isGuest === "true");
 
       const isAuth = await checkIfUserAuthenticated();
       setIsAuthenticated(isAuth);
@@ -73,6 +80,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsAuthenticated(false);
         reconnect();
       }
+
+      await quitGuest();
+      
     } catch (error) {
       console.error('Failed to set authenticated state:', error);
     }
@@ -113,8 +123,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     })
 
-    if (response.ok) {
+    if (response.ok || isGuest) {
       setIsAccountFilled(true)
+    }
+  }
+
+  const becomeGuest = async () => {
+    try {
+      await AsyncStorage.setItem('isGuest', 'true');
+      setIsGuest(true);
+    } catch (error) {
+      console.error('Failed to set welcome state:', error);
+    }
+  }
+
+  const quitGuest = async () => {
+    try {
+      await AsyncStorage.removeItem('isGuest');
+      setIsGuest(false);
+    } catch (error) {
+      console.error('Failed to set welcome state:', error);
     }
   }
 
@@ -141,14 +169,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setIsAccountFilled(data.is_already_registered || data.is_guest)
+        setIsAccountFilled(data.is_already_registered || isGuest)
       }
     
-      return response.ok;
+      return response.ok || isGuest;
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, hasSeenWelcome, isAccountFilled, checkAuth, login, logout, refreshToken, completeWelcome, completeFillingAccount, setIsAccountFilled }}>
+    <AuthContext.Provider value={{ isAuthenticated, hasSeenWelcome, isAccountFilled, isGuest, checkAuth, login, logout, refreshToken, completeWelcome, completeFillingAccount, setIsAccountFilled, becomeGuest, quitGuest }}>
       {children}
     </AuthContext.Provider>
   );
