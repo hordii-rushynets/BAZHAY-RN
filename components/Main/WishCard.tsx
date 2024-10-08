@@ -22,6 +22,7 @@ export default function WishCard({ wish }: WishCardProps) {
     const navigation = useNavigation<WishCardNavigationProp>();
     const wishService = new WishService();
     const authContext = useAuth();
+    const { isGuest } = useAuth();
     const { setWishId, setCopyingMode } = useWishCreating();
 
     return (
@@ -35,7 +36,7 @@ export default function WishCard({ wish }: WishCardProps) {
                     </View>
                 }
                 <View style={styles.buttonsContainer}>
-                    {!wish.is_your_wish && <TouchableOpacity onPress={async () => {
+                    {!wish.is_your_wish && !isGuest && <TouchableOpacity onPress={async () => {
                         const copyOfWish: Wish = {
                             name: wish.name,
                             description: wish.description,
@@ -47,6 +48,10 @@ export default function WishCard({ wish }: WishCardProps) {
                             image_size: wish.image_size
                         }
                         wishService.wishCreate(copyOfWish, authContext).then(createdWish => {
+                            if (createdWish.premiumError) {
+                              navigation.navigate("WishCreating", { screen: "Premium" });
+                              return;
+                            }
                             if (createdWish.id) {
                                 setWishId(createdWish.id);
                                 setCopyingMode(true);

@@ -56,7 +56,12 @@ export class MainService {
         if (response.ok) {
             const resultsWithPagination = await response.json();
             return resultsWithPagination;
-        } else {
+        }
+        else if (response.status === 403) {
+            const result = {count: 0, next: "", previous: "", results: []};
+            return result;
+        }
+        else {
             throw new Error("Error while fetching subscription");
         }
     }

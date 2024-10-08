@@ -12,6 +12,7 @@ export type UserFields = {
     subscriber?: number; 
     subscription?: number;
     is_subscribed?: boolean;
+    haveErrors?: boolean;
 }
 
 export type PaginatedUserFields = {

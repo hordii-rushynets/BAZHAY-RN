@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: 16
+    },
     profileUpdateTop: {
         flexDirection: "row",
         justifyContent: "space-between",

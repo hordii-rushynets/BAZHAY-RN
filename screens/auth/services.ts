@@ -73,6 +73,10 @@ export class AccountService {
             const userData = await response.json(); 
             return userData;
         }
+        else if (response.status === 403) {
+            const userData = { haveErrors: true };
+            return userData;
+        }
         else {
             throw new Error("Error fetching userinfo");
         }

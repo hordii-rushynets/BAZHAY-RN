@@ -18,6 +18,8 @@ export type Wish = {
     is_user_create?: boolean;
     is_your_wish?: boolean;
     brand_author?: Brand;
+    premiumError?: boolean;
+    guestError?: boolean;
 }
 
 export interface FileInterface {

@@ -21,6 +21,7 @@ import { MainService } from './services';
 import { RootStackParamList } from '../../components/RootNavigator';
 import { useNotifications } from '../../contexts/NotificationContext';
 import BellWithDot from '../../components/ui/icons/BellWithDot';
+import SubmitButton from '../../components/ui/buttons/SubmitButton';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -36,6 +37,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
   const wishService = new WishService();
   const mainService = new MainService();
   const authContext = useAuth();
+  const { isGuest, logout } = useAuth();
   const [isFetching, setIsFetching] = useState(false);
   const [news, setNews] = useState<Article[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -79,6 +81,11 @@ function HomeScreen({ navigation }: HomeScreenProps) {
     <ScreenContainer>
         <View style={styles.topBar}>
           <Logo/>
+          {isGuest && 
+            <SubmitButton onPress={() => {
+              logout();
+            }} width={152} height={24} textStyle={{ fontSize: 12 }}>Реєстрація</SubmitButton>
+          }
           <TouchableOpacity onPress={() => { navigation.navigate("HomeScreens", { screen: "Notifications" }) }}>
             {hasUnread ? <BellWithDot /> : <Bell />}
           </TouchableOpacity>

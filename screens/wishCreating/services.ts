@@ -57,15 +57,25 @@ export class WishService {
         formData.append("image_size", wishData.image_size?.toString() || "");
 
         const response = await this.daoService.wishCreate(formData, authContext);
+
+        if (localPhotoUri) {
+            await FileSystem.deleteAsync(localPhotoUri);
+        }
+        if (localVideoUri) {
+            await FileSystem.deleteAsync(localVideoUri);
+        }
+
         if (response.ok) {
-            if (localPhotoUri) {
-                await FileSystem.deleteAsync(localPhotoUri);
-            }
-            if (localVideoUri) {
-                await FileSystem.deleteAsync(localVideoUri);
-            }
             const wishData = await response.json(); 
+
+            if (wishData.non_field_errors) {
+                return { premiumError: true };
+            }
+
             return wishData;
+        }
+        else if (response.status === 403) {
+            return { guestError: true }
         }
         else {
             throw new Error("Error creating wish");

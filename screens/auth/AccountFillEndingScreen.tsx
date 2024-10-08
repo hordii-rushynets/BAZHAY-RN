@@ -27,16 +27,17 @@ function AccountFillEndingScreen({ navigation }: AccountFillEndingScreenProps) {
   })
 
   const { staticData } = useLocalization();
-  const { setIsOpen, setText, setButtonText, setButtonAction } = usePopUpMessageContext();
+  const { setIsOpen, setText, setButtonText, setButtonAction, setShowExit } = usePopUpMessageContext();
 
   return (
     <TouchableOpacity onPress={() => {
         setText("Привіт! \n Я тут для твоєї зручності. \n Буду супроводжувати в процесі Твого першого користування Bazhay!");
         setButtonText("Далі");
+        setShowExit(false);
         setButtonAction(() => () => {
           setText("Наше навчання завершено, але ти можеш повернутись до нього в “Налаштуваннях”");
           setButtonText("Розпочати!");
-          setButtonAction(() => () => { setIsOpen(false) });
+          setButtonAction(() => () => { setShowExit(true); setIsOpen(false) });
         });
         setIsOpen(true);
         authContext.completeFillingAccount()

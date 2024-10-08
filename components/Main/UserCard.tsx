@@ -22,6 +22,7 @@ export default function UserCard({ user, size = "normal" }: UserCardProps) {
     const navigation = useNavigation<UserCardNavigationProp>(); 
     const mainService = new MainService();
     const authContext = useAuth();
+    const { isGuest } = useAuth();
     const [buttonText, setButtonText] = useState(
         (user.is_subscribed) ?
         "Відстежується" :
@@ -39,7 +40,7 @@ export default function UserCard({ user, size = "normal" }: UserCardProps) {
             size={size === "small" ? "small" : "big"}
           />
           <TouchableWithoutFeedback>
-            {size !== "small" &&
+            {size !== "small" && !isGuest &&
               <SubmitButton width={120} height={32} onPress={() => {
                 if (user.is_subscribed) {
                   mainService.unsubscribe(user.id || "", authContext).then(success => {

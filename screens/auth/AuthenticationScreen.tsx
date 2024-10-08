@@ -28,7 +28,7 @@ interface AuthScreenProps {
 function AuthScreen({ navigation }: AuthScreenProps) {
   const accountService = new AccountService();
 
-  const { login, completeFillingAccount } = useAuth();
+  const { login, completeFillingAccount, becomeGuest, logout } = useAuth();
   const { staticData } = useLocalization();
   const { setIsOpen, setText, setButtonText, setButtonAction, setWidth } = usePopUpMessageContext();
 
@@ -103,10 +103,12 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                       setText("Ти увійшов(ла) як гість. Якщо вийдеш\n з системи або втратиш пристрій,\n на жаль, всі твої дані буде втрачено.");
                       setButtonText("Увійти в обліковий запис");
                       setWidth(343);
-                      setButtonAction(() => () => {setIsOpen(false)});
+                      setButtonAction(() => () => {logout(); setIsOpen(false)});
                       setIsOpen(true);
-                      completeFillingAccount()
-                      login(token.access, token.refresh)
+                      becomeGuest().then(() => {
+                        completeFillingAccount();
+                        login(token.access, token.refresh);
+                      });
                     }
                   })
                 }}>
