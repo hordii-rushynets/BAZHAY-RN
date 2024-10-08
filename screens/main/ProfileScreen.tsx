@@ -183,7 +183,15 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
               numColumns={2}
               contentContainerStyle={styles.wishesContainer}
             />
-            <PremiumProfileAdvert />
+            {!user.is_premium && <PremiumProfileAdvert onButtonPress={() => {
+              setLoading(true);
+              accountService.tryPremium(authContext).then(success => {
+                if (success) {
+                  setUpdateTrigger(!updateTrigger);
+                }
+                setLoading(false);
+              })
+            }}/>}
           </ScrollView>
         </View>
     </ScreenContainer>
