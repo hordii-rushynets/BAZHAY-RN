@@ -13,6 +13,7 @@ export interface Brand {
     nickname: string;
     photo: string;
     description: string;
+    cover_photo?: string;
 }
 
 export type userType = "subscriptions" | "subscribers";
@@ -35,4 +36,9 @@ export interface Paginated<T> {
     next: string;
     previous: string;
     results: T[];
+}
+
+export interface Request {
+    count: number;
+    query: string;
 }

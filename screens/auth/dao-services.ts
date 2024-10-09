@@ -118,6 +118,33 @@ export class AccountDAOService {
       return response;
     }
 
+    public async updateEmail(email: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/update-email/`, {
+        method: 'POST',
+        body: JSON.stringify({
+          "email": email
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }, authContext)
+      return response;
+    }
+
+    public async updateOtpConfirm(email: string, otp: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/update-email/confirm/`, {
+          method: 'POST',
+          body: JSON.stringify({
+            "email": email,
+            "code": otp
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }, authContext)
+      return response;
+  }
+
     public async becomePremium(authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/premium/create/`, {
         method: 'POST',

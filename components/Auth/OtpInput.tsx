@@ -6,15 +6,17 @@ import styles from '../../screens/auth/styles';
 import generalStyles from '../ui/generalStyles'
 import { AccountService } from '../../screens/auth/services';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CELL_COUNT = 6;
 
 type OtpInputProps = {
     email: string;
     onConfirm: (token: { access: string, refresh: string, is_already_registered: boolean }) => void;
+    isUpdating?: boolean;
 }
 
-const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
+const OtpInput = ({ email, onConfirm, isUpdating = false }: OtpInputProps) => {
   const [value, setValue] = React.useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -27,9 +29,21 @@ const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
   const accountService = new AccountService();
 
   const { staticData } = useLocalization();
+  const authContext = useAuth();
 
   useEffect(() => {
     if (value.length === 6) {
+      if (isUpdating) {
+        accountService.updateOtpConfirm(email, value, authContext).then(success => {
+          if (success) {
+            onConfirm({ access: "", refresh: "", is_already_registered: false });
+          }
+          else {
+            setError(staticData.auth.otpInput.otpError);
+          }
+        })
+      }
+      else {
         accountService.otpConfirm(email, value).then(token => {
           if (token.access !== "" && token.refresh !== "") {
             onConfirm({access: token.access, refresh: token.refresh, is_already_registered: token.is_already_registered});
@@ -38,6 +52,7 @@ const OtpInput = ({ email, onConfirm }: OtpInputProps) => {
             setError(staticData.auth.otpInput.otpError);
           }
         })
+      }
     }
   }, [value]);
 
