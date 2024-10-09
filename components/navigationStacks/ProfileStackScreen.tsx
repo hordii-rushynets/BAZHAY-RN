@@ -16,6 +16,8 @@ import AvatarFromGalleryScreen from '../../screens/profile/AvatarFromGalleryScre
 import AvatarFromCameraScreen from '../../screens/profile/AvatarFromCameraScreen';
 import UpdateAvatarConfirmationScreen from '../../screens/profile/UpdateAvatarConfirmationScreen';
 import ProfilePremiumScreen from '../../screens/profile/ProfilePremiumScreen';
+import UpdateAddressScreen from '../../screens/profile/UpdateAddress';
+import UpdatePostScreen from '../../screens/profile/UpdatePost';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -33,6 +35,8 @@ export type ProfileStackParamList = {
   AvatarFromCamera: undefined;
   UpdateAvatarConfirmation: { image: string };
   ProfilePremium: undefined;
+  UpdateAddress: undefined;
+  UpdatePost: undefined;
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -54,6 +58,8 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="AvatarFromCamera" component={AvatarFromCameraScreen}/>
     <ProfileStack.Screen name="UpdateAvatarConfirmation" component={UpdateAvatarConfirmationScreen} />
     <ProfileStack.Screen name="ProfilePremium" component={ProfilePremiumScreen}/>
+    <ProfileStack.Screen name="UpdateAddress" component={UpdateAddressScreen}/>
+    <ProfileStack.Screen name="UpdatePost" component={UpdatePostScreen}/>
   </ProfileStack.Navigator>
 );
 

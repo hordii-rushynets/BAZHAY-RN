@@ -9,7 +9,7 @@ import { View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import Loader from '../../components/ui/Loader';
-import { UserFields } from '../auth/interfaces';
+import { Address, Post, UserFields } from '../auth/interfaces';
 import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
 import AvatarButton from '../../components/ui/buttons/AvatarButton';
@@ -29,10 +29,18 @@ function UpdateProfileScreen({ navigation }: UpdateProfileScreenProps) {
   const [user, setUser] = useState<UserFields>();
   const accountService = new AccountService();
   const authContext = useAuth();
+  const [address, setAddress] = useState<Address>();
+  const [post, setPost] = useState<Post>();
 
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
+      accountService.getPost(authContext).then(post => {
+        setPost(post);
+      })
+      accountService.getAddress(authContext).then(address => {
+        setAddress(address);
+      })
       accountService.getUser(authContext).then(userData => {
         setUser(userData);
         setLoading(false);
@@ -60,8 +68,13 @@ function UpdateProfileScreen({ navigation }: UpdateProfileScreenProps) {
                 <ProfileButtonWithArrow placeholder={"Напиши про себе"} onPress={() => { navigation.navigate("UpdateAbout") }} width="auto">{user?.about_user || "Текст про мене"}</ProfileButtonWithArrow>
             </View>
             <View style={styles.updateProfileBlockContainer}>
-                <ProfileButtonWithArrow placeholder={"Твоя адреса для доставки подарунку"} onPress={() => {}} width="auto">{"Адреса"}</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Адреса відділення пошти"} onPress={() => {}} width="auto">{"Нова пошта"}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={"Твоя адреса для доставки подарунку"} onPress={() => { navigation.navigate("UpdateAddress") }} width="auto">{
+                  address?.city && address?.country ?
+                  `${address.city}, ${address.country}` : 
+                  address?.city || address?.country ||
+                  "Адреса"
+                }</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={"Адреса відділення пошти"} onPress={() => { navigation.navigate("UpdatePost") }} width="auto">{post?.post_service || "Відділення пошти"}</ProfileButtonWithArrow>
             </View>
         </ScrollView>
     </ScreenContainer>

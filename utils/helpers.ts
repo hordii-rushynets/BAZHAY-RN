@@ -143,3 +143,15 @@ export const cropPhoto = async (uri: string) => {
     }
     return uri;
   };
+
+  export function removeEmptyFields<T>(obj: T): Partial<T> {
+    const result: Partial<T> = {};
+    
+    for (const key in obj) {
+        if (obj[key] !== "") {
+            result[key] = obj[key];
+        }
+    }
+    
+    return result;
+  }

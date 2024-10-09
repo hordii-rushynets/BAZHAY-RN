@@ -21,3 +21,24 @@ export type PaginatedUserFields = {
     previous?: string;
     results: UserFields[]
 }
+
+export type Address = {
+    id?: string;
+    country?: string;
+    region?: string;
+    city?: string;
+    street?: string;
+    post_index?: string;
+    full_name?: string;
+    phone_number?: string;
+}
+
+export type Post = {
+    id?: string;
+    country?: string;
+    post_service?: string;
+    city?: string;
+    nearest_branch?: string;
+    full_name?: string;
+    phone_number?: string;
+}
