@@ -68,11 +68,11 @@ const styles = StyleSheet.create({
     },
     updateProfileContent: {
         marginTop: 32,
-        overflow: "visible"
+        overflow: "visible",
     },
     updateProfileContentContainer: {
         gap: 32,
-        paddingBottom: 20
+        paddingBottom: 20,
     },
     updateProfileBlockContainer: {
         gap: 8
@@ -84,6 +84,29 @@ const styles = StyleSheet.create({
     premiumButtonsContainer: {
         marginTop: 24,
         gap: 16
+    },
+    addressTopText: {
+        flexDirection: "row",
+        gap: 8,
+        alignItems: "center",
+    },
+    infoBlockContainer: {
+        position: "absolute",
+        width: 280,
+        top: 30,
+        right: 0,
+        borderColor: "black",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderRadius: 30,
+        paddingHorizontal: 16,
+        paddingVertical: 24,
+        backgroundColor: "white",
+        alignItems: "center",
+        zIndex: 1
+    },
+    addressInputContainer: {
+        gap: 8,
     }
 });
 

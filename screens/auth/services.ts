@@ -1,7 +1,7 @@
 import { AccountDAOService } from "./dao-services"
-import { PaginatedUserFields, UserFields } from "./interfaces";
+import { Address, PaginatedUserFields, Post, UserFields } from "./interfaces";
 import config from "../../config.json"
-import { getBlobFromUri } from '../../utils/helpers';
+import { getBlobFromUri, removeEmptyFields } from '../../utils/helpers';
 
 export class AccountService {
     private daoService: AccountDAOService;
@@ -134,6 +134,48 @@ export class AccountService {
 
     public async tryPremium(authContext: any): Promise<boolean> {
         const response = await this.daoService.tryPremium(authContext);
+        return response.ok;
+    }
+
+    public async getAddress(authContext: any): Promise<Address | undefined> {
+        const response = await this.daoService.getAddress(authContext);
+        
+        if (response.ok) {
+            const addresses: Address[] = await response.json();
+            return addresses[0];
+        }
+    }
+
+    public async updateAddress(address: Address, id: string, authContext: any): Promise<boolean> {
+        const newAddress = removeEmptyFields(address);
+
+        const response = await this.daoService.updateAddress(newAddress, id, authContext);
+        return response.ok;
+    }
+
+    public async deleteAddress(id: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.deleteAddress(id, authContext);
+        return response.ok;
+    }
+
+    public async getPost(authContext: any): Promise<Post | undefined> {
+        const response = await this.daoService.getPost(authContext);
+        
+        if (response.ok) {
+            const addresses: Post[] = await response.json();
+            return addresses[0];
+        }
+    }
+
+    public async updatePost(post: Post, id: string, authContext: any): Promise<boolean> {
+        const newPost = removeEmptyFields(post);
+
+        const response = await this.daoService.updatePost(newPost, id, authContext);
+        return response.ok;
+    }
+
+    public async deletePost(id: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.deletePost(id, authContext);
         return response.ok;
     }
 }

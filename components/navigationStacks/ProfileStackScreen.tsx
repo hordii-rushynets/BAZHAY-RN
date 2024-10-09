@@ -18,6 +18,8 @@ import UpdateAvatarConfirmationScreen from '../../screens/profile/UpdateAvatarCo
 import UpdateEmailScreen from '../../screens/profile/UpdateEmailScreen';
 import ProfileEmailConfirmationScreen from '../../screens/profile/ProfileEmailConfirmation';
 import ProfilePremiumScreen from '../../screens/profile/ProfilePremiumScreen';
+import UpdateAddressScreen from '../../screens/profile/UpdateAddress';
+import UpdatePostScreen from '../../screens/profile/UpdatePost';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -37,6 +39,8 @@ export type ProfileStackParamList = {
   UpdateEmail: undefined;
   ProfileEmailConfirmation: { email: string }
   ProfilePremium: undefined;
+  UpdateAddress: undefined;
+  UpdatePost: undefined;
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -60,6 +64,8 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="UpdateEmail" component={UpdateEmailScreen} />
     <ProfileStack.Screen name="ProfileEmailConfirmation" component={ProfileEmailConfirmationScreen}/>
     <ProfileStack.Screen name="ProfilePremium" component={ProfilePremiumScreen}/>
+    <ProfileStack.Screen name="UpdateAddress" component={UpdateAddressScreen}/>
+    <ProfileStack.Screen name="UpdatePost" component={UpdatePostScreen}/>
   </ProfileStack.Navigator>
 );
 

@@ -1,5 +1,5 @@
 import { fetchWithAuth } from "../../utils/helpers";
-import { UserFields } from "./interfaces";
+import { Address, Post, UserFields } from "./interfaces";
 
 export class AccountDAOService {
     private apiUrl: string;
@@ -162,6 +162,52 @@ export class AccountDAOService {
       const response = await fetchWithAuth(`${this.apiUrl}/api/premium/try/`, {
         method: 'POST',
       }, authContext)
+      return response;
+    }
+
+    public async getAddress(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/address/`, {}, authContext);
+      return response;
+    }
+
+    public async updateAddress(address: Address, id: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/address/${id}/`, {
+        method: "PUT",
+        body: JSON.stringify(address),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+      return response;
+    }
+
+    public async deleteAddress(id: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/address/${id}/`, {
+        method: "DELETE",
+      }, authContext);
+      return response;
+    }
+
+    public async getPost(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/`, {}, authContext);
+      return response;
+    }
+
+    public async updatePost(post: Post, id: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/${id}/`, {
+        method: "PUT",
+        body: JSON.stringify(post),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+      return response;
+    }
+
+    public async deletePost(id: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/${id}/`, {
+        method: "DELETE",
+      }, authContext);
       return response;
     }
 }
