@@ -31,12 +31,12 @@ function AccountFillEndingScreen({ navigation }: AccountFillEndingScreenProps) {
 
   return (
     <TouchableOpacity onPress={() => {
-        setText("Привіт! \n Я тут для твоєї зручності. \n Буду супроводжувати в процесі Твого першого користування Bazhay!");
-        setButtonText("Далі");
+        setText(staticData.auth.accountFillEndingScreen.startLearnMessage);
+        setButtonText(staticData.auth.accountFillEndingScreen.startLearnButton);
         setShowExit(false);
         setButtonAction(() => () => {
-          setText("Наше навчання завершено, але ти можеш повернутись до нього в “Налаштуваннях”");
-          setButtonText("Розпочати!");
+          setText(staticData.auth.accountFillEndingScreen.endLearnMessage);
+          setButtonText(staticData.auth.accountFillEndingScreen.endLearnButton);
           setButtonAction(() => () => { setShowExit(true); setIsOpen(false) });
         });
         setIsOpen(true);

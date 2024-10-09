@@ -20,6 +20,7 @@ import UserCard from '../../components/Main/UserCard';
 import { ProfileStackParamList } from '../../components/navigationStacks/ProfileStackScreen';
 import BackButton from '../../components/ui/buttons/BackButton';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type CommunityScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Community'> | StackNavigationProp<ProfileStackParamList, 'ProfileCommunity'>;
 type CommunityScreenRouteProp = RouteProp<MainStackParamList, 'Community'> | RouteProp<ProfileStackParamList, 'ProfileCommunity'>;
@@ -31,6 +32,7 @@ interface CommunityScreenProps {
 
 function CommunityScreen({ navigation, route }: CommunityScreenProps) {
   const { mode } = route.params || { mode: undefined };
+  const { staticData } = useLocalization();
   const [searchPrompt, setSearchPrompt] = useState("");
   const [userType, setUserType] = useState<userType>(mode || "subscribers");
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -113,34 +115,34 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
     <ScreenContainer>
         {mode && <View style={wishStyles.wishConfirmationTop}>
           <BackButton/>
-          <DesignedText italic={true}>{userType === "subscribers" ? "підписники" : "підписки"}</DesignedText>
+          <DesignedText italic={true}>{userType === "subscribers" ? staticData.main.communityScreen.subscribers : staticData.main.communityScreen.subscriptors}</DesignedText>
         </View>}
-        <SearchInput placeholder={"Знайди близьких"} value={searchPrompt} error={undefined} onChange={(text) => {setSearchPrompt(text)}} onFocus={() => {setSearchTrigger(!searchTrigger); setIsSearchActive(true)}} onBlur={() => {setUsers([]); setIsSearchActive(false)}}/>
+        <SearchInput placeholder={staticData.main.communityScreen.searchPlaceholder} value={searchPrompt} error={undefined} onChange={(text) => {setSearchPrompt(text)}} onFocus={() => {setSearchTrigger(!searchTrigger); setIsSearchActive(true)}} onBlur={() => {setUsers([]); setIsSearchActive(false)}}/>
         {!isSearchActive ?
           <>
             <View style={styles.subscriptionsChoosing}>
               <View style={[styles.subscriptionsOption, userType === "subscribers" && styles.subscriptionsOptionActive]}>
                 <TouchableOpacity onPress={() => {setUserType("subscribers")}}>
                   <DesignedText size="small">
-                    Підписники
+                    {staticData.main.communityScreen.subscribers}
                   </DesignedText>
                 </TouchableOpacity>
               </View>
               <View style={[styles.subscriptionsOption, userType === "subscriptions" && styles.subscriptionsOptionActive]}>
                 <TouchableOpacity onPress={() => {setUserType("subscriptions")}}>
                   <DesignedText size="small">
-                    Підписки
+                    {staticData.main.communityScreen.subscriptors}
                   </DesignedText>
                 </TouchableOpacity>
               </View>
             </View>
             {subscriptions.length === 0 ? 
               <View style={{marginVertical: "auto", alignSelf: "center", gap: 16}}>
-                <DesignedText style={{ textAlign: "center" }}>У вас ще немає {userType === "subscribers" ? "підписників" : "підписок"}</DesignedText>
+                <DesignedText style={{ textAlign: "center" }}>{staticData.main.communityScreen.emptyMessage} {userType === "subscribers" ? staticData.main.communityScreen.emptyMessageSubscribers : staticData.main.communityScreen.emptyMessageSubscriptors}</DesignedText>
                 {isGuest && 
                   <SubmitButton onPress={() => {
                     logout();
-                  }} width={"auto"} height={32} textStyle={{ fontSize: 12 }}>Увійти в обліковий запис</SubmitButton>
+                  }} width={"auto"} height={32} textStyle={{ fontSize: 12 }}>{staticData.main.communityScreen.guestButton}</SubmitButton>
                 }
               </View>
             : 
@@ -156,7 +158,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
             <View style={styles.smallButton}>
               <Connection />
             </View>
-            <View><DesignedText size="small">додати друзів</DesignedText></View>
+            <View><DesignedText size="small">{staticData.main.communityScreen.addFriendsButton}</DesignedText></View>
           </View>
           <ScrollView contentContainerStyle={styles.usersContainer} onScroll={handleUserScroll} scrollEventThrottle={16} keyboardShouldPersistTaps="always">
               {users.map(user => <UserCard user={user} key={user.id}/>)}

@@ -63,7 +63,7 @@ function UpdateAboutScreen({ navigation }: UpdateAboutScreenProps) {
               >
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
-                    Напиши про <Title bold={true}>себе</Title>
+                   {staticData.profile.updateAboutScreen.titleFirst} <Title bold={true}>{staticData.profile.updateAboutScreen.titleSecond}</Title>
                     </Title>
                 </View>
                 <Formik
@@ -82,7 +82,7 @@ function UpdateAboutScreen({ navigation }: UpdateAboutScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={authStyles.inputContainer}>
                         <TextFieldInput
-                          placeholder={"Тут ти можеш написати декілька слів про себе"}
+                          placeholder={staticData.profile.updateAboutScreen.placeholder}
                           value={values.description}
                           error={errors.description}
                           onChange={handleChange('description')}
@@ -98,7 +98,7 @@ function UpdateAboutScreen({ navigation }: UpdateAboutScreenProps) {
               >
                 <View style={styles.linkTitleContainer}>
                     <Title style={authStyles.title}>
-                    Напиши про <Title bold={true}>себе</Title>
+                    {staticData.profile.updateAboutScreen.titleFirst} <Title bold={true}>{staticData.profile.updateAboutScreen.titleSecond}</Title>
                     </Title>
                 </View>
                 <Formik
@@ -117,7 +117,7 @@ function UpdateAboutScreen({ navigation }: UpdateAboutScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={authStyles.inputContainer}>
                         <TextFieldInput
-                          placeholder={"Тут ти можеш написати декілька слів про себе"}
+                          placeholder={staticData.profile.updateAboutScreen.placeholder}
                           value={values.description}
                           error={errors.description}
                           onChange={handleChange('description')}

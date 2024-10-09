@@ -11,6 +11,7 @@ import { NotificationCard } from '../../components/Home/NotificationCard';
 import styles from './styles';
 import { HomeService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 
 type NotificationsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Notifications'>;
@@ -20,6 +21,7 @@ interface NotificationsScreenProps {
 }
 
 function NotificationsScreen({ navigation }: NotificationsScreenProps) {
+  const { staticData } = useLocalization();
   const { notifications: newNotifications, markAllAsRead } = useNotifications();
   const homeService = new HomeService();
   const authContext = useAuth();
@@ -43,11 +45,11 @@ function NotificationsScreen({ navigation }: NotificationsScreenProps) {
     <ScreenContainer>
         <View style={wishStyles.wishConfirmationTop}>
           <BackButton />
-          <DesignedText italic={true}>Сповіщення</DesignedText>
+          <DesignedText italic={true}>{staticData.home.notificationsScreen.title}</DesignedText>
         </View>
         <ScrollView ref={scrollRef} contentContainerStyle={styles.notificationsContainer} onContentSizeChange={() => {scrollRef.current?.scrollToEnd()}}>
           {newNotifications.length === 0 && notifications.length === 0 && 
-            <DesignedText size="small" style={{alignSelf: "center"}}>У вас немає повідомлень</DesignedText>
+            <DesignedText size="small" style={{alignSelf: "center"}}>{staticData.home.notificationsScreen.emptyMessage}</DesignedText>
           }
           {notifications.map((notification, indx) => (
             <NotificationCard notification={notification} key={indx}/>

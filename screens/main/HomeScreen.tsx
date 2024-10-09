@@ -84,7 +84,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
           {isGuest && 
             <SubmitButton onPress={() => {
               logout();
-            }} width={152} height={24} textStyle={{ fontSize: 12 }}>Реєстрація</SubmitButton>
+            }} width={152} height={24} textStyle={{ fontSize: 12 }}>{staticData.main.homeScreen.guestButton}</SubmitButton>
           }
           <TouchableOpacity onPress={() => { navigation.navigate("HomeScreens", { screen: "Notifications" }) }}>
             {hasUnread ? <BellWithDot /> : <Bell />}
@@ -95,7 +95,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
         {brands.length !== 0 && <BrandsTab brands={brands}/>}
         <View style={styles.homeWishesContainer}>
           <DesignedText>
-          Найпопулярніше
+            {staticData.main.homeScreen.popular}
           </DesignedText>
           <MasonryList
             data={wishes}

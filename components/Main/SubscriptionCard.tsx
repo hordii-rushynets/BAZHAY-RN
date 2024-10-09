@@ -10,6 +10,7 @@ import SubmitButton from "../ui/buttons/SubmitButton";
 import { MainService } from "../../screens/main/services";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useLocalization } from "../../contexts/LocalizationContext";
 
 type SubscriptionCardProps = {
     subscription: Subscription;
@@ -22,11 +23,12 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
     const navigation = useNavigation<SubscriptionCardNavigationProp>();
     const mainService = new MainService();
     const authContext = useAuth();
+    const { staticData } = useLocalization();
     const [buttonText, setButtonText] = useState(
         (subscription.user && subscription.user.is_subscribed) || 
         (subscription.subscribed_to && subscription.subscribed_to.is_subscribed) ? 
-        "Відстежується" :
-        "Стежити"
+        staticData.main.subscriptionCard.unsubscribe :
+        staticData.main.subscriptionCard.subscribe
     );
 
     return (
@@ -47,14 +49,14 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
             if (subscription.user?.is_subscribed) {
               mainService.unsubscribe(subscription.user?.id || "", authContext).then(success => {
                 if (success) {
-                  setButtonText("Стежити");
+                  setButtonText(staticData.main.subscriptionCard.subscribe);
                 }
               });
             }
             else {
               mainService.subscribe(subscription.user?.id || "", authContext).then(success => {
                 if (success) {
-                  setButtonText("Відстежується");
+                  setButtonText(staticData.main.subscriptionCard.unsubscribe);
                 }
               });
             }
@@ -75,7 +77,7 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
             if (subscription.subscribed_to?.is_subscribed) {
               mainService.unsubscribe(subscription.subscribed_to?.id || "", authContext).then(success => {
                 if (success) {
-                  setButtonText("Стежити");
+                  setButtonText(staticData.main.subscriptionCard.subscribe);
                   onSubscribtionUnsubscribe();
                 }
               });
@@ -83,7 +85,7 @@ export default function SubscriptionCard({ subscription, onSubscribtionUnsubscri
             else {
               mainService.subscribe(subscription.subscribed_to?.id || "", authContext).then(success => {
                 if (success) {
-                  setButtonText("Відстежується");
+                  setButtonText(staticData.main.subscriptionCard.unsubscribe);
                 }
               });
             }

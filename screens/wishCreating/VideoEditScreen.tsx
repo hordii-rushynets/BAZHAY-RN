@@ -16,6 +16,7 @@ import DesignedText from '../../components/ui/DesignedText';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type VideoEditScreenRouteProp = RouteProp<RootStackParamList, 'VideoEdit'>;
 type VideoEditScreenNavigationProp = StackNavigationProp<RootStackParamList, 'VideoEdit'>;
@@ -26,6 +27,7 @@ interface VideoEditScreenProps {
 }
 
 function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
+  const { staticData } = useLocalization();
   const { video } = route.params;
   const [ cover, setCover ] = useState("");
   const [ coverTime, setCoverTime ] = useState(0);
@@ -136,12 +138,12 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
                 <VideoCropBar video={video.uri} videoDuration={videoDuration} startTime={startTime} endTime={endTime} currentTime={currentTime} setStartTime={setStartTime} setEndTime={setEndTime}/>
             : coverMode ?
                 <View style={styles.coverBarContainer}>
-                  <DesignedText size="small" isUppercase={false}>Натисніть, щоб обрати обкладинку</DesignedText>
+                  <DesignedText size="small" isUppercase={false}>{staticData.wishCreating.videoEditScreen.text}</DesignedText>
                   <VideoCoverBar video={video.uri} videoDuration={videoDuration} cover={cover} coverTime={coverTime} setCover={setCover} setCoverTime={setCoverTime}/>
                 </View>
             :   <View style={styles.videoEditingButtonsContainer }>
-                    <SubmitButton onPress={() => { setCroppingMode(true) }} width={168} height={32} textStyle={styles.videoEditingText}>обрізати відео</SubmitButton>
-                    <SubmitButton onPress={() => { setCoverMode(true) }} width={168} height={32} textStyle={styles.videoEditingText}>обрати обкладинку</SubmitButton>
+                    <SubmitButton onPress={() => { setCroppingMode(true) }} width={168} height={32} textStyle={styles.videoEditingText}>{staticData.wishCreating.videoEditScreen.cutVideo}</SubmitButton>
+                    <SubmitButton onPress={() => { setCoverMode(true) }} width={168} height={32} textStyle={styles.videoEditingText}>{staticData.wishCreating.videoEditScreen.selectCover}</SubmitButton>
                 </View>
             }
         </View>
@@ -164,7 +166,7 @@ function VideoEditScreen({ route, navigation }: VideoEditScreenProps) {
                 }}
             width={200}
             style={authStyles.gridButton}
-        >Готово</SubmitButton>
+        >{staticData.wishCreating.videoEditScreen.save}</SubmitButton>
     </ScreenContainer>
   );
 };

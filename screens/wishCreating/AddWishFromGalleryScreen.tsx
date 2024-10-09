@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, Image, StyleSheet, Text } from 'react-native';
+import { View, FlatList, TouchableOpacity, Image, Text } from 'react-native';
 import * as MediaLibrary from 'expo-media-library';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import ScreenContainer from '../../components/ui/ScreenContainer';

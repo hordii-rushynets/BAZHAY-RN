@@ -28,6 +28,7 @@ import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { AccountService } from '../auth/services';
 import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/ui/Loader';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -37,6 +38,7 @@ interface SettingsScreenProps {
 
 function SettingsScreen({ navigation }: SettingsScreenProps) {
   const { logout } = useAuth();
+  const { staticData } = useLocalization();
   const accountService = new AccountService();
   const authContext = useAuth();
   const [loading, setLoading] = useState(true);
@@ -57,23 +59,23 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
       <ScrollView showsVerticalScrollIndicator={false} style={{ overflow: "visible" }}>
         <View style={wishCreatingStyles.wishConfirmationTop}>
           <BackButton />
-          <DesignedText italic={true}>Налаштування</DesignedText>
+          <DesignedText italic={true}>{staticData.profile.settingsScreen.title}</DesignedText>
         </View>
         <View style={styles.settingsContainer}>
           <View style={styles.settingsBlockContainer}>
-            <DesignedText>Обліковий запис та додаток</DesignedText>
+            <DesignedText>{staticData.profile.settingsScreen.accountBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { navigation.navigate("UpdateProfile") }} width="auto" icon={<Profile width={16} height={16}/>}>Акаунт</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { navigation.navigate("ChangeLanguage") }} width="auto" icon={<Translate />}>Мова</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { navigation.navigate("ProfilePremium") }} width="auto" icon={<PremiumProfile />}>преміум підписка</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("UpdateProfile") }} width="auto" icon={<Profile width={16} height={16}/>}>{staticData.profile.settingsScreen.account}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("ChangeLanguage") }} width="auto" icon={<Translate />}>{staticData.profile.settingsScreen.language}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("ProfilePremium") }} width="auto" icon={<PremiumProfile />}>{staticData.profile.settingsScreen.premium}</ButtonWithArrow>
             </View>
           </View>
           {!isPremium && 
             <View style={styles.settingsBlockContainer}>
-              <DesignedText style={styles.premiumAdvertText}>спробуй <DesignedText bold={true}>Bazhay! преміум</DesignedText></DesignedText>
+              <DesignedText style={styles.premiumAdvertText}>{staticData.profile.settingsScreen.premiumAdvert.titleFirstPart} <DesignedText bold={true}>{staticData.profile.settingsScreen.premiumAdvert.titleSecondPart}</DesignedText></DesignedText>
               <View style={{gap: 4}}>
-                <DesignedText size="small" style={styles.premiumAdvertText}>Лише 0,80$ на місяць</DesignedText>
-                <DesignedText size="small" isUppercase={false} style={styles.premiumAdvertText}>щороку передплата 10$ </DesignedText>
+                <DesignedText size="small" style={styles.premiumAdvertText}>{staticData.profile.settingsScreen.premiumAdvert.spanFirst}</DesignedText>
+                <DesignedText size="small" isUppercase={false} style={styles.premiumAdvertText}>{staticData.profile.settingsScreen.premiumAdvert.spanSecond} </DesignedText>
               </View>
               <SubmitButton onPress={()=>{
                 setLoading(true);
@@ -83,40 +85,40 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
                   }
                   setLoading(false);
                 })
-              }} width={240} height={32} style={styles.premiumAdvertButton} textStyle={{fontSize: 12}}>спробуй 7 днів безкоштовно</SubmitButton>
+              }} width={240} height={32} style={styles.premiumAdvertButton} textStyle={{fontSize: 12}}>{staticData.profile.settingsScreen.premiumAdvert.button}</SubmitButton>
             </View>
           }
           <View style={styles.settingsBlockContainer}>
-            <DesignedText>напиши нам</DesignedText>
+            <DesignedText>{staticData.profile.settingsScreen.contactUsBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TechSupport />}>технічна підтримка</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Heart />}>Стань нашим амбасадором</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TechSupport />}>{staticData.profile.settingsScreen.techSupport}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Heart />}>{staticData.profile.settingsScreen.becomeAmbassador}</ButtonWithArrow>
             </View>
           </View>
           <View style={styles.settingsBlockContainer}>
-            <DesignedText>Про нас</DesignedText>
+            <DesignedText>{staticData.profile.settingsScreen.aboutUsBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<ShortLogo />}>Більше про Bazhay!</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Upload width={16} height={16}/>}>Поділитись Bazhay! з друзями</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Instagram />}>слідкуй за нами в Instagram</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TikTok />}>слідкуй за нами в Tik Tok</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<ShortLogo />}>{staticData.profile.settingsScreen.moreInfo}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Upload width={16} height={16}/>}>{staticData.profile.settingsScreen.share}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Instagram />}>{staticData.profile.settingsScreen.instagram}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TikTok />}>{staticData.profile.settingsScreen.tikTok}</ButtonWithArrow>
             </View>
           </View>
           <View style={styles.settingsBlockContainer}>
-            <DesignedText>Юридична інформація</DesignedText>
+            <DesignedText>{staticData.profile.settingsScreen.lawBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<PrivacyPolicy />}>Політика конфеденційності</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<UsingTerms/>}>Правила користування</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<PrivacyPolicy />}>{staticData.profile.settingsScreen.privacyPolicy}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { }} width="auto" icon={<UsingTerms/>}>{staticData.profile.settingsScreen.termsOfUse}</ButtonWithArrow>
             </View>
           </View>
           <View style={styles.settingsButtonsContainer}>
-            <ButtonWithArrow onPress={() => { logout() }} width="auto" icon={<Leave/>}>Вийти</ButtonWithArrow>
-            <ButtonWithArrow onPress={() => { navigation.navigate("DeleteAccount") }} width="auto" icon={<BrokenHeart/>}>видалити акаунт</ButtonWithArrow>
+            <ButtonWithArrow onPress={() => { logout() }} width="auto" icon={<Leave/>}>{staticData.profile.settingsScreen.exit}</ButtonWithArrow>
+            <ButtonWithArrow onPress={() => { navigation.navigate("DeleteAccount") }} width="auto" icon={<BrokenHeart/>}>{staticData.profile.settingsScreen.deleteAccount}</ButtonWithArrow>
           </View>
         </View>
         <View style={styles.settingsBottomLogo}>
           <Logo width={160} height={46}/>
-          <DesignedText isUppercase={false} size="small" style={styles.settingsBottomText}>Версія 1.1.1</DesignedText>
+          <DesignedText isUppercase={false} size="small" style={styles.settingsBottomText}>{staticData.profile.settingsScreen.version} 1.1.1</DesignedText>
         </View>
       </ScrollView>
     </ScreenContainer>

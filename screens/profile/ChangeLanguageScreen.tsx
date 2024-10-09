@@ -18,20 +18,20 @@ interface ChangeLanguageScreenProps {
 }
 
 function ChangeLanguageScreen({ navigation }: ChangeLanguageScreenProps) {
-  const { localization, setLocalization } = useLocalization();
+  const { staticData, localization, setLocalization } = useLocalization();
 
   return (
     <ScreenContainer>
         <View style={wishStyles.wishConfirmationTop}>
           <BackButton/>
-          <DesignedText italic={true}>Мова</DesignedText>
+          <DesignedText italic={true}>{staticData.profile.changeLanguageScreen.title}</DesignedText>
         </View>
         <View style={styles.languagesContainer}>
             <TouchableOpacity onPress={() => { setLocalization("uk") }}>
                 <View style={styles.languageContainer}>
                     <View style={styles.languageInfoContainer}>
                         <Image source={require("../../assets/UkraineFlag.png")} />
-                        <DesignedText size="small">українська</DesignedText>
+                        <DesignedText size="small">{staticData.profile.changeLanguageScreen.uk}</DesignedText>
                     </View>
                     {localization === "uk" && <Checkmark width={16} height={12}/>}
                 </View>
@@ -40,7 +40,7 @@ function ChangeLanguageScreen({ navigation }: ChangeLanguageScreenProps) {
                 <View style={styles.languageContainer}>
                     <View style={styles.languageInfoContainer}>
                         <Image source={require("../../assets/BritainFlag.png")} />
-                        <DesignedText size="small">англійська </DesignedText>
+                        <DesignedText size="small">{staticData.profile.changeLanguageScreen.en} </DesignedText>
                     </View>
                     {localization === "en" && <Checkmark width={16} height={12}/>}
                 </View>
