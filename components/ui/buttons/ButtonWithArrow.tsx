@@ -8,18 +8,19 @@ type ButtonWithArrowProps = {
     children: ReactNode | string;
     onPress: (event: GestureResponderEvent) => void;
     width: number | "auto";
+    showMoreThanOneLine?: boolean;
     icon?: ReactNode;
     height?: number;
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
 }
 
-export default function ButtonWithArrow({children, onPress, width, icon = <></>, height = 40, style = null, textStyle = null} : ButtonWithArrowProps) {
+export default function ButtonWithArrow({children, onPress, width, showMoreThanOneLine = false, icon = <></>, height = 40, style = null, textStyle = null} : ButtonWithArrowProps) {
   return (
     <TouchableOpacity onPress={onPress} style={[generalStyles.buttonWithArrow, {width: width, height: height}, style]}>
       <View style={generalStyles.buttonWithArrowText}>
         {icon}
-        <DesignedText size={"small"} style={[textStyle]} numberOfLines={1} ellipsizeMode="tail">{children}</DesignedText>
+        <DesignedText size={"small"} style={[textStyle]} numberOfLines={!showMoreThanOneLine ? 1 : undefined} ellipsizeMode="tail">{children}</DesignedText>
       </View>
       <ArrowRight/>
     </TouchableOpacity>

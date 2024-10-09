@@ -17,6 +17,7 @@ import { PremiumTryButton } from '../../components/WishCreating/PremiumTryButton
 import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
 import Loader from '../../components/ui/Loader';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type PremiumScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Premium'>;
 
@@ -25,17 +26,10 @@ interface PremiumScreenProps {
 }
 
 function PremiumScreen({ navigation }: PremiumScreenProps) {
+  const { staticData } = useLocalization();
   const accountService = new AccountService();
   const authContext = useAuth();
   const [loading, setLoading] = useState(false);
-
-  const premiumAdvantages = [
-    "Створюй необмежену кількість бажань",
-    "налаштовуй видимість бажань",
-    "дивись, хто хоче виповнити твої бажання",
-    "користуйся додатком без обмежень",
-    "першим отримуй нові преміум-функції"
-  ];
 
   return (
     <ScreenContainer>
@@ -50,11 +44,11 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
         </View>
         <View style={styles.premiumContentContainer}>
             <View style={styles.premiumTitleContainer}>
-                <Title><Title bold={true}>Преміум-</Title>підписка</Title>
+                <Title><Title bold={true}>{staticData.wishCreating.premiumScreen.titleFirst}</Title>{staticData.wishCreating.premiumScreen.titleSecond}</Title>
                 <BigLogo width={169} height={41}/>
             </View>
             <View style={styles.premiumAdvantagesContainer}>
-                {premiumAdvantages.map((advantage, indx) => (
+                {staticData.wishCreating.premiumScreen.premiumAdvantages.map((advantage: string, indx: number) => (
                     <View key={indx} style={styles.premiumAdvantage}>
                         <Checkmark />
                         <DesignedText size="small">{advantage}</DesignedText>

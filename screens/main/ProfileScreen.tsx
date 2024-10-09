@@ -99,8 +99,8 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
           setUser(userData);
         }
         else {
-          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб переглянути профіль");
-          setButtonText("Увійти в обліковий запис");
+          setText(staticData.main.profileScreen.guestMessage);
+          setButtonText(staticData.main.profileScreen.guestMessageButton);
           setWidth(343);
           setExitAction(() => () => { setExitAction(() => () => { }); navigation.navigate("Home"); });
           setButtonAction(() => () => { setExitAction(() => () => { }); logout(); setIsOpen(false);});
@@ -161,8 +161,8 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
             {((userId && user.view_birthday) || (!userId)) && <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>}
           </View>
           {userId && <View style={styles.addressesContainer}>
-            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>Адреса</SubmitButton>
-            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>Пошта</SubmitButton>
+            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.address}</SubmitButton>
+            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.post}</SubmitButton>
           </View>}
           <View style={styles.subscribersContainer}>
             <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>
@@ -183,7 +183,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
                 }
               });
             }
-          }} style={{marginTop: 24}} textStyle={{fontSize: 12, textTransform: "none"}}>{user.is_subscribed ? "Відстежується" : "Стежити"}</SubmitButton>}
+          }} style={{marginTop: 24}} textStyle={{fontSize: 12, textTransform: "none"}}>{user.is_subscribed ? staticData.main.subscriptionCard.unsubscribe : staticData.main.subscriptionCard.subscribe}</SubmitButton>}
           </>}
         </View>
         <View style={styles.profileWishesContainer}>

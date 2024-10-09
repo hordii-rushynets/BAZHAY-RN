@@ -16,6 +16,7 @@ import Loader from '../../components/ui/Loader';
 import TextInputWithoutArrow from '../../components/ui/inputs/TextInputWithoutArrow';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { Address } from '../auth/interfaces';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type UpdateAddressScreenNavigationProp = StackNavigationProp<RootStackParamList, 'UpdateAddress'>;
 
@@ -24,6 +25,7 @@ interface UpdateAddressScreenProps {
 }
 
 function UpdateAddressScreen({ navigation }: UpdateAddressScreenProps) {
+  const { staticData } = useLocalization();
   const accountService = new AccountService();
   const authContext = useAuth();
   const [loading, setLoading] = useState(false);
@@ -58,44 +60,6 @@ function UpdateAddressScreen({ navigation }: UpdateAddressScreenProps) {
     full_name: Yup.string(),
     phone_number: Yup.string()
   });
-
-  const fields = [
-    {
-        title: "Країна",
-        placeholder: "Обери свою країну",
-        name: "country"
-    },
-    {
-        title: "Регіон",
-        placeholder: "Обери свій регіон",
-        name: "region"
-    },
-    {
-        title: "Місто",
-        placeholder: "Обери своє місто",
-        name: "city"
-    },
-    {
-        title: "Вулиця",
-        placeholder: "Напиши свою вулицю",
-        name: "street"
-    },
-    {
-        title: "Індекс",
-        placeholder: "Напиши свій індекс",
-        name: "post_index"
-    },
-    {
-        title: "ПІБ для отримання",
-        placeholder: "Напиши своє прізвище, ім’я та по-батькові",
-        name: "full_name"
-    },
-    {
-        title: "Номер телефону",
-        placeholder: "Напиши свій номер телефону",
-        name: "phone_number"
-    },
-  ]
   
   return (
     <ScreenContainer>
@@ -103,7 +67,7 @@ function UpdateAddressScreen({ navigation }: UpdateAddressScreenProps) {
       <View style={styles.profileUpdateTop}>
         <BackButton />
         <View style={styles.addressTopText}>
-            <DesignedText italic={true}>Адреса доставки</DesignedText>
+            <DesignedText italic={true}>{staticData.profile.updateAddressScreen.title}</DesignedText>
             <AddressInfoBlock type="address"/>
         </View>
       </View>
@@ -124,7 +88,7 @@ function UpdateAddressScreen({ navigation }: UpdateAddressScreenProps) {
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
             <KeyboardAvoidingView behavior={"height"}>
               <ScrollView style={{ overflow: "visible", zIndex: -1 }} contentContainerStyle={{ gap: 16, backgroundColor: "white", paddingBottom: 10 }}>
-                {fields.map((field, indx) => (
+                {staticData.profile.updateAddressScreen.fields.map((field: {title: string, placeholder: string, name: string}, indx: number) => (
                     <View key={indx} style={styles.addressInputContainer}>
                         <DesignedText size="small" style={{ marginLeft: 8 }}>{field.title}</DesignedText>
                         <TextInputWithoutArrow 
@@ -147,9 +111,9 @@ function UpdateAddressScreen({ navigation }: UpdateAddressScreenProps) {
                     }
                   })
                 }}>
-                    <DesignedText isUppercase={false} style={{ textDecorationLine: "underline", color: "#8A8A8A" }}>Видалити</DesignedText>
+                    <DesignedText isUppercase={false} style={{ textDecorationLine: "underline", color: "#8A8A8A" }}>{staticData.profile.updateAddressScreen.delete}</DesignedText>
                 </TouchableOpacity>
-                <SubmitButton onPress={() => { handleSubmit() }} width={200} style={{ alignSelf: "center" }}>Зберегти</SubmitButton>
+                <SubmitButton onPress={() => { handleSubmit() }} width={200} style={{ alignSelf: "center" }}>{staticData.profile.updateAddressScreen.save}</SubmitButton>
               </ScrollView>
             </KeyboardAvoidingView>
           )}

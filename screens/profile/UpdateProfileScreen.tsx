@@ -53,28 +53,28 @@ function UpdateProfileScreen({ navigation }: UpdateProfileScreenProps) {
       {loading && <Loader />}
         <View style={styles.profileUpdateTop}>
           <BackButton/>
-          <DesignedText italic={true}>акаунт</DesignedText>
+          <DesignedText italic={true}>{staticData.profile.updateProfileScreen.title}</DesignedText>
         </View>
         <AvatarButton onPress={() => { navigation.navigate("UpdateAvatar", { image: user?.photo || "" }) }} url={user?.photo || ""} style={styles.profileUpdateAvatar}/>
         <ScrollView style={styles.updateProfileContent} contentContainerStyle={styles.updateProfileContentContainer}>
             <View style={styles.updateProfileBlockContainer}>
-                <ProfileButtonWithArrow placeholder={"Твоя електронна пошта"} onPress={() => { navigation.navigate("UpdateEmail") }} width="auto">{user?.email || "Ел.пошта"}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.emailPlaceholder} onPress={() => { navigation.navigate("UpdateEmail") }} width="auto">{user?.email || staticData.profile.updateProfileScreen.email}</ProfileButtonWithArrow>
             </View>
             <View style={styles.updateProfileBlockContainer}>
-                <ProfileButtonWithArrow placeholder={"Як тебе звати?"} onPress={() => { navigation.navigate("UpdateName") }} width="auto">{user?.first_name || "Ім’я"}</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Яке твоє прізвище?"} onPress={() => { navigation.navigate("UpdateLastName") }} width="auto">{user?.last_name || "Прізвище"}</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Придумай собі нікнейм"} onPress={() => { navigation.navigate("UpdateNickname") }} width="auto">{`@${user?.username || "нікнейм"}`}</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Яка твоя дата народження?"} onPress={() => { navigation.navigate("UpdateBirth") }} width="auto">{fromServerDateToFrontDate(user?.birthday || "ММ.ДД.РРРР")}</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Напиши про себе"} onPress={() => { navigation.navigate("UpdateAbout") }} width="auto">{user?.about_user || "Текст про мене"}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.namePlaceholder} onPress={() => { navigation.navigate("UpdateName") }} width="auto">{user?.first_name || staticData.profile.updateProfileScreen.name}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.lastNamePlaceholder} onPress={() => { navigation.navigate("UpdateLastName") }} width="auto">{user?.last_name || staticData.profile.updateProfileScreen.lastName}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.nickNamePlaceholder} onPress={() => { navigation.navigate("UpdateNickname") }} width="auto">{`@${user?.username || staticData.profile.updateProfileScreen.nickName}`}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.birthPlaceholder} onPress={() => { navigation.navigate("UpdateBirth") }} width="auto">{fromServerDateToFrontDate(user?.birthday || staticData.profile.updateProfileScreen.birth)}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.aboutPlaceholder} onPress={() => { navigation.navigate("UpdateAbout") }} width="auto">{user?.about_user || staticData.profile.updateProfileScreen.about}</ProfileButtonWithArrow>
             </View>
             <View style={styles.updateProfileBlockContainer}>
-                <ProfileButtonWithArrow placeholder={"Твоя адреса для доставки подарунку"} onPress={() => { navigation.navigate("UpdateAddress") }} width="auto">{
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.addressPlaceholder} onPress={() => { navigation.navigate("UpdateAddress") }} width="auto">{
                   address?.city && address?.country ?
                   `${address.city}, ${address.country}` : 
                   address?.city || address?.country ||
-                  "Адреса"
+                  staticData.profile.updateProfileScreen.address
                 }</ProfileButtonWithArrow>
-                <ProfileButtonWithArrow placeholder={"Адреса відділення пошти"} onPress={() => { navigation.navigate("UpdatePost") }} width="auto">{post?.post_service || "Відділення пошти"}</ProfileButtonWithArrow>
+                <ProfileButtonWithArrow placeholder={staticData.profile.updateProfileScreen.postPlaceholder} onPress={() => { navigation.navigate("UpdatePost") }} width="auto">{post?.post_service || staticData.profile.updateProfileScreen.post}</ProfileButtonWithArrow>
             </View>
         </ScrollView>
     </ScreenContainer>

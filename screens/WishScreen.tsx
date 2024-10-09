@@ -142,7 +142,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             </View>
             {!wish.is_reservation && wish.is_user_create && !wish.is_your_wish && 
                 <View style={styles.giftButton}>
-                  <DesignedText bold={true} italic={true} style={styles.giftButtonText}>Подарувати!</DesignedText>
+                  <DesignedText bold={true} italic={true} style={styles.giftButtonText}>{staticData.wishScreen.giftButton}</DesignedText>
                 </View>
             }
             {wish.author && <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>}

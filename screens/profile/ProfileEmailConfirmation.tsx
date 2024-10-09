@@ -25,7 +25,6 @@ function ProfileEmailConfirmationScreen({ navigation, route }: ProfileEmailConfi
   const { email } = route.params;
   const accountService = new AccountService();
   const { staticData } = useLocalization();
-  const { login } = useAuth();
   const authContext = useAuth();
 
   return (

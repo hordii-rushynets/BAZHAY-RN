@@ -100,8 +100,8 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                   accountService.authGuest(id || "").then(token => {
                     setLoading(false);
                     if (token.access !== "") {
-                      setText("Ти увійшов(ла) як гість. Якщо вийдеш\n з системи або втратиш пристрій,\n на жаль, всі твої дані буде втрачено.");
-                      setButtonText("Увійти в обліковий запис");
+                      setText(staticData.auth.authentificationScreen.guestMessage);
+                      setButtonText(staticData.auth.authentificationScreen.guestMessageButton);
                       setWidth(343);
                       setButtonAction(() => () => {logout(); setIsOpen(false)});
                       setIsOpen(true);

@@ -20,6 +20,7 @@ import BigBrandCard from '../../components/Main/BigBrandCard';
 import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/ui/Loader';
 import RequestCard from '../../components/Main/RequestCard';
+import { useLocalization } from '../../contexts/LocalizationContext';
 
 type SearchScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Search'>;
 
@@ -28,6 +29,7 @@ interface SearchScreenProps {
 }
 
 function SearchScreen({ navigation }: SearchScreenProps) {
+  const { staticData } = useLocalization();
   const [searchPrompt, setSearchPrompt] = useState("");
   const mainService = new MainService();
   const authContext = useAuth();
@@ -123,12 +125,6 @@ function SearchScreen({ navigation }: SearchScreenProps) {
     <WishCard wish={item as Wish} key={i}/>
   );
 
-  const categories = [
-    {key: "users", name: "Люди"},
-    {key: "brands", name: "Бренди"},
-    {key: "wishes", name: "Бажання"},
-  ];
-
   useFocusEffect(
     useCallback(() => {
       mainService.getRequests("", authContext).then(requests => {
@@ -141,7 +137,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
     <ScreenContainer>
         {loading && <Loader />}
         <SearchInput 
-          placeholder={"Знайди друзів, бажання та бренди"}
+          placeholder={staticData.main.searchScreen.searchPlaceholder}
           value={searchPrompt}
           error={undefined}
           onChange={(text) => {setSearchPrompt(text)}}
@@ -150,7 +146,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
           (wishes.length !== 0 || users.length !== 0 || brands.length !== 0) ?
             <>
               <ScrollView style={{maxHeight: 50, height: 50}} contentContainerStyle={styles.categoriesContainer} horizontal>
-                {categories.map(category => (
+                {staticData.main.searchScreen.categories.map((category: {key: string, name: string}) => (
                   <TouchableOpacity key={category.key} onPress={() => { setQuery({...query, [category.key]: !query[category.key as keyof typeof query]}); }}> 
                     <View style={query[category.key as keyof typeof query] ? styles.selectedCategory : styles.category}>
                       <DesignedText size={"small"} style={query[category.key as keyof typeof query] && {color: "#B70000"}}>{category.name}</DesignedText>
@@ -190,11 +186,11 @@ function SearchScreen({ navigation }: SearchScreenProps) {
                   <RequestCard key={indx} searchPrompt={searchPrompt} request={request.query} onPress={() => { setSearchPrompt(request.query) }}/>
                 ))}
               </View>
-              {!loading && <DesignedText size="small" style={{ alignSelf: "center" }}>По вашому запиту нічого не знайдено</DesignedText>}
+              {!loading && <DesignedText size="small" style={{ alignSelf: "center" }}>{staticData.main.searchScreen.emptyMessage}</DesignedText>}
             </>
           :
           <>
-            <DesignedText>Популярні запити</DesignedText>
+            <DesignedText>{staticData.main.searchScreen.popularRequests}</DesignedText>
             <View style={styles.popularRequestsContainer}>
               {popularRequests.map((request, indx) => (
                 <TouchableOpacity key={indx} onPress={() => {setSearchPrompt(request.query)}}>
@@ -208,7 +204,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
               <View style={styles.smallButton}>
                 <Connection />
               </View>
-              <View><DesignedText size="small">додати друзів</DesignedText></View>
+              <View><DesignedText size="small">{staticData.main.searchScreen.addFriendsButton}</DesignedText></View>
             </View>
           </>
         }

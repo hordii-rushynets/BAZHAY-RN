@@ -48,7 +48,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
             <BackButton/>
           </TouchableOpacity>
-          <DesignedText italic={true}>{copyingMode ? "скопіювати бажання собі" : staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
+          <DesignedText italic={true}>{copyingMode ? staticData.wishCreating.wishConfirmationScreen.copyingModeText : staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>
         <View style={[styles.wishConfirmationButtonsContainer, wish?.is_fully_created ? { marginTop: 110 } : { marginTop: 24 }]}>
             <ImageButton ratio={wish?.image_size || 3/4} url={wish?.photo || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
@@ -58,7 +58,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
                   <View style={styles.wishFulfilledButton}>
                     <SmoothCorner />
                     <DesignedText size={"small"}>
-                    Mark the wish as fulfilled
+                    {staticData.wishCreating.wishConfirmationScreen.fulfilledButton}
                     </DesignedText>
                   </View>
                 </TouchableOpacity>
@@ -81,7 +81,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
                 }
               )}}>
                 <DesignedText style={styles.deleteButton} isUppercase={false}>
-                  Видалити бажання
+                  {staticData.wishCreating.wishConfirmationScreen.deleteButton}
                 </DesignedText>
               </TouchableOpacity>
             </View>}

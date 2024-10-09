@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 import DesignedText from '../ui/DesignedText';
 import { useLocalization } from '../../contexts/LocalizationContext';
-import Swiper from 'react-native-swiper';
 import { ArticleCard } from './ArticleCard';
 import styles from '../../screens/main/styles';
 import SwiperFlatList from 'react-native-swiper-flatlist';
@@ -16,7 +15,7 @@ export const ForYouTab = ({ news }: ForYouTabProps) => {
     const { staticData } = useLocalization();
     return (
       <View style={styles.forYouTabContainer}>
-        <DesignedText>Для тебе</DesignedText>
+        <DesignedText>{staticData.main.forYouTabTitle}</DesignedText>
         <SwiperFlatList
           showPagination
           data={news}

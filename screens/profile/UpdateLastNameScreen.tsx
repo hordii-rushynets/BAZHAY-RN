@@ -43,10 +43,10 @@ function UpdateLastNameScreen({ navigation }: UpdateLastNameScreenProps) {
             <View>
                 <View style={styles.titleContainer}>
                     <Title style={styles.title}>
-                        Яке твоє <Title bold={true}>прізвище</Title>?
+                        {staticData.profile.updateLastNameScreen.titleFirst} <Title bold={true}>{staticData.profile.updateLastNameScreen.titleSecond}</Title>?
                     </Title>
                     <DesignedText style={styles.titleSpan}>
-                    Напиши своє прізвище - так друзі та близькі зможуть знайти тебе у Bazhay! 
+                    {staticData.profile.updateLastNameScreen.span}
                     </DesignedText>
                 </View>
                 <Formik
@@ -68,7 +68,7 @@ function UpdateLastNameScreen({ navigation }: UpdateLastNameScreenProps) {
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View style={styles.inputContainer}>
                         <TextInputWithArrow 
-                          placeholder={"Напиши своє прізвище"}
+                          placeholder={staticData.profile.updateLastNameScreen.placeholder}
                           value={values.name}
                           error={errors.name}
                           onChange={handleChange('name')}

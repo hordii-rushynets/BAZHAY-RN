@@ -10,6 +10,7 @@ import SubmitButton from "../ui/buttons/SubmitButton";
 import { MainService } from "../../screens/main/services";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useLocalization } from "../../contexts/LocalizationContext";
 
 type UserCardProps = {
     user: UserFields;
@@ -20,13 +21,14 @@ type UserCardNavigationProp = StackNavigationProp<RootStackParamList, 'Main'>;
 
 export default function UserCard({ user, size = "normal" }: UserCardProps) {
     const navigation = useNavigation<UserCardNavigationProp>(); 
+    const { staticData } = useLocalization();
     const mainService = new MainService();
     const authContext = useAuth();
     const { isGuest } = useAuth();
     const [buttonText, setButtonText] = useState(
         (user.is_subscribed) ?
-        "Відстежується" :
-        "Стежити"
+        staticData.main.subscriptionCard.unsubscribe :
+        staticData.main.subscriptionCard.subscribe
     );
 
     return (
@@ -45,14 +47,14 @@ export default function UserCard({ user, size = "normal" }: UserCardProps) {
                 if (user.is_subscribed) {
                   mainService.unsubscribe(user.id || "", authContext).then(success => {
                     if (success) {
-                      setButtonText("Стежити");
+                      setButtonText(staticData.main.subscriptionCard.subscribe);
                     }
                   });
                 }
                 else {
                   mainService.subscribe(user.id || "", authContext).then(success => {
                     if (success) {
-                      setButtonText("Відстежується");
+                      setButtonText(staticData.main.subscriptionCard.unsubscribe);
                     }
                   });
                 }

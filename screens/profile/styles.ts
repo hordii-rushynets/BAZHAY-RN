@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
         gap: 8
     },
     settingsBottomLogo: {
-        marginTop: 32,
         alignSelf: "center",
         alignItems: "center",
     },
@@ -107,6 +106,22 @@ const styles = StyleSheet.create({
     },
     addressInputContainer: {
         gap: 8,
+    },
+    questionButton: {
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        height: "auto",
+        alignItems: "flex-start",
+    },
+    questionBlock: {
+        marginTop: 24,
+        gap: 16
+    },
+    questionButtonBottom: {
+        alignSelf: "center",
+        width: "100%",
+        position: "absolute",
+        bottom: 188
     }
 });
 

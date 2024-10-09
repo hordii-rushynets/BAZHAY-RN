@@ -66,8 +66,8 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                           return;
                         }
                         if (wish.guestError) {
-                          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб створити бажання");
-                          setButtonText("Увійти в обліковий запис");
+                          setText(staticData.wishCreating.addWishByLinkScreen.guestMessage);
+                          setButtonText(staticData.wishCreating.addWishByLinkScreen.guestMessageButton);
                           setWidth(343);
                           setButtonAction(() => () => {logout(); setIsOpen(false);});
                           setIsOpen(true);

@@ -30,7 +30,7 @@ function UpdateAvatarScreen({ navigation, route }: UpdateAvatarScreenProps) {
     <ScreenContainer>
         <View style={profileStyles.profileUpdateTop}>
           <BackButton />
-          <DesignedText italic={true}>оновити аватар</DesignedText>
+          <DesignedText italic={true}>{staticData.profile.updateAvatarScreen.title}</DesignedText>
         </View>
         <View style={profileStyles.centerContent}>
             <View style={styles.avatarImageContainer}>
@@ -41,7 +41,7 @@ function UpdateAvatarScreen({ navigation, route }: UpdateAvatarScreenProps) {
         </View>
         <TouchableOpacity onPress={() => {  }} style={styles.addLaterButton}>
           <DesignedText isUppercase={false} style={{ textDecorationLine: "underline", color: "#8A8A8A" }}>
-            Видалити
+          {staticData.profile.updateAvatarScreen.delete}
           </DesignedText>
         </TouchableOpacity>
     </ScreenContainer>

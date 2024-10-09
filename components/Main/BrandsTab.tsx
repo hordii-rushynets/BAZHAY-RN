@@ -15,7 +15,7 @@ export const BrandsTab = ({brands}: BrandsTabProps) => {
     const { staticData } = useLocalization();
     return (
       <View style={styles.brandsTabContainer}>
-        <DesignedText>Бренди</DesignedText>
+        <DesignedText>{staticData.main.brandsTabTitle}</DesignedText>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {brands.map((brand, indx) => {
             return <BrandCard brand={brand} key={indx}/>

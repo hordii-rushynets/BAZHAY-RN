@@ -48,10 +48,10 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
           <View>
               <View style={styles.linkTitleContainer}>
                   <Title style={authStyles.title}>
-                    Встав <Title bold={true}>посилання {"\n"}</Title>
-                    на своє бажання
+                    {staticData.wishCreating.addWishByLinkScreen.titleFirst} <Title bold={true}>{staticData.wishCreating.addWishByLinkScreen.titleSecond} {"\n"}</Title>
+                    {staticData.wishCreating.addWishByLinkScreen.titleThird}
                   </Title>
-                  <DesignedText style={authStyles.title}>а ми заповнимо  інформацію</DesignedText>
+                  <DesignedText style={authStyles.title}>{staticData.wishCreating.addWishByLinkScreen.span}</DesignedText>
               </View>
               <Formik
                 initialValues={{ link: '' }}
@@ -77,8 +77,8 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                           return;
                         }
                         if (createdWish.guestError) {
-                          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб створити бажання");
-                          setButtonText("Увійти в обліковий запис");
+                          setText(staticData.wishCreating.addWishByLinkScreen.guestMessage);
+                          setButtonText(staticData.wishCreating.addWishByLinkScreen.guestMessageButton);
                           setWidth(343);
                           setButtonAction(() => () => {logout(); setIsOpen(false);});
                           setIsOpen(true);
@@ -93,14 +93,14 @@ function AddWishByLinkScreen({ navigation }: AddWishByLinkScreenProps) {
                   }
                   catch {
                     setLoading(false);
-                    setErrors({ link: "Вкажіть коректне покликання на бажання" })
+                    setErrors({ link: staticData.wishCreating.addWishByLinkScreen.error })
                   }
                 }}
               >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                   <View style={authStyles.inputContainer}>
                       <TextInputWithArrow 
-                        placeholder={"Вкажи посилання з сайту"}
+                        placeholder={staticData.wishCreating.addWishByLinkScreen.placeholder}
                         value={values.link}
                         error={errors.link}
                         onChange={handleChange('link')}

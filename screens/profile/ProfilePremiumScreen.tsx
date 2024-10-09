@@ -23,7 +23,7 @@ interface ProfilePremiumScreenProps {
 }
 
 function ProfilePremiumScreen({ navigation }: ProfilePremiumScreenProps) {
-  const { localization, setLocalization } = useLocalization();
+  const { staticData } = useLocalization();
   const accountService = new AccountService();
   const authContext = useAuth();
   const [isPremium, setIsPremium] = useState<boolean | undefined>(false);
@@ -44,7 +44,7 @@ function ProfilePremiumScreen({ navigation }: ProfilePremiumScreenProps) {
         {loading && <Loader />}
         <View style={wishStyles.wishConfirmationTop}>
           <BackButton/>
-          <DesignedText italic={true}>преміум підписка</DesignedText>
+          <DesignedText italic={true}>{staticData.profile.profilePremiumScreen}</DesignedText>
         </View>
         {!isPremium && 
             <View style={styles.premiumButtonsContainer}>
