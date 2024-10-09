@@ -73,6 +73,10 @@ export class AccountService {
             const userData = await response.json(); 
             return userData;
         }
+        else if (response.status === 403) {
+            const userData = { haveErrors: true };
+            return userData;
+        }
         else {
             throw new Error("Error fetching userinfo");
         }
@@ -111,6 +115,16 @@ export class AccountService {
       else {
           return { access: "", refresh: "" };
       }
+    }
+
+    public async updateEmail(email: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.updateEmail(email, authContext);
+        return response.ok;
+    }
+
+    public async updateOtpConfirm(email: string, otp: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.updateOtpConfirm(email, otp, authContext);
+        return response.ok;
     }
 
     public async becomePremium(authContext: any): Promise<boolean> {

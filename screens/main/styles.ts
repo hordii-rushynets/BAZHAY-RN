@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     },
     topBar: {
       flexDirection: "row",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      alignItems: "center",
     },
     forYouTabContainer: {
       gap: 20,
@@ -348,6 +349,31 @@ const styles = StyleSheet.create({
     },
     searchResultContainer: {
       paddingBottom: 50,
+    },
+    popularRequestsContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      marginTop: 16,
+      gap: 8,
+    },
+    popularRequest: {
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "black",
+      paddingVertical: 8,
+      paddingHorizontal: 30,
+      borderRadius: 30,
+      shadowOpacity: 0.25,
+      shadowRadius: 2,
+      elevation: 2,
+      shadowOffset: { width: -2, height: 2 },
+      backgroundColor: "white",
+    },
+    requestContainer: {
+      flexDirection: "row",
+      gap: 16,
+      alignItems: "center",
+      backgroundColor: "white",
     }
 });
 

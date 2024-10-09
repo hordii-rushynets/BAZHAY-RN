@@ -15,6 +15,8 @@ import UpdateAvatarScreen from '../../screens/profile/UpdateAvatarScreen';
 import AvatarFromGalleryScreen from '../../screens/profile/AvatarFromGalleryScreen';
 import AvatarFromCameraScreen from '../../screens/profile/AvatarFromCameraScreen';
 import UpdateAvatarConfirmationScreen from '../../screens/profile/UpdateAvatarConfirmationScreen';
+import UpdateEmailScreen from '../../screens/profile/UpdateEmailScreen';
+import ProfileEmailConfirmationScreen from '../../screens/profile/ProfileEmailConfirmation';
 import ProfilePremiumScreen from '../../screens/profile/ProfilePremiumScreen';
 import UpdateAddressScreen from '../../screens/profile/UpdateAddress';
 import UpdatePostScreen from '../../screens/profile/UpdatePost';
@@ -34,6 +36,8 @@ export type ProfileStackParamList = {
   AvatarFromGallery: undefined;
   AvatarFromCamera: undefined;
   UpdateAvatarConfirmation: { image: string };
+  UpdateEmail: undefined;
+  ProfileEmailConfirmation: { email: string }
   ProfilePremium: undefined;
   UpdateAddress: undefined;
   UpdatePost: undefined;
@@ -57,6 +61,8 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="AvatarFromGallery" component={AvatarFromGalleryScreen} />
     <ProfileStack.Screen name="AvatarFromCamera" component={AvatarFromCameraScreen}/>
     <ProfileStack.Screen name="UpdateAvatarConfirmation" component={UpdateAvatarConfirmationScreen} />
+    <ProfileStack.Screen name="UpdateEmail" component={UpdateEmailScreen} />
+    <ProfileStack.Screen name="ProfileEmailConfirmation" component={ProfileEmailConfirmationScreen}/>
     <ProfileStack.Screen name="ProfilePremium" component={ProfilePremiumScreen}/>
     <ProfileStack.Screen name="UpdateAddress" component={UpdateAddressScreen}/>
     <ProfileStack.Screen name="UpdatePost" component={UpdatePostScreen}/>

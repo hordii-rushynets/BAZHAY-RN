@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../components/RootNavigator';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
 import Loader from '../../components/ui/Loader';
+import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 
 type AddWishTitleScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishTitle'>;
 
@@ -25,6 +26,8 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
   const wishService = new WishService();
   const { wishId, setWishId, editingMode } = useWishCreating(); 
   const [loading, setLoading] = useState(false);
+  const { setIsOpen, setText, setButtonText, setButtonAction, setWidth } = usePopUpMessageContext();
+  const { logout } = useAuth();
 
   const { staticData } = useLocalization();
 
@@ -58,12 +61,22 @@ function AddWishTitleScreen({ navigation }: AddWishTitleScreenProps) {
                     else {
                       wishService.wishCreate({ name: values.name }, authContext).then(wish => {
                         setLoading(false);
+                        if (wish.premiumError) {
+                          navigation.navigate("Premium");
+                          return;
+                        }
+                        if (wish.guestError) {
+                          setText("Ти увійшов(ла) як гість. Увійди в свій обліковий запис, щоб створити бажання");
+                          setButtonText("Увійти в обліковий запис");
+                          setWidth(343);
+                          setButtonAction(() => () => {logout(); setIsOpen(false);});
+                          setIsOpen(true);
+                          return;
+                        }
                         if (wish) {
                           setWishId(wish?.id || undefined);
                           navigation.navigate("AddWishPhotoOrVideo");
                         }
-                      }).catch(error => {
-                        navigation.navigate("Premium")
                       })
                     }
                   }}
