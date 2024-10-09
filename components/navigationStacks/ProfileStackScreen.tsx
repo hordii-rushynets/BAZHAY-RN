@@ -20,6 +20,11 @@ import ProfileEmailConfirmationScreen from '../../screens/profile/ProfileEmailCo
 import ProfilePremiumScreen from '../../screens/profile/ProfilePremiumScreen';
 import UpdateAddressScreen from '../../screens/profile/UpdateAddress';
 import UpdatePostScreen from '../../screens/profile/UpdatePost';
+import TechSupporOrFAQScreen from '../../screens/profile/TechSupportOrFAQScreen';
+import FAQScreen from '../../screens/profile/FAQScreen';
+import { Question, QuestionCategory } from '../../screens/profile/interfaces';
+import FAQCategoryScreen from '../../screens/profile/FAQCategoryScreen';
+import QuestionScreen from '../../screens/profile/QuestionScreen';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -41,6 +46,10 @@ export type ProfileStackParamList = {
   ProfilePremium: undefined;
   UpdateAddress: undefined;
   UpdatePost: undefined;
+  TechSupporOrFAQ: undefined;
+  FAQ: undefined;
+  FAQCategory: { category: QuestionCategory };
+  Question: { question: Question, categoryTitle: string };
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -66,6 +75,10 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="ProfilePremium" component={ProfilePremiumScreen}/>
     <ProfileStack.Screen name="UpdateAddress" component={UpdateAddressScreen}/>
     <ProfileStack.Screen name="UpdatePost" component={UpdatePostScreen}/>
+    <ProfileStack.Screen name="TechSupporOrFAQ" component={TechSupporOrFAQScreen}/>
+    <ProfileStack.Screen name="FAQ" component={FAQScreen}/>
+    <ProfileStack.Screen name="FAQCategory" component={FAQCategoryScreen}/>
+    <ProfileStack.Screen name="Question" component={QuestionScreen}/>
   </ProfileStack.Navigator>
 );
 

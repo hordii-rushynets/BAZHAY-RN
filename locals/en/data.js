@@ -479,6 +479,95 @@ export default data = {
             postPlaceholder: "Post office address",
             post: "Post office"
         },
+        techSupportOrFAQScreen: {
+            title: "technical support",
+            questions: "Frequently asked questions",
+            support: "Message support"
+        },
+        faqCategoryScreen: {
+            faq: "FAQ",
+            supportButton: "I did not find the right answer. \ngo to chat"
+        },
+        faq: [
+            {
+                title: "Subscription",
+                questions: [
+                    {
+                        title: "I want to unsubscribe",
+                        filling: [
+                            "you are always in control of your subscription to Bazhay!, so whether or not to cancel is your choice! Although we would like you to stay with us as long as possible, we will tell you how to cancel your subscription.",
+                            "Team Bazhay! does not have access to subscriptions, so cannot modify or cancel them. However, this can be done from your phone's settings in Google Play or the AppStore."
+                        ]
+                    },
+                    {
+                        title: "Account deletion",
+                        filling: [
+                            "you can delete your account and your data yourself. On the settings screen, accessible after going to your profile, you will find a delete account button under the log out option. If you click on it, you will be asked to confirm the deletion of your account.",
+                            "However, if you change your mind, there is a 14-day period to restore your account. If you log into your account within these two weeks, the deletion will be cancelled, otherwise it will be completed as soon as this period is over.",
+                            "Deleting your account will not cancel your free trial or any of your existing subscriptions immediately. you need to stop it by canceling your subscription first in Google Play or AppStore."
+                        ]
+                    },
+                    {
+                        title: "I want my payment back",
+                        filling: [
+                            "Unfortunately, we cannot refund you directly, as each payment is processed by Apple (iOS) or Google (Android), respectively. However, they do have a simple refund request process from their site. Here you can find links to their support pages:",
+                            "Apple (iOS)",
+                            "Google (Android)"
+                        ]
+                    },
+                    {
+                        title: "I paid for the subscription, but she not active",
+                        filling: [
+                            'Try to restore the purchase. We may not have received payment confirmation from Apple or Google. \nyou can do this at the bottom of any subscription screen in the app by clicking "Restore purchase".'
+                        ]
+                    },
+                    {
+                        title: "Do I have an active subscription?",
+                        filling: [
+                            "you can check it in settings by going to your profile and then clicking on the premium subscription button. you will be redirected to Google Play or the App Store, where you will be able to change your subscription."
+                        ]
+                    },
+                    {
+                        title: "what do i get in the premium version?",
+                        filling: [
+                            "текст"
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Application and functionality ",
+                questions: [
+                    {
+                        title: "I can't log into my account",
+                        filling: [
+                            "Please try using a different Wi-Fi or cellular connection. \nAlso, check if you are logging in with the same email address and service you registered with",
+                            "(Make sure the (time) zone is set to automatic in your phone settings.)"
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Feedback",
+                questions: [
+                    {
+                        title: "I want to propose a new feature",
+                        filling: [
+                            "Bazhay! is developing and getting better for you every day, so if you want to see a new feature in the app, please share with us in the form at ",
+                            "this link.",
+                            "We are listening!"
+                        ]
+                    },
+                    {
+                        title: "I don't like that the app is paid",
+                        filling: [
+                            "We understand that this may be a concern for you. ",
+                            "Bazhay! is an app where we offer many features for free and premium features require a subscription. And thanks to this, we can constantly improve the capabilities of the application and make it more convenient for you."
+                        ]
+                    }
+                ]
+            }
+          ]
     },
     home: {
         notificationsScreen: {

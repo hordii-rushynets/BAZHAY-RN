@@ -23,12 +23,12 @@ import PrivacyPolicy from '../../components/ui/icons/PrivacyPolicy';
 import UsingTerms from '../../components/ui/icons/UsingTerms';
 import BrokenHeart from '../../components/ui/icons/BrokenHeart';
 import { ScrollView } from 'react-native-gesture-handler';
-import Logo from '../../components/ui/icons/Logo';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { AccountService } from '../auth/services';
 import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/ui/Loader';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { VersionBlock } from '../../components/Profile/VersionBlock';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -91,7 +91,7 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
           <View style={styles.settingsBlockContainer}>
             <DesignedText>{staticData.profile.settingsScreen.contactUsBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TechSupport />}>{staticData.profile.settingsScreen.techSupport}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("TechSupporOrFAQ") }} width="auto" icon={<TechSupport />}>{staticData.profile.settingsScreen.techSupport}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => { }} width="auto" icon={<Heart />}>{staticData.profile.settingsScreen.becomeAmbassador}</ButtonWithArrow>
             </View>
           </View>
@@ -116,10 +116,7 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
             <ButtonWithArrow onPress={() => { navigation.navigate("DeleteAccount") }} width="auto" icon={<BrokenHeart/>}>{staticData.profile.settingsScreen.deleteAccount}</ButtonWithArrow>
           </View>
         </View>
-        <View style={styles.settingsBottomLogo}>
-          <Logo width={160} height={46}/>
-          <DesignedText isUppercase={false} size="small" style={styles.settingsBottomText}>{staticData.profile.settingsScreen.version} 1.1.1</DesignedText>
-        </View>
+        <VersionBlock style={{ marginTop: 32 }}/>
       </ScrollView>
     </ScreenContainer>
   );
