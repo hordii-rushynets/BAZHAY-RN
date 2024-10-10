@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import { Formik } from 'formik';
@@ -80,9 +80,13 @@ function UpdateEmailScreen({ navigation }: UpdateEmailScreenProps) {
             <View style={{ position: "absolute", bottom: 20, alignSelf: "center" }}>
                 <DesignedText size="small" isUppercase={false} style={styles.bottomText}>
                 {staticData.auth.changeEmailScreen.bottomTextFirstPart} {'\n'} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextPrivacyPolicy}</DesignedText> 
+                <TouchableOpacity onPress={() => { navigation.navigate("PrivacyPolicy") }}>
+                  <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextPrivacyPolicy}</DesignedText>
+                </TouchableOpacity> 
                 {" "}{staticData.auth.changeEmailScreen.bottomTextAnd}{" "} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextUsageRules}</DesignedText>
+                <TouchableOpacity onPress={() => { navigation.navigate("TermsOfUse") }}>
+                  <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.changeEmailScreen.bottomTextUsageRules}</DesignedText>
+                </TouchableOpacity>
                 </DesignedText>
             </View>
         </View>

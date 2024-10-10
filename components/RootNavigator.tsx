@@ -12,6 +12,8 @@ import WishCreatingStackScreen, { WishCreatingStackParamList } from './navigatio
 import WishScreen from '../screens/WishScreen';
 import ProfileStackScreen, { ProfileStackParamList } from './navigationStacks/ProfileStackScreen';
 import HomeStackScreen, { HomeStackParamList } from './navigationStacks/HomeStackScreen';
+import TermsOfUseScreen from '../screens/TermsOfUseScreen';
+import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -52,6 +54,8 @@ export type RootStackParamList = {
     params?: ProfileStackParamList[keyof ProfileStackParamList];
   };
   Wish: { wishId: string; };
+  TermsOfUse: undefined;
+  PrivacyPolicy: undefined;
 } & WishCreatingStackParamList & MainStackParamList & ProfileStackParamList & HomeStackParamList
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -97,6 +101,8 @@ const RootNavigator: React.FC = () => {
               component={ProfileStackScreen}
             />
             <Stack.Screen name={"Wish"} component={WishScreen}/>
+            <Stack.Screen name={"TermsOfUse"} component={TermsOfUseScreen}/>
+            <Stack.Screen name={"PrivacyPolicy"} component={PrivacyPolicyScreen}/>
           </Stack.Navigator>
             : <AccountFillStackScreen/> 
           : <AuthStackScreen /> 

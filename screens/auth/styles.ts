@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     },
     underlined: {
         textDecorationLine: 'underline',
+        transform: [{ translateY: 4 }]
     },
     otpInputContainer: {
         marginTop: 32,

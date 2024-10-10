@@ -118,9 +118,13 @@ function AuthScreen({ navigation }: AuthScreenProps) {
                 </TouchableOpacity>
                 <DesignedText size="small" isUppercase={false} style={styles.bottomText}>
                 {staticData.auth.authentificationScreen.bottomTextFirstPart} {'\n'} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextPrivacyPolicy}</DesignedText> 
+                <TouchableOpacity onPress={() => { navigation.navigate("PrivacyPolicy") }}>
+                  <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextPrivacyPolicy}</DesignedText> 
+                </TouchableOpacity>
                 {" "}{staticData.auth.authentificationScreen.bottomTextAnd}{" "} 
-                <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextUsageRules}</DesignedText>
+                <TouchableOpacity onPress={() => { navigation.navigate("TermsOfUse") }}>
+                  <DesignedText size="small" isUppercase={false} style={styles.underlined}>{staticData.auth.authentificationScreen.bottomTextUsageRules}</DesignedText>
+                </TouchableOpacity>
                 </DesignedText>
             </View>
         </View>

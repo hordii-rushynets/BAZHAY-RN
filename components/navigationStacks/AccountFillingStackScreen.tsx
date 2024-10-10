@@ -13,6 +13,8 @@ import ImageFromCameraScreen from '../../screens/auth/ImageFromCameraScreen';
 import AccountFillBirthScreen from '../../screens/auth/AccountFillBirthScreen';
 import AccountFillSexScreen from '../../screens/auth/AccountFillSexScreen';
 import AccountFillEndingScreen from '../../screens/auth/AccountFillEndingScreen';
+import TermsOfUseScreen from '../../screens/TermsOfUseScreen';
+import PrivacyPolicyScreen from '../../screens/PrivacyPolicyScreen';
 
 export type AccountFillingStackParamList = {
     Greeting: {name: string};
@@ -26,6 +28,8 @@ export type AccountFillingStackParamList = {
     AccountFillBirth: undefined;
     AccountFillSex: undefined;
     AccountFillEnding: undefined;
+    TermsOfUse: undefined;
+    PrivacyPolicy: undefined;
 };
 
 const AccountFillingStack = createStackNavigator<AccountFillingStackParamList>();
@@ -43,6 +47,8 @@ const AccountFillingStackScreen: React.FC = () => (
     <AccountFillingStack.Screen name="AccountFillBirth" component={AccountFillBirthScreen}/>
     <AccountFillingStack.Screen name="AccountFillSex" component={AccountFillSexScreen}/>
     <AccountFillingStack.Screen name="AccountFillEnding" component={AccountFillEndingScreen}/>
+    <AccountFillingStack.Screen name={"TermsOfUse"} component={TermsOfUseScreen}/>
+    <AccountFillingStack.Screen name={"PrivacyPolicy"} component={PrivacyPolicyScreen}/>
   </AccountFillingStack.Navigator>
 );
 
