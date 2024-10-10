@@ -11,12 +11,18 @@ const styles = StyleSheet.create({
         marginTop: 200,
         marginHorizontal: "auto"
     },
+    secondTextContainer: {
+        flex: 1,
+        alignItems: "center",
+        marginTop: 200,
+        marginHorizontal: "auto"
+    },
     title: {
         textAlign: "center"
     },
     text: {
         textAlign: "center",
-        marginTop: 16,
+        marginTop: 20,
     },
     link: {
         alignSelf:  "flex-end",

@@ -3,16 +3,43 @@ export default data = {
         welcome1screen: {
             titleFirstPart: "Welcome to",
             titleBoldPart: "Bazhay!",
-            textFirstPart: "BAZHAY! ДОПОМОЖЕ ТОБІ",
-            textItalicPart: "ОТРИМАТИ",
-            textBoldPart: "БАЖАНІ ПОДАРУНКИ",
-            textEndingPart: "ЯК?"
+            textFirstPart: "Imagine a world where you always",
+            textItalicPart: "get",
+            textSecondPart: "exactly",
+            textBoldPart: "the gifts you want...",
+            textEndingPart: "Enticing, right?"
         },
         welcome2screen: {
-            title: "Розповідь про додаток"
+            firstParagraph: {
+                start: "with",
+                bold: "bazhay!",
+                end: "you don't even need to imagine, because this is reality."
+            },
+            secondParagraph: {
+                start: "Our application allows you to",
+                italic: "easily",
+                center: "create wishes and",
+                secondItalic: "share",
+                end: "them with loved ones."
+            },
+            thirdParagraph: {
+                start: "and your loved ones — to choose gifts",
+                italic: "without stress."
+            }
         },
         welcome3screen: {
-            button: "Get started!"
+            button: "Get started!",
+            firstParagraph: {
+                start: "Forget about the frustration of unnecessary things — now",
+                italic: "you are in control",
+                bold: "of your holiday mood!"
+            },
+            secondParagraph: {
+                start: "we",
+                italic: "bring people together",
+                center: "through gifts that",
+                bold: "bring joy and strengthen relationships."
+            }
         },
         layout: {
             skipButton: "Miss"

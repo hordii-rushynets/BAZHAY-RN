@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Easing, View } from 'react-native';
 import Layout from '../../components/Welcome/Layout';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
@@ -21,10 +21,38 @@ function WelcomeScreen({ navigation } : WelcomeScreenProps) {
   const { completeWelcome } = useAuth();
   const { staticData } = useLocalization();
 
+  const animatedOpacity1 = useRef(new Animated.Value(0)).current
+  const animatedOpacity2 = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(animatedOpacity1, {
+      toValue: 1,
+      duration: 5000,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start(() => {
+      Animated.timing(animatedOpacity2, {
+        toValue: 1,
+        duration: 5000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }).start()
+    });
+  }, []);
+
   return (
     <Layout index={2} displaySkip={false}>
-      <View style={styles.textContainer}>
-        <Title style={styles.title}>{staticData.welcome.welcome2screen.title}</Title>
+      <View style={styles.secondTextContainer}>
+        <Animated.View style={{ opacity: animatedOpacity1 }}>
+            <DesignedText style={styles.text}>
+              {staticData.welcome.welcome3screen.firstParagraph.start} <DesignedText italic={true}>{staticData.welcome.welcome3screen.firstParagraph.italic}</DesignedText> <DesignedText bold={true}>{staticData.welcome.welcome3screen.firstParagraph.bold}</DesignedText>
+            </DesignedText>
+          </Animated.View>
+          <Animated.View style={{ opacity: animatedOpacity2 }}>
+            <DesignedText style={styles.text}>
+              {staticData.welcome.welcome3screen.secondParagraph.start} <DesignedText italic={true}>{staticData.welcome.welcome3screen.secondParagraph.italic}</DesignedText> {staticData.welcome.welcome3screen.secondParagraph.center} <DesignedText bold={true}>{staticData.welcome.welcome3screen.secondParagraph.bold}</DesignedText>
+            </DesignedText>
+          </Animated.View>
       </View>
       <SubmitButton onPress={async () => {
         completeWelcome();

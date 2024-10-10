@@ -3,16 +3,43 @@ export default data = {
         welcome1screen: {
             titleFirstPart: "Ласкаво просимо до",
             titleBoldPart: "Bazhay!",
-            textFirstPart: "BAZHAY! ДОПОМОЖЕ ТОБІ",
-            textItalicPart: "ОТРИМАТИ",
-            textBoldPart: "БАЖАНІ ПОДАРУНКИ",
-            textEndingPart: "ЯК?"
+            textFirstPart: "Уяви світ, де ти завжди",
+            textItalicPart: "отримуєш",
+            textSecondPart: "саме ті",
+            textBoldPart: "подарунки, які бажаєш...",
+            textEndingPart: "Заманливо, так?"
         },
         welcome2screen: {
-            title: "Розповідь про додаток"
+            firstParagraph: {
+                start: "з",
+                bold: "bazhay",
+                end: "тобі і уявляти не потрібно, адже це — реальність."
+            },
+            secondParagraph: {
+                start: "Наш додаток надає тобі можливість",
+                italic: "легко",
+                center: "створити бажання та",
+                secondItalic: "поділитися",
+                end: "ними з близькими людьми."
+            },
+            thirdParagraph: {
+                start: "а твоїм близьким — вибирати подарунки",
+                italic: "без стресу."
+            }
         },
         welcome3screen: {
-            button: "Розпочати!"
+            button: "Розпочати!",
+            firstParagraph: {
+                start: "Забудь про розчарування від непотрібних речей — тепер",
+                italic: "ти контролюєш",
+                bold: "свій святковий настрій!"
+            },
+            secondParagraph: {
+                start: "ми",
+                italic: "об’єднуємо",
+                center: "людей через подарунки, які приносять",
+                bold: "радість і зміцнюють стосунки."
+            }
         },
         layout: {
             skipButton: "Пропустити"
