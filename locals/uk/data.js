@@ -188,6 +188,7 @@ export default data = {
             "": "",
             everyone: "Всі",
             subscribers: "Підписники",
+            selected_users: "обрати серед підписників",
             only_me: "Тільки я"
         },
         addWishVisibilityScreen: {
@@ -248,7 +249,8 @@ export default data = {
             cutVideo: "обрізати відео",
             selectCover: "обрати обкладинку",
             save: "Готово"
-        }
+        },
+        selectUsersScreen: "хто буде бачити бажання"
     },
     main: {
         premiumProfileAdvert: {
@@ -276,6 +278,8 @@ export default data = {
             createWish: "Створити бажання"
         },
         profileScreen: {
+            wishes: "бажання",
+            drafts: "чернетки",
             namePlaceholder: "Ім’я та Прізвище",
             aboutPlaceholder: "Напиши декілька слів про себе",
             subscribers: "Підписники",

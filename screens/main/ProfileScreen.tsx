@@ -25,6 +25,7 @@ import BackButton from '../../components/ui/buttons/BackButton';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { MainService } from './services';
 import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
+import Loader from '../../components/ui/Loader';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'> | StackNavigationProp<RootStackParamList, 'CommunityProfile'>;
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Profile'> | RouteProp<RootStackParamList, 'CommunityProfile'>
@@ -51,7 +52,8 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
   const [sortings, setSortings] = useState<{[key: string]: string}>({
     "user": userId || "",
     "price": "",
-    "created": ""
+    "created": "",
+    "is_fully_created": "true"
   });
   const { setIsOpen, setText, setButtonText, setButtonAction, setWidth, setExitAction } = usePopUpMessageContext();
   const { logout, isGuest } = useAuth();
@@ -93,6 +95,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
 
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
       scrollViewRef.current?.scrollTo({ y: 0, animated: true });
       accountService.getUser(authContext, userId).then(userData => {
         if (!userData.haveErrors) {
@@ -128,16 +131,14 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
     setSortings({
       "user": userId || "",
       "price": "",
-      "created": ""
+      "created": "",
+      "is_fully_created": "true"
     });
   }, [userId]);
 
-  if (loading) {
-    return <></>
-  }
-
   return (
     <ScreenContainer>
+        {loading && <Loader />}
         {userId && <View style={styles.backButtonContainer}>
           <BackButton link="Community"/>
         </View>}
@@ -187,6 +188,22 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
           </>}
         </View>
         <View style={styles.profileWishesContainer}>
+          <View style={[styles.subscriptionsChoosing, { position: "absolute", width: 229 }]}>
+            <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "true" && styles.subscriptionsOptionActive]}>
+              <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "true"}) }}>
+                <DesignedText size="small">
+                  {staticData.main.profileScreen.wishes}
+                </DesignedText>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "false" && styles.subscriptionsOptionActive]}>
+              <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "false"}) }}>
+                <DesignedText size="small">
+                  {staticData.main.profileScreen.drafts}
+                </DesignedText>
+              </TouchableOpacity>
+            </View>
+          </View>
           <SortingButton sortings={sortings} setSortings={setSortings}/>
           <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll} ref={scrollViewRef}>
             <MasonryList
