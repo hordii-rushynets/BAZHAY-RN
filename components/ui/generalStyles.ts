@@ -220,6 +220,10 @@ const styles = StyleSheet.create({
       width: Dimensions.get("screen").width,
       height: Dimensions.get("screen").height,
       zIndex: 999 
+    },
+    loadingLogoContainer: {
+      marginVertical: "auto",
+      alignSelf: "center",
     }
 })
 
