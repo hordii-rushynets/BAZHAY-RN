@@ -27,3 +27,9 @@ export interface FileInterface {
     type: string, 
     uri: string
 }
+
+export interface WishAccessModel {
+    id: string;
+    wish: string;
+    users: {user: UserFields}[];
+}

@@ -110,5 +110,24 @@ export class WishDAOService {
       })
       return response;
     }
+
+    public async setAccessToWish(wishId: string, selectedUsers: string[], type: "create" | "update", authContext: any, accessId?: string): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/access-to-wish/${accessId ? accessId + "/" : ""}`, {
+        method: type === "create" ? "POST" : "PUT",
+        body: JSON.stringify({
+          wish_id: wishId,
+          user_ids: selectedUsers
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+      return response;
+    }
+
+    public async getAccessToWish(wishId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/access-to-wish/?wish=${wishId}`, {}, authContext);
+      return response;
+    }
 }
   

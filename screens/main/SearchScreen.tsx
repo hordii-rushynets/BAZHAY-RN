@@ -145,15 +145,26 @@ function SearchScreen({ navigation }: SearchScreenProps) {
         {searchPrompt !== "" ? 
           (wishes.length !== 0 || users.length !== 0 || brands.length !== 0) ?
             <>
-              <ScrollView style={{maxHeight: 50, height: 50}} contentContainerStyle={styles.categoriesContainer} horizontal>
+              <View style={[styles.subscriptionsChoosing, { justifyContent: "space-between" }]}>
                 {staticData.main.searchScreen.categories.map((category: {key: string, name: string}) => (
-                  <TouchableOpacity key={category.key} onPress={() => { setQuery({...query, [category.key]: !query[category.key as keyof typeof query]}); }}> 
-                    <View style={query[category.key as keyof typeof query] ? styles.selectedCategory : styles.category}>
-                      <DesignedText size={"small"} style={query[category.key as keyof typeof query] && {color: "#B70000"}}>{category.name}</DesignedText>
-                    </View>
+                  <View style={[styles.subscriptionsOption, { width: "33%" }, query[category.key as keyof typeof query] && styles.subscriptionsOptionActive]}>
+                  <TouchableOpacity onPress={() => {
+                    setQuery((prevQuery) => {
+                      const updatedQuery = Object.keys(prevQuery).reduce((acc, key) => {
+                        acc[key as keyof typeof query] = key === category.key ? !prevQuery[key as keyof typeof query] : false;
+                        return acc;
+                      }, {} as typeof prevQuery);
+                    
+                      return updatedQuery;
+                    });
+                  }}>
+                    <DesignedText size="small">
+                      {category.name}
+                    </DesignedText>
                   </TouchableOpacity>
+                </View>
                 ))}
-              </ScrollView>
+              </View>
               <ScrollView contentContainerStyle={styles.searchResultContainer} onScroll={handleScroll}>
                 <View style={[styles.usersContainer, {gap: 8}]}>
                   {requests.map((request, indx) => (

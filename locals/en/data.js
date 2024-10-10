@@ -188,6 +188,7 @@ export default data = {
             "": "",
             everyone: "All",
             subscribers: "Subscribers",
+            selected_users: "choose among the subscribers",
             only_me: "Only me"
         },
         addWishVisibilityScreen: {
@@ -248,7 +249,8 @@ export default data = {
             cutVideo: "trim video",
             selectCover: "choose a cover",
             save: "done"
-        }
+        },
+        selectUsersScreen: "who will see the wish"
     },
     main: {
         premiumProfileAdvert: {

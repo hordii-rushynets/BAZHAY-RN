@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import DesignedText from '../../components/ui/DesignedText';
 import Title from '../../components/ui/Title';
 import authStyles from '../auth/styles'
@@ -13,6 +13,8 @@ import { RootStackParamList } from '../../components/RootNavigator';
 import { WishService } from './services';
 import { useWishCreating } from '../../contexts/WishCreatingContext';
 import Loader from '../../components/ui/Loader';
+import { useFocusEffect } from '@react-navigation/native';
+import { UserFields } from '../auth/interfaces';
 
 type AddWishVisibilityScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AddWishVisibility'>;
 
@@ -27,6 +29,18 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
   const wishService = new WishService();
   const { wishId, editingMode } = useWishCreating();
   const [loading, setLoading] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState<UserFields[]>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      wishService.getAccessToWish(wishId || "", authContext).then(accesses => {
+        if (accesses.length > 0) {
+          setVisibility("selected_users");
+          setSelectedUsers(accesses[0].users.map(user => user.user || {}));
+        }
+      });
+    }, [])
+  );
 
   return (
     <WishCreatingLayout index={5} link={editingMode ? "WishConfirmation" :"AddWishDescription"} editingMode={editingMode}>
@@ -46,6 +60,16 @@ function AddWishVisibilityScreen({ navigation }: AddWishVisibilityScreenProps) {
               <CheckBox checked={visibility === "subscribers"} onChange={() => { setVisibility("subscribers"); }}>
                 <DesignedText>{staticData.wishCreating.visibilityChoices.subscribers}</DesignedText>
               </CheckBox>
+              <CheckBox checked={visibility === "selected_users"} onChange={() => {
+                navigation.navigate("SelectUsers");
+               }}>
+                <DesignedText>{staticData.wishCreating.visibilityChoices.selected_users}</DesignedText>
+              </CheckBox>
+              <ScrollView contentContainerStyle={{ paddingLeft: 32, gap: 8 }} horizontal>
+                {selectedUsers.map(user => (
+                  <DesignedText key={user.id} size="small" isUppercase={false}>{`@${user.username}`}</DesignedText>
+                ))}
+              </ScrollView>
               <CheckBox checked={visibility === "only_me"} onChange={() => { setVisibility("only_me"); }}>
                 <DesignedText>{staticData.wishCreating.visibilityChoices.only_me}</DesignedText>
               </CheckBox>

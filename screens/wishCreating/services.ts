@@ -1,5 +1,5 @@
 import { WishDAOService } from "./dao-services"
-import { FileInterface, Wish } from "./interfaces";
+import { FileInterface, Wish, WishAccessModel } from "./interfaces";
 import config from "../../config.json"
 import { blobToBase64, getBlobFromUri } from "../../utils/helpers";
 import * as FileSystem from 'expo-file-system';
@@ -201,5 +201,21 @@ export class WishService {
         else {
             throw new Error("Error cutting the video");
         }
+    }
+
+    public async setAccessToWish(wishId: string, selectedUsers: string[], type: "create" | "update", authContext: any, accessId?: string): Promise<boolean> {
+        const response = await this.daoService.setAccessToWish(wishId, selectedUsers, type, authContext, accessId);
+        return response.ok;
+    }
+
+    public async getAccessToWish(wishId: string, authContext: any): Promise<WishAccessModel[]> {
+        const response = await this.daoService.getAccessToWish(wishId, authContext);
+
+        if (response.ok) {
+            const result = await response.json();
+            return result;
+        }
+
+        return [];
     }
 }
