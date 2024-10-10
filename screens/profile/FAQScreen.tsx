@@ -82,7 +82,7 @@ function FAQScreen({ navigation }: FAQScreenProps) {
                           <DesignedText>{staticData.profile.faq[2].questions[0].title}</DesignedText>
                           <DesignedText size="small">
                             {staticData.profile.faq[2].questions[0].filling[0]}
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => { openExternalLink("https://forms.gle/4PnJdtPv2sye4NkG8") }}>
                                 <DesignedText size="small" style={{ textDecorationLine: "underline", transform: [{translateY: 4}] }}>{staticData.profile.faq[2].questions[0].filling[1]}</DesignedText>
                             </TouchableOpacity>
                           </DesignedText>

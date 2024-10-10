@@ -107,8 +107,8 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
           <View style={styles.settingsBlockContainer}>
             <DesignedText>{staticData.profile.settingsScreen.lawBlock}</DesignedText>
             <View style={styles.settingsButtonsContainer}>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<PrivacyPolicy />}>{staticData.profile.settingsScreen.privacyPolicy}</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<UsingTerms/>}>{staticData.profile.settingsScreen.termsOfUse}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("PrivacyPolicy") }} width="auto" icon={<PrivacyPolicy />}>{staticData.profile.settingsScreen.privacyPolicy}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { navigation.navigate("TermsOfUse") }} width="auto" icon={<UsingTerms/>}>{staticData.profile.settingsScreen.termsOfUse}</ButtonWithArrow>
             </View>
           </View>
           <View style={styles.settingsButtonsContainer}>
