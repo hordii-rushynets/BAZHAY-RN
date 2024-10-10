@@ -278,6 +278,8 @@ export default data = {
             createWish: "to create desire"
         },
         profileScreen: {
+            wishes: "wishes",
+            drafts: "drafts",
             namePlaceholder: "First name and surname",
             aboutPlaceholder: "Write a few words about yourself",
             subscribers: "Subscribers",

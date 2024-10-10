@@ -278,6 +278,8 @@ export default data = {
             createWish: "Створити бажання"
         },
         profileScreen: {
+            wishes: "бажання",
+            drafts: "чернетки",
             namePlaceholder: "Ім’я та Прізвище",
             aboutPlaceholder: "Напиши декілька слів про себе",
             subscribers: "Підписники",

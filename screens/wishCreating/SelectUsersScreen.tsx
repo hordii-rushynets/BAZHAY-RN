@@ -40,6 +40,7 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
 
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
       mainService.getSubscription("subscribers", authContext).then(paginatedResults => {
         if (paginatedResults.count >= 0) {
           setSubscriptions(paginatedResults.results);
@@ -49,6 +50,7 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
         }
       });
       wishService.getAccessToWish(wishId || "", authContext).then(accesses => {
+        setLoading(false);
         setAccesses(accesses);
         if (accesses.length > 0) {
           setSelectedUsers(accesses[0].users.map(user => user.user.id || ""));
@@ -96,6 +98,7 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
         </ScrollView>
         <SubmitButton 
             onPress={() => {
+              setLoading(true);
               wishService.setAccessToWish(wishId || "", selectedUsers, accesses.length > 0 ? "update" : "create", authContext, accesses.length > 0 ? accesses[0].id : "").then(success => {
                 if (success) {
                   wishService.wishUpdate({ access_type: "selected_users" }, wishId||"", authContext).then(success => {
