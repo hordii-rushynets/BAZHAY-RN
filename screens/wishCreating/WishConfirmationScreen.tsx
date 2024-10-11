@@ -19,6 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import SmoothCorner from '../../components/ui/icons/SmoothCorner';
 import Loader from '../../components/ui/Loader';
+import { MessageWithTwoButtons } from '../../components/ui/MessageWithTwoButtons';
 
 type WishConfirmationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'WishConfirmation'>;
 
@@ -34,6 +35,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
   const { wishId, setEditingMode, setWishId, copyingMode, setCopyingMode } = useWishCreating();
   const [wish, setWish] = useState<Wish>();
   const [loading, setLoading] = useState(false);
+  const [displayPopUp, setDisplayPopUp] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -44,6 +46,25 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
   return (
     <ScreenContainer>
       {loading && <Loader />}
+      {displayPopUp && 
+        <MessageWithTwoButtons 
+          text={<DesignedText size="small" style={{textAlign: "center"}}>ти дійсно хочеш <DesignedText size="small" italic={true}>видалити</DesignedText> це бажання?</DesignedText>}
+          onCancel={() => {
+            setDisplayPopUp(false);
+          }}
+          onAccept={() => {
+            setLoading(true);
+            wishService.deleteWish(wish?.id || "", authContext).then(success => {
+              setLoading(false);
+              if (success) {
+                setWishId(undefined);
+                setDisplayPopUp(false);
+                navigation.navigate("Profile", {});
+              }
+            });
+          }}
+        />
+      }
         <View style={styles.wishConfirmationTop}>
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
             <BackButton/>
@@ -71,15 +92,8 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
             </View>
             {wish?.is_fully_created && <View style={{ width: "100%" }}>
               <TouchableOpacity onPress={() => {
-                setLoading(true);
-                wishService.deleteWish(wish?.id || "", authContext).then(success => {
-                  setLoading(false);
-                  if (success) {
-                    setWishId(undefined);
-                    navigation.navigate("Profile", {});
-                  }
-                }
-              )}}>
+                setDisplayPopUp(true);
+              }}>
                 <DesignedText style={styles.deleteButton} isUppercase={false}>
                   {staticData.wishCreating.wishConfirmationScreen.deleteButton}
                 </DesignedText>

@@ -220,6 +220,26 @@ const styles = StyleSheet.create({
       width: Dimensions.get("screen").width,
       height: Dimensions.get("screen").height,
       zIndex: 999 
+    },
+    messageWithTwoButtonsContainer: {
+      height: Dimensions.get("screen").height, 
+      width: Dimensions.get("screen").width,
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      position: "absolute",
+      zIndex: 100,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    messageWithTwoButtons: {
+      width: 280,
+      height: 144,
+      backgroundColor: "white",
+      paddingVertical: 32,
+      paddingHorizontal: 16,
+      borderColor: "black",
+      borderWidth: 1,
+      borderRadius: 30,
+      gap: 16
     }
 })
 
