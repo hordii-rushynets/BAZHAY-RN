@@ -11,5 +11,17 @@ export class HomeDAOService {
         const response = await fetchWithAuth(`${this.apiUrl}/api/notifications/`, {}, authContext);
         return response;
     } 
+
+    public async buttonAction(request: {url: string, body: Object}, authContext: any): Promise<Response> {
+        const response = await fetchWithAuth(`${this.apiUrl}${request.url}`, {
+          method: "POST",
+          body: JSON.stringify(request.body),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }, authContext)
+
+        return response;
+    }
 }
   

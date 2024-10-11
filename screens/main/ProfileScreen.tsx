@@ -205,7 +205,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
             </View>
           </View>
           <SortingButton sortings={sortings} setSortings={setSortings}/>
-          <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll} ref={scrollViewRef}>
+          <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll} ref={scrollViewRef} showsVerticalScrollIndicator={false}>
             <MasonryList
               data={wishes}
               renderItem={renderItem}

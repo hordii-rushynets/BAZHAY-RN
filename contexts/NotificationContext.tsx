@@ -3,8 +3,17 @@ import config from '../config.json'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface Notification {
+  button: Button[];
   message_uk: string;
   message_en: string;
+}
+
+export interface Button {
+  request: {
+    body: Object;
+    url: string;
+  };
+  text: string;
 }
 
 export interface NotificationContextData {
@@ -35,6 +44,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   
       socket.onmessage = (event) => {
         const notification = JSON.parse(event.data);
+        console.log(notification.message.button[0].request)
         setNotifications((prev) => [...prev, notification.message]);
         setHasUnread(true);
       };

@@ -66,12 +66,21 @@ const styles = StyleSheet.create({
       padding: 16,
       borderRadius: 20,
       borderTopLeftRadius: 0,
+      maxWidth: "80%"
     },
     notificationMessage: {
       color: "white"
     },
     notificationsContainer: {
       gap: 24
+    },
+    buttonContainer: {
+      backgroundColor: "#B70000",
+      padding: 16,
+      borderRadius: 20,
+      borderBottomRightRadius: 0,
+      maxWidth: "80%",
+      alignSelf: "flex-end"
     }
 });
 

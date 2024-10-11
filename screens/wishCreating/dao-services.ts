@@ -129,5 +129,37 @@ export class WishDAOService {
       const response = await fetchWithAuth(`${this.apiUrl}/api/wish/access-to-wish/?wish=${wishId}`, {}, authContext);
       return response;
     }
+
+    public async reserveWish(wishId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/reservation/`, {
+        method: "POST",
+        body: JSON.stringify({
+          wish: wishId
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+      return response;
+    }
+
+    public async getReservations(wishId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/reservation/?wish=${wishId}`, {}, authContext);
+      return response;
+    }
+
+    public async selectUserToGift(reservationId: string, candidateId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/wish/reservation/${reservationId}/select_user/`, {
+        method: "POST",
+        body: JSON.stringify({
+          candidate_id: candidateId,
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+
+      return response;
+    } 
 }
   

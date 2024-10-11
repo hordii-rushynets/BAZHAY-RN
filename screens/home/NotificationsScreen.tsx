@@ -12,6 +12,7 @@ import styles from './styles';
 import { HomeService } from './services';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { ButtonCard } from '../../components/Home/ButtonCard';
 
 
 type NotificationsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Notifications'>;
@@ -58,6 +59,16 @@ function NotificationsScreen({ navigation }: NotificationsScreenProps) {
             <NotificationCard notification={notification} key={indx}/>
           ))}
         </ScrollView>
+        <View style={[styles.notificationsContainer, { marginTop: 24 }]}>
+          {newNotifications.length !== 0 ? 
+            newNotifications.at(-1)?.button.map((button, indx) => (
+              <ButtonCard button={button} key={indx}/>
+            )) :
+            notifications.at(-1)?.button.map((button, indx) => (
+              <ButtonCard button={button} key={indx}/>
+            ))
+          }
+        </View>
     </ScreenContainer>
   );
 };

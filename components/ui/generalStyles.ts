@@ -239,7 +239,29 @@ const styles = StyleSheet.create({
       borderColor: "black",
       borderWidth: 1,
       borderRadius: 30,
-      gap: 16
+      gap: 16,
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+    },
+    messageContainer: {
+      position: "absolute",
+      top: 72,
+      width: "90%",
+      alignSelf: "center",
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderColor: "black",
+      borderWidth: 1,
+      borderRadius: 30,
+      backgroundColor: "white",
     }
 })
 

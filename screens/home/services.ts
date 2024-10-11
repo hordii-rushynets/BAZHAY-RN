@@ -1,7 +1,7 @@
 import { HomeDAOService } from "./dao-services"
 import config from "../../config.json"
 import { Paginated } from "../main/interfaces";
-import { Notification } from "../../contexts/NotificationContext";
+import { Button, Notification } from "../../contexts/NotificationContext";
 
 export class HomeService {
     private daoService: HomeDAOService;
@@ -19,4 +19,9 @@ export class HomeService {
         
         return [];
     } 
+
+    public async buttonAction(request: {url: string, body: Object}, authContext: any): Promise<boolean> {
+        const response = await this.daoService.buttonAction(request, authContext);
+        return response.ok;
+    }
 }

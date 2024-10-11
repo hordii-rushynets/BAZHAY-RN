@@ -10,7 +10,7 @@ import authStyles from "../auth/styles";
 import styles from "./styles";
 import DesignedText from '../../components/ui/DesignedText';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import ImageButton from '../../components/ui/buttons/ImageButton';
 import ButtonWithArrow from '../../components/ui/buttons/ButtonWithArrow';
 import { Wish } from './interfaces';
@@ -36,6 +36,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
   const [wish, setWish] = useState<Wish>();
   const [loading, setLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
+  const [displayFulfilledPopUp, setFulfilledDisplayPopUp] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -48,7 +49,7 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
       {loading && <Loader />}
       {displayPopUp && 
         <MessageWithTwoButtons 
-          text={<DesignedText size="small" style={{textAlign: "center"}}>ти дійсно хочеш <DesignedText size="small" italic={true}>видалити</DesignedText> це бажання?</DesignedText>}
+          text={<DesignedText size="small" style={{textAlign: "center"}}>{staticData.deleteWish.first} <DesignedText size="small" italic={true}>{staticData.deleteWish.italic}</DesignedText> {staticData.deleteWish.second}</DesignedText>}
           onCancel={() => {
             setDisplayPopUp(false);
           }}
@@ -65,17 +66,37 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
           }}
         />
       }
+      {displayFulfilledPopUp && 
+        <MessageWithTwoButtons 
+          text={<DesignedText size="small" style={{ textAlign: "center" }}><DesignedText size="small" bold={true}>{staticData.doesHelped.bold}</DesignedText> {staticData.doesHelped.first} <DesignedText size="small" italic={true}>{staticData.doesHelped.italic}</DesignedText> {staticData.doesHelped.second}</DesignedText>}
+          onCancel={() => {
+            setFulfilledDisplayPopUp(false);
+          }}
+          onAccept={() => {
+            setLoading(true);
+            wishService.markWishAsFulfilled(wish?.id || "", authContext).then(success => {
+              setLoading(false);
+              if (success) {
+                setFulfilledDisplayPopUp(false);
+                setWish({...wish, is_fulfilled: true})
+              }
+            });
+          }}
+        />
+      }
         <View style={styles.wishConfirmationTop}>
           <TouchableOpacity onPress={() => {setEditingMode(false)}}>
             <BackButton/>
           </TouchableOpacity>
           <DesignedText italic={true}>{copyingMode ? staticData.wishCreating.wishConfirmationScreen.copyingModeText : staticData.wishCreating.wishConfirmationScreen.yourWishText}</DesignedText>
         </View>
-        <View style={[styles.wishConfirmationButtonsContainer, wish?.is_fully_created ? { marginTop: 110 } : { marginTop: 24 }]}>
+        <ScrollView contentContainerStyle={[styles.wishConfirmationButtonsContainer]}>
             <ImageButton ratio={wish?.image_size || 3/4} url={wish?.photo || ""} onPress={() => {setEditingMode(true); navigation.navigate("AddWishPhotoOrVideo")}} height={216}/>
             <View style={styles.wishConfirmationButtons}>
-              {wish?.is_fully_created && 
-                <TouchableOpacity onPress={() => {}}>
+              {wish?.is_fully_created && !wish.is_fulfilled && 
+                <TouchableOpacity onPress={() => {
+                  setFulfilledDisplayPopUp(true);
+                }}>
                   <View style={styles.wishFulfilledButton}>
                     <SmoothCorner />
                     <DesignedText size={"small"}>
@@ -89,6 +110,9 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishLink")}} width={"auto"}>{wish?.link || staticData.wishCreating.wishConfirmationScreen.linkPlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishDescription")}} width={"auto"}>{wish?.description || staticData.wishCreating.wishConfirmationScreen.descriptionPlaceholder}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => {setEditingMode(true); navigation.navigate("AddWishVisibility")}} width={"auto"}>{wish?.access_type ? visibilityChoices?.[wish?.access_type as keyof typeof visibilityChoices] : staticData.wishCreating.wishConfirmationScreen.accessPlaceholder}</ButtonWithArrow>
+              {wish?.author?.is_premium && wish?.is_fully_created &&
+                <ButtonWithArrow onPress={() => { navigation.navigate("ReservationsSettings") }} width="auto">{staticData.wishCreating.wishConfirmationScreen.reservePlaceholder}</ButtonWithArrow>
+              }
             </View>
             {wish?.is_fully_created && <View style={{ width: "100%" }}>
               <TouchableOpacity onPress={() => {
@@ -99,23 +123,23 @@ function WishConfirmationScreen({ navigation }: WishConfirmationScreenProps) {
                 </DesignedText>
               </TouchableOpacity>
             </View>}
-        </View>
-        <SubmitButton 
-            onPress={() => {
-              setLoading(true);
-              wishService.wishUpdate({ is_fully_created: true }, wishId || "", authContext).then(success => {
-                setLoading(false);
-                if (success) {
-                  setWishId(undefined);
-                  setEditingMode(false);
-                  setCopyingMode(false);
-                  navigation.navigate("Main");
-                }
-              })
-            }}
-            width={200}
-            style={authStyles.gridButton}
-        >{staticData.wishCreating.wishConfirmationScreen.button}</SubmitButton>
+            <SubmitButton 
+                onPress={() => {
+                  setLoading(true);
+                  wishService.wishUpdate({ is_fully_created: true }, wishId || "", authContext).then(success => {
+                    setLoading(false);
+                    if (success) {
+                      setWishId(undefined);
+                      setEditingMode(false);
+                      setCopyingMode(false);
+                      navigation.navigate("Main");
+                    }
+                  })
+                }}
+                width={200}
+                style={{ marginBottom: 20 }}
+            >{staticData.wishCreating.wishConfirmationScreen.button}</SubmitButton>
+        </ScrollView>
     </ScreenContainer>
   );
 };

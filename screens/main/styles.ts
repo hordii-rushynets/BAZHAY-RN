@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
       position: "absolute",
       top: 16,
       right: 16,
+      gap: 8
     },
     smallButton: {
       width: 32,

@@ -15,6 +15,7 @@ import { FileInterface } from '../../screens/wishCreating/interfaces';
 import AddWishByLinkScreen from '../../screens/wishCreating/AddWishByLinkScreen';
 import PremiumScreen from '../../screens/wishCreating/PremiumScreen';
 import SelectUsersScreen from '../../screens/wishCreating/SelectUsersScreen';
+import ReservationsSettingsScreen from '../../screens/wishCreating/ReservationsSettingsScreen';
 
 
 export type WishCreatingStackParamList = {
@@ -32,6 +33,7 @@ export type WishCreatingStackParamList = {
   VideoEdit: { video: FileInterface };
   Premium: undefined;
   SelectUsers: undefined;
+  ReservationsSettings: undefined;
 };
 
 const WishCreatingStack = createStackNavigator<WishCreatingStackParamList>();
@@ -52,6 +54,7 @@ const WishCreatingStackScreen: React.FC = () => (
     <WishCreatingStack.Screen name="VideoEdit" component={VideoEditScreen}/>
     <WishCreatingStack.Screen name="Premium" component={PremiumScreen}/>
     <WishCreatingStack.Screen name="SelectUsers" component={SelectUsersScreen} />
+    <WishCreatingStack.Screen name="ReservationsSettings" component={ReservationsSettingsScreen} />
   </WishCreatingStack.Navigator>
 );
 
