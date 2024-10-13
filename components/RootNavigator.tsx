@@ -14,6 +14,7 @@ import ProfileStackScreen, { ProfileStackParamList } from './navigationStacks/Pr
 import HomeStackScreen, { HomeStackParamList } from './navigationStacks/HomeStackScreen';
 import TermsOfUseScreen from '../screens/TermsOfUseScreen';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
+import { LoadingLogo } from './LoadingLogo';
 
 const loadFonts = async () => {
   await Font.loadAsync({
@@ -75,7 +76,7 @@ const RootNavigator: React.FC = () => {
   }, []);
 
   if (!appLoaded) {
-    return <Text>Loading...</Text>
+    return <LoadingLogo />
   }
 
   return (

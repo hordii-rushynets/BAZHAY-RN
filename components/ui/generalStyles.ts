@@ -221,6 +221,10 @@ const styles = StyleSheet.create({
       height: Dimensions.get("screen").height,
       zIndex: 999 
     },
+    loadingLogoContainer: {
+      marginVertical: "auto",
+      alignSelf: "center",
+    },
     messageWithTwoButtonsContainer: {
       height: Dimensions.get("screen").height, 
       width: Dimensions.get("screen").width,
