@@ -13,13 +13,14 @@ export class HomeDAOService {
     } 
 
     public async buttonAction(request: {url: string, body: Object}, authContext: any): Promise<Response> {
-        const response = await fetchWithAuth(`${this.apiUrl}${request.url}`, {
+        console.log(JSON.stringify(request.body));
+        const response = await fetchWithAuth(`${this.apiUrl}${request.url}`, JSON.stringify(request.body) !== `{"":""}` ? {
           method: "POST",
           body: JSON.stringify(request.body),
           headers: {
             "Content-Type": "application/json"
           }
-        }, authContext)
+        } : {}, authContext)
 
         return response;
     }

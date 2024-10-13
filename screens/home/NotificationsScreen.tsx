@@ -53,18 +53,22 @@ function NotificationsScreen({ navigation }: NotificationsScreenProps) {
             <DesignedText size="small" style={{alignSelf: "center"}}>{staticData.home.notificationsScreen.emptyMessage}</DesignedText>
           }
           {notifications.map((notification, indx) => (
-            <NotificationCard notification={notification} key={indx}/>
+            notification.is_button ? 
+              <ButtonCard isActive={false} message={notification} key={indx}/> :
+              <NotificationCard notification={notification} key={indx}/>
           ))}
           {newNotifications.map((notification, indx) => (
-            <NotificationCard notification={notification} key={indx}/>
+            notification.is_button ? 
+              <ButtonCard isActive={false} message={notification} key={indx}/> :
+              <NotificationCard notification={notification} key={indx}/>
           ))}
         </ScrollView>
         <View style={[styles.notificationsContainer, { marginTop: 24 }]}>
           {newNotifications.length !== 0 ? 
-            newNotifications.at(-1)?.button.map((button, indx) => (
+            newNotifications.at(-1)?.button?.map((button, indx) => (
               <ButtonCard button={button} key={indx}/>
             )) :
-            notifications.at(-1)?.button.map((button, indx) => (
+            notifications.at(-1)?.button?.map((button, indx) => (
               <ButtonCard button={button} key={indx}/>
             ))
           }

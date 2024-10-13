@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     },
     profileWishesContainer: {
       marginTop: 16,
-      paddingTop: 40,
+      backgroundColor: "white",
+      height: 40
     },
     closedSortingContainer: {
       height: 32,

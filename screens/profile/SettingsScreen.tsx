@@ -29,6 +29,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/ui/Loader';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { VersionBlock } from '../../components/Profile/VersionBlock';
+import { openExternalLink } from '../../utils/helpers';
 
 type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
 
@@ -100,8 +101,8 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
             <View style={styles.settingsButtonsContainer}>
               <ButtonWithArrow onPress={() => { }} width="auto" icon={<ShortLogo />}>{staticData.profile.settingsScreen.moreInfo}</ButtonWithArrow>
               <ButtonWithArrow onPress={() => { }} width="auto" icon={<Upload width={16} height={16}/>}>{staticData.profile.settingsScreen.share}</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<Instagram />}>{staticData.profile.settingsScreen.instagram}</ButtonWithArrow>
-              <ButtonWithArrow onPress={() => { }} width="auto" icon={<TikTok />}>{staticData.profile.settingsScreen.tikTok}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { openExternalLink("https://www.instagram.com/bazhay.app?igsh=MWxhcXNheHhuNTJlYw==") }} width="auto" icon={<Instagram />}>{staticData.profile.settingsScreen.instagram}</ButtonWithArrow>
+              <ButtonWithArrow onPress={() => { openExternalLink("https://www.tiktok.com/@bazhay.app?_t=8pqhqBXKKwP&_r=1") }} width="auto" icon={<TikTok />}>{staticData.profile.settingsScreen.tikTok}</ButtonWithArrow>
             </View>
           </View>
           <View style={styles.settingsBlockContainer}>
