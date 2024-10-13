@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ScreenContainer from '../components/ui/ScreenContainer';
-import { Image, Platform, Share, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, Platform, Share, View, TouchableOpacity } from 'react-native';
 import BackButton from '../components/ui/buttons/BackButton';
 import Pen from '../components/ui/icons/Pen';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -28,6 +27,12 @@ import { Brand } from './main/interfaces';
 import Copy from '../components/ui/icons/Copy';
 import config from '../config.json'
 import { MainService } from './main/services';
+import Loader from '../components/ui/Loader';
+import { usePopUpWithTwoOptionsContext } from '../contexts/PopUpWithTwoOptionsContext';
+import { useMessageContext } from '../contexts/MessageContext';
+import Stick from '../components/ui/icons/Stick';
+import Fulfilled from '../components/ui/icons/Fulfilled';
+import NotFulfilled from '../components/ui/icons/NotFulfilled';
 
 const apiUrl = config.apiUrl;
 
@@ -46,6 +51,8 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const mainService = new MainService();
   const authContext = useAuth();
   const { isGuest } = useAuth();
+  const { setIsOpen, setText, setOnAccept, setOnCancel } = usePopUpWithTwoOptionsContext();
+  const { setIsOpen: setMessageOpen, setText: setMessageText } = useMessageContext();
 
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
@@ -63,12 +70,9 @@ function WishScreen({ route, navigation }: WishScreenProps) {
     }, [])
   );
 
-  if (loading) {
-    return <></>
-  }
-
   return (
     <ScreenContainer>
+      {loading && <Loader />}
         <View style={wishCreatingStyles.wishConfirmationTop}>
           <BackButton/>
           {wish.is_your_wish ? <TouchableOpacity onPress={() => {
@@ -89,7 +93,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
           }
         </View>
         <View style={styles.wishContentContainer}>
-            <View style={[styles.wishImageContainer, { width: 164, aspectRatio: wish.image_size }]} >
+            <View style={[styles.wishImageContainer, { width: 164, aspectRatio: wish.image_size || 3/4 }]} >
                 {
                 wish.video ? 
                   <Video
@@ -138,12 +142,94 @@ function WishScreen({ route, navigation }: WishScreenProps) {
                     }}>
                         <View style={[mainStyles.smallButton, styles.smallButton]}><Copy /></View>
                     </TouchableOpacity>}
+                    {!wish.is_fulfilled && !isGuest && wish.is_user_create && wish.is_reservation && !wish.is_me_candidates_to_reservation &&
+                        <TouchableOpacity onPress={() => {
+                            if (wish.is_reserved_by_me) {
+                                setMessageText(staticData.firstTypeReservationButton);
+                                setMessageOpen(true);
+                            }
+                            else if (wish.is_your_wish && wish.author?.is_premium) {
+                                wishService.getReservations(wish.id || "", authContext).then(reservation => {
+                                    if (reservation.wish) {
+                                        setMessageText(`${staticData.secondTypeReservationButton}${reservation.selected_user?.username}`);
+                                        setMessageOpen(true);
+                                    }
+                                })
+                            }
+                            else if (wish.is_your_wish && !wish.author?.is_premium) {
+                                setMessageText(staticData.thirdTypeReservationButton);
+                                setMessageOpen(true);
+                            }
+                            else {
+                                setMessageText(staticData.fourthTypeReservationButton);
+                                setMessageOpen(true);
+                            }
+                        }}>
+                            <View style={[mainStyles.smallButton, styles.smallButton, { alignItems: "flex-start", justifyContent: "flex-start", paddingLeft: 10, paddingTop: 8}]}><Stick /></View>
+                        </TouchableOpacity>
+                    }
+                    {wish.is_fulfilled && wish.is_user_create &&
+                        <TouchableOpacity onPress={() => {
+                            setMessageText(staticData.fulfilledMessage);
+                            setMessageOpen(true);
+                        }}>
+                            <View style={[mainStyles.smallButton, styles.smallButton]}><Fulfilled /></View>
+                        </TouchableOpacity>
+                    }
+                    {!wish.is_fulfilled && wish.is_your_wish &&
+                        <TouchableOpacity onPress={() => {
+                            setText(
+                              <DesignedText size="small" style={{ textAlign: "center" }}><DesignedText size="small" bold={true}>{staticData.doesHelped.bold}</DesignedText> {staticData.doesHelped.first} <DesignedText size="small" italic={true}>{staticData.doesHelped.italic}</DesignedText> {staticData.doesHelped.second}</DesignedText>
+                            )
+                            setOnCancel(() => () => {
+                                setIsOpen(false);
+                            });
+                            setOnAccept(() => () => {
+                                wishService.markWishAsFulfilled(wish?.id || "", authContext).then(success => {
+                                  if (success) {
+                                    setIsOpen(false);
+                                    setMessageText(staticData.yourWishFulfilled);
+                                    setMessageOpen(true);
+                                    setWish({...wish, is_fulfilled: true})
+                                  }
+                                });
+                            });
+                            setIsOpen(true);
+                        }}>
+                            <View style={[mainStyles.smallButton, styles.smallButton]}><NotFulfilled /></View>
+                        </TouchableOpacity>
+                    }
                 </View>
             </View>
-            {!wish.is_reservation && wish.is_user_create && !wish.is_your_wish && 
-                <View style={styles.giftButton}>
-                  <DesignedText bold={true} italic={true} style={styles.giftButtonText}>{staticData.wishScreen.giftButton}</DesignedText>
-                </View>
+            {!wish.is_fulfilled && !wish.is_reservation && wish.is_user_create && !wish.is_your_wish && !wish.is_me_candidates_to_reservation &&
+              <TouchableOpacity style={styles.giftButton} onPress={() => {
+                setText(
+                  <DesignedText size="small" style={{ textAlign: "center" }}>{staticData.doYouWantToFulfillWish.firstPart} <DesignedText size="small" italic={true}>{staticData.doYouWantToFulfillWish.italicPart}</DesignedText> {staticData.doYouWantToFulfillWish.secondPart}</DesignedText>
+                );
+                setOnCancel(() => () => {
+                    setIsOpen(false);
+                });
+                setOnAccept(() => () => {
+                    wishService.reserveWish(wish.id || "", authContext).then(success => {
+                        if (success) {
+                            setIsOpen(false);
+                            if (wish.author?.is_premium) {
+                                setWish({...wish, is_me_candidates_to_reservation: true})
+                                setMessageText(staticData.fulfillWishPremiumMessage);
+                                setMessageOpen(true);
+                            }
+                            else {
+                                setWish({...wish, is_reservation: true})
+                                setMessageText(staticData.fulfillWishNotPremiumMessage);
+                                setMessageOpen(true);
+                            }
+                        }
+                    });
+                });
+                setIsOpen(true);
+              }}>
+                <DesignedText bold={true} italic={true} style={styles.giftButtonText}>{staticData.wishScreen.giftButton}</DesignedText>
+              </TouchableOpacity>
             }
             {wish.author && <UserSmallInfo avatar={user?.photo || ""} name={user?.first_name || ""} nickname={user?.username || ""}/>}
             {wish.brand_author && <UserSmallInfo avatar={wish.brand_author.photo} name={wish.brand_author[`name_${localization}` as keyof Brand] || ""} nickname={wish.brand_author.nickname} />}

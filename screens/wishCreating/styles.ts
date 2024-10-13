@@ -123,8 +123,7 @@ const styles = StyleSheet.create({
     },
     wishConfirmationButtonsContainer: {
         gap: 24,
-        height: 460,
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
     wishConfirmationButtons: {

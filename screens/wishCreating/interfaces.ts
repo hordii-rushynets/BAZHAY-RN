@@ -17,9 +17,12 @@ export type Wish = {
     is_reservation?: boolean;
     is_user_create?: boolean;
     is_your_wish?: boolean;
+    is_reserved_by_me?: boolean;
     brand_author?: Brand;
     premiumError?: boolean;
     guestError?: boolean;
+    is_fulfilled?: boolean;
+    is_me_candidates_to_reservation?: boolean;
 }
 
 export interface FileInterface {
@@ -32,4 +35,11 @@ export interface WishAccessModel {
     id: string;
     wish: string;
     users: {user: UserFields}[];
+}
+
+export interface Reservation {
+    id?: string;
+    wish?: string,
+    selected_user?: UserFields;
+    candidates: {bazhay_user: UserFields}[];
 }

@@ -1,5 +1,5 @@
 import { WishDAOService } from "./dao-services"
-import { FileInterface, Wish, WishAccessModel } from "./interfaces";
+import { FileInterface, Reservation, Wish, WishAccessModel } from "./interfaces";
 import config from "../../config.json"
 import { blobToBase64, getBlobFromUri } from "../../utils/helpers";
 import * as FileSystem from 'expo-file-system';
@@ -97,6 +97,11 @@ export class WishService {
         const response = await this.daoService.wishUpdate(wishData, wishId, authContext);
         return response.ok
     }
+
+    public async markWishAsFulfilled(wishId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.wishUpdate({ is_fulfilled: true }, wishId, authContext);
+        return response.ok;
+    } 
 
     public async wishPhotoUpdate(photoUri: string, name: string, scaling: {width: number, height: number}, wishId: string, authContext: any): Promise<boolean> {
         const photoBlob = await getBlobFromUri(photoUri);
@@ -217,5 +222,26 @@ export class WishService {
         }
 
         return [];
+    }
+
+    public async reserveWish(wishId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.reserveWish(wishId, authContext);
+        return response.ok;
+    }
+
+    public async getReservations(wishId: string, authContext: any): Promise<Reservation> {
+        const response = await this.daoService.getReservations(wishId, authContext);
+
+        if (response.ok) {
+            const reservations: Reservation[] = await response.json();
+            return reservations[0];
+        }
+
+        return { candidates: [] }
+    } 
+
+    public async selectUserToGift(reservationId: string, candidateId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.selectUserToGift(reservationId, candidateId, authContext);
+        return response.ok;
     }
 }

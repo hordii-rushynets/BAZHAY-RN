@@ -237,6 +237,7 @@ export default data = {
             copyingModeText: "copy the wish",
             fulfilledButton: "Mark the wish as fulfilled",
             deleteButton: "Delete the wish",
+            reservePlaceholder: "configure who can execute"
         },
         wishImageConfirmationScreen: {
             title: "The image of your desire"
@@ -277,7 +278,16 @@ export default data = {
             selectCover: "choose a cover",
             save: "done"
         },
-        selectUsersScreen: "who will see the wish"
+        selectUsersScreen: "who will see the wish",
+        reservationsSettingsScreen: {
+            title: "who can fulfill the wish",
+            emptyMessageFirst: "The user who will fulfill your wish has already been selected",
+            emptyMessageSecond: "No one has reserved your wish yet",
+            popUp: {
+                first: "Do you want @",
+                second: "to fulfill the wish wish name?"
+            }
+        }
     },
     main: {
         premiumProfileAdvert: {
@@ -1434,5 +1444,31 @@ export default data = {
         address: "Address",
         post: "post",
         giftButton: "Gift!"
-    }
+    },
+    doYouWantToFulfillWish: {
+        firstPart: "do you want",
+        italicPart: "to fulfill",
+        secondPart: "this wish?"
+    },
+    fulfillWishPremiumMessage: "Great! you want to reserve the fulfillment of the wish — the recipient will confirm this action soon",
+    fulfillWishNotPremiumMessage: "Great! you have reserved the fulfillment of the wish, and the recipient is already waiting for it",
+    firstTypeReservationButton: "this wish is reserved by you",
+    secondTypeReservationButton: "this wish is reserved by @",
+    thirdTypeReservationButton: "this wish is reserved",
+    fourthTypeReservationButton: "this wish is reserved. you can choose another wish and fulfill it",
+    fulfilledMessage: "this wish has been fulfilled",
+    doesHelped: {
+        bold: "Bazhay!",
+        first: "helped",
+        italic: "to fulfill",
+        second: "this wish?"
+    },
+    yourWishFulfilled: "your wish has been fulfilled",
+    deleteWish: {
+        first: "do you really want",
+        italic: "to delete",
+        second: "this wish?"
+    },
+    yes: "Yes",
+    no: "No"    
 }

@@ -18,6 +18,8 @@ import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
 import Loader from '../../components/ui/Loader';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { RouteProp } from '@react-navigation/native';
+import { usePremiumButtonsContext } from '../../contexts/PremiumButtonsContext';
 
 type PremiumScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Premium'>;
 
@@ -30,12 +32,17 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
   const accountService = new AccountService();
   const authContext = useAuth();
   const [loading, setLoading] = useState(false);
+  const { onCancel, onGetPremium } = usePremiumButtonsContext();
 
   return (
     <ScreenContainer>
         {loading && <Loader />}
-        <TouchableOpacity onPress={ () => { navigation.goBack() } } style={styles.crissCross}>
-            <View style={{width: 24, height: 24}}>
+        <TouchableOpacity onPress={ () => { 
+            onCancel && onCancel();
+            navigation.goBack() 
+        } } style={[styles.crissCross]} // Add padding to increase touchable area
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <View style={{width: 100, height: 100, backgroundColor: "white", zIndex: 100}}>
                 <CrissCross />
             </View>
         </TouchableOpacity>
@@ -60,6 +67,7 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
                     setLoading(true);
                     accountService.tryPremium(authContext).then(success => {
                         if (success) {
+                            onGetPremium && onGetPremium();
                             navigation.goBack();
                         }
                         setLoading(false);
@@ -69,6 +77,7 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
                     setLoading(true);
                     accountService.becomePremium(authContext).then(success => {
                         if (success) {
+                            onGetPremium && onGetPremium();
                             navigation.goBack();
                         }
                         setLoading(false);

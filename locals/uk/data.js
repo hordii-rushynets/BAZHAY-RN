@@ -237,6 +237,7 @@ export default data = {
             copyingModeText: "скопіювати бажання собі",
             fulfilledButton: "Позначити бажання як виконане",
             deleteButton: "Видалити бажання",
+            reservePlaceholder: "налаштуй, хто може виконати"
         },
         wishImageConfirmationScreen: {
             title: "Зображення твого бажання"
@@ -277,7 +278,16 @@ export default data = {
             selectCover: "обрати обкладинку",
             save: "Готово"
         },
-        selectUsersScreen: "хто буде бачити бажання"
+        selectUsersScreen: "хто буде бачити бажання",
+        reservationsSettingsScreen: {
+            title: "хто може виконати бажання",
+            emptyMessageFirst: "Користувача, що буде дарувати вам бажання вже вибрано",
+            emptyMessageSecond: "Ще ніхто не зарезервував твоє бажання",
+            popUp: {
+                first: "Ти хочеш, щоб @",
+                second: "виконав бажання назва бажання?"
+            }
+        }
     },
     main: {
         premiumProfileAdvert: {
@@ -1415,5 +1425,31 @@ export default data = {
         address: "Адреса",
         post: "Пошта",
         giftButton: "Подарувати!"
-    }
+    },
+    doYouWantToFulfillWish: {
+        firstPart: "ти хочеш",
+        italicPart: "здійснити",
+        secondPart: "це бажання?"
+    },
+    fulfillWishPremiumMessage: "Чудово! ти хочеш зарезервувати за собою виконання бажання — отримувач незабаром підтвердить цю дію",
+    fulfillWishNotPremiumMessage: "Чудово! ти зарезервував за собою виконання бажання і отримувач вже чекає на нього",
+    firstTypeReservationButton: "це бажання зарезервоване за тобою",
+    secondTypeReservationButton: "це бажання зарезервоване. за @",
+    thirdTypeReservationButton: "це бажання зарезервоване",
+    fourthTypeReservationButton: "це бажання зарезервоване. ти можеш обрати інше бажання та виконати його",
+    fulfilledMessage: "це бажання здійснено",
+    doesHelped: {
+        bold: "Bazhay!",
+        first: "допоміг",
+        italic: "здійснити",
+        second: "це бажання?"
+    },
+    yourWishFulfilled: "ваше бажання здійснено",
+    deleteWish: {
+        first: "ти дійсно хочеш",
+        italic: "видалити",
+        second: "це бажання?"
+    },
+    yes: "Так",
+    no: "Ні"
 }
