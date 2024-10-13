@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ScreenContainer from '../../components/ui/ScreenContainer';
-import { Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity, View } from 'react-native';
+import { Animated, Image, NativeScrollEvent, NativeSyntheticEvent, ScrollView, TouchableOpacity, View } from 'react-native';
 import MasonryList from '@react-native-seoul/masonry-list';
 import Upload from '../../components/ui/icons/Upload';
 import Settings from '../../components/ui/icons/Settings';
@@ -38,7 +38,6 @@ interface ProfileScreenProps {
 function ProfileScreen({ navigation, route }: ProfileScreenProps) {
   const { userId } = route.params || { userId: undefined };
   const { staticData } = useLocalization();
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [user, setUser] = useState<UserFields>({});
   const [wishes, setWishes] = useState<Wish[]>([])
   const [loading, setLoading] = useState(true);
@@ -59,14 +58,49 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
   const { logout, isGuest } = useAuth();
 
   const scrollViewRef = useRef<ScrollView>(null);
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  const avatarSize = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [1, 0.4],
+    extrapolate: 'clamp',
+  });
+
+  const translateBlock = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [0, -60],
+    extrapolate: 'clamp',
+  });
+
+  const translateText = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [12, -30],
+    extrapolate: 'clamp',
+  });
+
+  const fontSize = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [1, 0.75],
+    extrapolate: 'clamp',
+  });
+
+  const translateUserName = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [0, -10],
+    extrapolate: 'clamp',
+  });
+
+  const translateScrollBlock = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [0, -65],
+    extrapolate: 'clamp',
+  });
 
   const renderItem = ({ item, i }: {item: unknown, i: number}) => (
     <WishCard wish={item as Wish} key={i}/>
   );
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollPosition = event.nativeEvent.contentOffset.y;
-    setIsScrolled(scrollPosition > 0);
     const { contentSize, layoutMeasurement, contentOffset } = event.nativeEvent;
 
     const isCloseToBottom =
@@ -139,7 +173,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
   return (
     <ScreenContainer>
         {loading && <Loader />}
-        {userId && <View style={styles.backButtonContainer}>
+        {userId && <View style={[styles.backButtonContainer]}>
           <BackButton link="Community"/>
         </View>}
         <View style={styles.settingsContainer}>
@@ -150,80 +184,106 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
             <Settings />
           </TouchableOpacity>}
         </View>
-        <View style={[styles.avatarContainer, isScrolled && styles.smallAvatarContainer]}>
-            {user.photo ? <Image source={ { uri: user.photo } } style={styles.avatar}/> : 
-            isScrolled ? <Profile width={24} height={24}/> : <BigProfile />}
-        </View>
-        <View style={styles.profileInfoContainer}>
-          <DesignedText size={isScrolled ? "small" : "medium"}>{user.first_name || staticData.main.profileScreen.namePlaceholder}</DesignedText>
-          <DesignedText size="small" isUppercase={false} style={styles.grayText}>@{user.username || "nickname"}</DesignedText>
-          {!isScrolled && <><View style={styles.descriptionContainer}>
-            <DesignedText size="small">{user.about_user || staticData.main.profileScreen.aboutPlaceholder}</DesignedText>
-            {((userId && user.view_birthday) || (!userId)) && <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>}
-          </View>
-          {userId && <View style={styles.addressesContainer}>
-            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.address}</SubmitButton>
-            <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.post}</SubmitButton>
-          </View>}
-          <View style={styles.subscribersContainer}>
-            <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>
-            <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscriptions" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View></TouchableOpacity>
-          </View>
-          {userId && !isGuest && <SubmitButton height={32} width={120} onPress={() => {
-            if (user.is_subscribed) {
-              mainService.unsubscribe(user.id || "", authContext).then(success => {
-                if (success) {
-                  setUpdateTrigger(!updateTrigger);
-                }
-              });
-            }
-            else {
-              mainService.subscribe(user.id || "", authContext).then(success => {
-                if (success) {
-                  setUpdateTrigger(!updateTrigger);
-                }
-              });
-            }
-          }} style={{marginTop: 24}} textStyle={{fontSize: 12, textTransform: "none"}}>{user.is_subscribed ? staticData.main.subscriptionCard.unsubscribe : staticData.main.subscriptionCard.subscribe}</SubmitButton>}
-          </>}
-        </View>
-        <View style={styles.profileWishesContainer}>
-          <View style={[styles.subscriptionsChoosing, { position: "absolute", width: 229 }]}>
-            <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "true" && styles.subscriptionsOptionActive]}>
-              <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "true"}) }}>
-                <DesignedText size="small">
-                  {staticData.main.profileScreen.wishes}
-                </DesignedText>
-              </TouchableOpacity>
+        <Animated.View style={{ alignItems: "center", zIndex: -1, transform: [{ translateY: translateBlock }] }}>
+          <Animated.View style={[styles.avatarContainer, { transform: [{ scale: avatarSize }] }]}>
+              {user.photo ? <Image source={ { uri: user.photo } } style={styles.avatar}/> : 
+              <BigProfile />}
+          </Animated.View>
+          <Animated.View style={{ transform: [{ translateY: translateText }] }}>
+            <Animated.Text style={{ 
+              textAlign: "center",
+              textTransform: "uppercase",
+              fontFamily: "Inter-Regular",
+              fontSize: 16,
+              transform: [{ scale: fontSize }]
+            }}>{user.first_name || staticData.main.profileScreen.namePlaceholder}</Animated.Text>
+            <Animated.Text style={[styles.grayText, {
+              textAlign: "center",
+              fontFamily: "Inter-Regular",
+              fontSize: 12,
+              transform: [{ translateY: translateUserName }]
+            }]}>@{user.username || "nickname"}</Animated.Text>
+          </Animated.View>
+        </Animated.View>
+        <Animated.ScrollView stickyHeaderIndices={[1]} style={{ transform: [{ translateY: translateScrollBlock }] }} contentContainerStyle={{paddingBottom: 350}} onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: { y: scrollY },
+              },
+            },
+          ],
+          {
+            useNativeDriver: true,
+            listener: handleScroll,
+          }
+        )} ref={scrollViewRef} showsVerticalScrollIndicator={false}>
+          <View style={styles.profileInfoContainer}>
+            <View style={styles.descriptionContainer}>
+              <DesignedText size="small">{user.about_user || staticData.main.profileScreen.aboutPlaceholder}</DesignedText>
+              {((userId && user.view_birthday) || (!userId)) && <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>}
             </View>
-            <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "false" && styles.subscriptionsOptionActive]}>
-              <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "false"}) }}>
-                <DesignedText size="small">
-                  {staticData.main.profileScreen.drafts}
-                </DesignedText>
-              </TouchableOpacity>
+            {userId && <View style={styles.addressesContainer}>
+              <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.address}</SubmitButton>
+              <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.post}</SubmitButton>
+            </View>}
+            <View style={styles.subscribersContainer}>
+              <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>
+              <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscriptions" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscription || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscriptions}</DesignedText></View></TouchableOpacity>
             </View>
+            {userId && !isGuest && <SubmitButton height={32} width={120} onPress={() => {
+              if (user.is_subscribed) {
+                mainService.unsubscribe(user.id || "", authContext).then(success => {
+                  if (success) {
+                    setUpdateTrigger(!updateTrigger);
+                  }
+                });
+              }
+              else {
+                mainService.subscribe(user.id || "", authContext).then(success => {
+                  if (success) {
+                    setUpdateTrigger(!updateTrigger);
+                  }
+                });
+              }
+            }} style={{marginTop: 24}} textStyle={{fontSize: 12, textTransform: "none"}}>{user.is_subscribed ? staticData.main.subscriptionCard.unsubscribe : staticData.main.subscriptionCard.subscribe}</SubmitButton>}
           </View>
-          <SortingButton sortings={sortings} setSortings={setSortings}/>
-          <ScrollView contentContainerStyle={{paddingBottom: 350}} onScroll={handleScroll} ref={scrollViewRef}>
-            <MasonryList
-              data={wishes}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-              contentContainerStyle={styles.wishesContainer}
-            />
-            {!user.is_premium && <PremiumProfileAdvert onButtonPress={() => {
-              setLoading(true);
-              accountService.tryPremium(authContext).then(success => {
-                if (success) {
-                  setUpdateTrigger(!updateTrigger);
-                }
-                setLoading(false);
-              })
-            }}/>}
-          </ScrollView>
-        </View>
+          <View style={styles.profileWishesContainer}>
+            {!userId && <View style={[styles.subscriptionsChoosing, { position: "absolute", width: 229 }]}>
+              <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "true" && styles.subscriptionsOptionActive]}>
+                <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "true"}) }}>
+                  <DesignedText size="small">
+                    {staticData.main.profileScreen.wishes}
+                  </DesignedText>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.subscriptionsOption, sortings["is_fully_created"] === "false" && styles.subscriptionsOptionActive]}>
+                <TouchableOpacity onPress={() => { setSortings({...sortings, "is_fully_created": "false"}) }}>
+                  <DesignedText size="small">
+                    {staticData.main.profileScreen.drafts}
+                  </DesignedText>
+                </TouchableOpacity>
+              </View>
+            </View>}
+            <SortingButton sortings={sortings} setSortings={setSortings}/>
+          </View>
+          <MasonryList
+            data={wishes}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            contentContainerStyle={styles.wishesContainer}
+          />
+          {!user.is_premium && <PremiumProfileAdvert onButtonPress={() => {
+            setLoading(true);
+            accountService.tryPremium(authContext).then(success => {
+              if (success) {
+                setUpdateTrigger(!updateTrigger);
+              }
+              setLoading(false);
+            })
+          }}/>}
+        </Animated.ScrollView>
     </ScreenContainer>
   );
 };

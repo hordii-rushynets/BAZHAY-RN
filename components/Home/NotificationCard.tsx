@@ -19,7 +19,7 @@ export function NotificationCard({ notification }: NotificationCardProps) {
             <WhiteLogo />
         </View>
         <View style={styles.notificationMessageContainer}>
-            <DesignedText isUppercase={false} style={styles.notificationMessage}>{notification[`message_${localization}` as keyof Notification]}</DesignedText>
+            <DesignedText isUppercase={false} style={styles.notificationMessage}>{notification[`message_${localization}` as keyof Notification] as string}</DesignedText>
         </View>
     </View>
   );

@@ -4,6 +4,9 @@ import { LocalizationProvider } from "../contexts/LocalizationContext";
 import { WishCreatingProvider } from "../contexts/WishCreatingContext";
 import { PopUpMessageProvider } from "../contexts/PopUpMessageContext";
 import { NotificationProvider } from "../contexts/NotificationContext";
+import { PopUpWithTwoOptionsProvider } from "../contexts/PopUpWithTwoOptionsContext";
+import { MessageProvider } from "../contexts/MessageContext";
+import { PremiumButtonsProvider } from "../contexts/PremiumButtonsContext";
 
 export type ContextProvidersProps = {
   children: React.ReactNode;
@@ -17,7 +20,13 @@ export function Providers(props: ContextProvidersProps) {
         <LocalizationProvider>
           <WishCreatingProvider>
             <PopUpMessageProvider>
-              {children}
+              <PopUpWithTwoOptionsProvider>
+                <MessageProvider>
+                  <PremiumButtonsProvider>
+                    {children}
+                  </PremiumButtonsProvider>
+                </MessageProvider>
+              </PopUpWithTwoOptionsProvider>
             </PopUpMessageProvider>
           </WishCreatingProvider>
         </LocalizationProvider>

@@ -83,6 +83,11 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
           <DesignedText italic={true}>{staticData.wishCreating.selectUsersScreen}</DesignedText>
         </View>
         <ScrollView onScroll={handleScroll} style={{ marginTop: 24 }} contentContainerStyle={{ gap: 8 }}>
+            {subscriptions.length === 0 && 
+              <View style={{marginVertical: "auto", alignSelf: "center", gap: 16}}>
+                <DesignedText style={{ textAlign: "center" }}>{staticData.main.communityScreen.emptyMessage} {staticData.main.communityScreen.emptyMessageSubscribers}</DesignedText>
+              </View>
+            }
             {subscriptions.map(subscription => (
                 <CheckBox key={subscription.id} checked={ selectedUsers.includes(subscription.user?.id || "") } onChange={ () => { 
                   if (selectedUsers.includes(subscription.user?.id || "")) {

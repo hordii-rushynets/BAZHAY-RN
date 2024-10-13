@@ -224,6 +224,48 @@ const styles = StyleSheet.create({
     loadingLogoContainer: {
       marginVertical: "auto",
       alignSelf: "center",
+    },
+    messageWithTwoButtonsContainer: {
+      height: Dimensions.get("screen").height, 
+      width: Dimensions.get("screen").width,
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      position: "absolute",
+      zIndex: 100,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    messageWithTwoButtons: {
+      width: 280,
+      height: 144,
+      backgroundColor: "white",
+      paddingVertical: 32,
+      paddingHorizontal: 16,
+      borderColor: "black",
+      borderWidth: 1,
+      borderRadius: 30,
+      gap: 16,
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+    },
+    messageContainer: {
+      position: "absolute",
+      top: 72,
+      width: "90%",
+      alignSelf: "center",
+      shadowColor: 'black',
+      shadowOffset: { width: -2, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderColor: "black",
+      borderWidth: 1,
+      borderRadius: 30,
+      backgroundColor: "white",
     }
 })
 
