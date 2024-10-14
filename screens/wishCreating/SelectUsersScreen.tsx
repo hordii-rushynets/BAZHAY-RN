@@ -19,6 +19,7 @@ import { MainService } from '../main/services';
 import { Subscription } from '../main/interfaces';
 import CheckBox from '../../components/ui/inputs/CheckBox';
 import { UserSmallInfo } from '../../components/UserSmallInfo';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type SelectUsersScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SelectUsers'>;
 
@@ -45,7 +46,7 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
         if (paginatedResults.count >= 0) {
           setSubscriptions(paginatedResults.results);
           if (paginatedResults.next) {
-            setNextUrl(paginatedResults.next);
+            setNextUrl(proccessNextUrl(paginatedResults.next));
           }
         }
       });
@@ -69,7 +70,7 @@ function SelectUsersScreen({ navigation }: SelectUsersScreenProps) {
       mainService.getSubscription("subscribers", authContext, nextUrl).then(paginatedResults => {
         if (paginatedResults.count > 0) {
           setSubscriptions(prevSubscriptions => [...prevSubscriptions, ...paginatedResults.results]);
-          setNextUrl(paginatedResults.next || "");
+          setNextUrl(proccessNextUrl(paginatedResults.next || ""));
         }
       });
     }

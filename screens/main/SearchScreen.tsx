@@ -21,6 +21,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/ui/Loader';
 import RequestCard from '../../components/Main/RequestCard';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type SearchScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Search'>;
 
@@ -59,7 +60,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
         setWishes(prevWishes => [...prevWishes, ...result.results.wishes || []]);
         setBrands(prevBrands => [...prevBrands, ...result.results.brands || []]);
         setUsers(prevUsers => [...prevUsers, ...result.results.users || []]);
-        setNextUrl(result.next || "");
+        setNextUrl(proccessNextUrl(result.next || ""));
       }
     ).finally(() => {
         setIsFetching(false);
@@ -88,7 +89,7 @@ function SearchScreen({ navigation }: SearchScreenProps) {
           });
           mainService.searchWithPagination(query, searchPrompt, authContext).then(result => {
             if (result.count > 0) {
-              setNextUrl(result.next || "");
+              setNextUrl(proccessNextUrl(result.next || ""));
               setWishes(result.results.wishes || []);
               setBrands(result.results.brands || []);
               setUsers(result.results.users || []);

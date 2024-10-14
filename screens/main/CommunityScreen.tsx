@@ -21,6 +21,7 @@ import { ProfileStackParamList } from '../../components/navigationStacks/Profile
 import BackButton from '../../components/ui/buttons/BackButton';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { useLocalization } from '../../contexts/LocalizationContext';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type CommunityScreenNavigationProp = StackNavigationProp<MainStackParamList, 'Community'> | StackNavigationProp<ProfileStackParamList, 'ProfileCommunity'>;
 type CommunityScreenRouteProp = RouteProp<MainStackParamList, 'Community'> | RouteProp<ProfileStackParamList, 'ProfileCommunity'>;
@@ -53,7 +54,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
           if (paginatedUsers.count !== 0) {
             setUsers(paginatedUsers.results);
             if (paginatedUsers.next) {
-              setNextUsersUrl(paginatedUsers.next);
+              setNextUsersUrl(proccessNextUrl(paginatedUsers.next));
             }
           }
         });
@@ -76,7 +77,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
       mainService.getSubscription(userType, authContext, nextUrl).then(paginatedResults => {
         if (paginatedResults.count > 0) {
           setSubscriptions(prevSubscriptions => [...prevSubscriptions, ...paginatedResults.results]);
-          setNextUrl(paginatedResults.next || "");
+          setNextUrl(proccessNextUrl(paginatedResults.next || ""));
         }
       });
     }
@@ -92,7 +93,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
       accountService.getUsers(searchPrompt, authContext, nextUsersUrl).then(paginatedUsers => {
         if (paginatedUsers.count !== 0) {
           setUsers(prevUsers => [...prevUsers, ...paginatedUsers.results]);
-          setNextUsersUrl(paginatedUsers.next || "");
+          setNextUsersUrl(proccessNextUrl(paginatedUsers.next || ""));
         }
       });
     }
@@ -104,7 +105,7 @@ function CommunityScreen({ navigation, route }: CommunityScreenProps) {
         if (paginatedResults.count >= 0) {
           setSubscriptions(paginatedResults.results);
           if (paginatedResults.next) {
-            setNextUrl(paginatedResults.next);
+            setNextUrl(proccessNextUrl(paginatedResults.next));
           }
         }
       });

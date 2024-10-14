@@ -1,5 +1,5 @@
 import { AccountDAOService } from "./dao-services"
-import { Address, PaginatedUserFields, Post, UserFields } from "./interfaces";
+import { Address, PaginatedUserFields, Post, Premium, UserFields } from "./interfaces";
 import config from "../../config.json"
 import { getBlobFromUri, removeEmptyFields } from '../../utils/helpers';
 
@@ -127,14 +127,25 @@ export class AccountService {
         return response.ok;
     }
 
-    public async becomePremium(authContext: any): Promise<boolean> {
-        const response = await this.daoService.becomePremium(authContext);
+    public async becomePremium(isAnnual: boolean, authContext: any): Promise<boolean> {
+        const response = await this.daoService.becomePremium(isAnnual, authContext);
         return response.ok;
     }
 
     public async tryPremium(authContext: any): Promise<boolean> {
         const response = await this.daoService.tryPremium(authContext);
         return response.ok;
+    }
+
+    public async getPremium(authContext: any): Promise<Premium> {
+        const response = await this.daoService.getPremium(authContext);
+
+        if (response.ok) {
+            const result: Premium[] = await response.json();
+            return result[0];
+        }
+
+        return {};
     }
 
     public async getAddress(authContext: any): Promise<Address | undefined> {

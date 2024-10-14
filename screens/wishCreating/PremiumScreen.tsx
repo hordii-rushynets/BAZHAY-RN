@@ -75,7 +75,7 @@ function PremiumScreen({ navigation }: PremiumScreenProps) {
                 }}/>
                 <PremiumMonthButton onPress={() => {
                     setLoading(true);
-                    accountService.becomePremium(authContext).then(success => {
+                    accountService.becomePremium(false, authContext).then(success => {
                         if (success) {
                             onGetPremium && onGetPremium();
                             navigation.goBack();

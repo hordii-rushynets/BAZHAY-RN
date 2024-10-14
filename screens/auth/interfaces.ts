@@ -43,3 +43,9 @@ export type Post = {
     full_name?: string;
     phone_number?: string;
 }
+
+export interface Premium {
+    is_an_annual_payment?: boolean;
+    is_trial_period?: boolean;
+    expiration_date?: string;
+}

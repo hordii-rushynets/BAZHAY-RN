@@ -266,6 +266,7 @@ export default data = {
                 "Create an unlimited number of wishes",
                 "adjust the visibility of wishes",
                 "see who wants to fulfill your wishes",
+                "customise who can grant wishes",
                 "use the application without restrictions",
                 "be the first to get new premium features"
             ],
@@ -380,7 +381,17 @@ export default data = {
             reviewButton: "Write what you don't like",
             deleteButton: "Delete my account"
         },
-        profilePremiumScreen: "premium subscription",
+        profilePremiumScreen: {
+            title: "premium subscription",
+            titlePremium: "Thank you for using the premium version of Bazhay!",
+            advantages: "Benefits of a premium subscription:",
+            trialFirst: "You have a 7-day free trial of Bazhay's premium version! At the end of the trial period,",
+            trialSecond: "an annual subscription will be automatically applied unless the subscription is canceled at least 24 hours before this date. The annual subscription costs 9.99 USD (0.83 USD per month).",
+            year: "You have an annual subscription for 9.99 USD (0.83 USD per month), valid until",
+            month: "You have a monthly subscription for 2.99 USD, valid until",
+            questions: "frequently asked questions",
+            techSupport: "technical support"
+        },        
         settingsScreen: {
             title: "Settings",
             accountBlock: "Account and application",

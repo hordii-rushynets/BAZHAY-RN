@@ -4,6 +4,7 @@ import { AuthContextData } from "../contexts/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as VideoThumbnails from 'expo-video-thumbnails';
 import * as FileSystem from "expo-file-system";
+import config from "../config.json";
 
 
 export const cropPhoto = async (uri: string) => {
@@ -154,4 +155,11 @@ export const cropPhoto = async (uri: string) => {
     }
     
     return result;
+  }
+
+  export function proccessNextUrl(url: string): string {
+    if (config.apiUrl.startsWith("https")) {
+      return url.replace("http", "https");
+    }
+    return url;
   }

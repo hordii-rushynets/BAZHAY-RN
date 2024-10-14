@@ -22,6 +22,7 @@ import { RootStackParamList } from '../../components/RootNavigator';
 import { useNotifications } from '../../contexts/NotificationContext';
 import BellWithDot from '../../components/ui/icons/BellWithDot';
 import SubmitButton from '../../components/ui/buttons/SubmitButton';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -57,7 +58,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
       setIsFetching(true);
       wishService.getWishes({}, authContext, nextUrl).then(response => {
         setWishes(prevWishes => [...prevWishes, ...response.results]);
-        setNextUrl(response.next || "");
+        setNextUrl(proccessNextUrl(response.next || ""));
       }
     ).finally(() => {
         setIsFetching(false);
@@ -71,7 +72,7 @@ function HomeScreen({ navigation }: HomeScreenProps) {
       mainService.getBrands(authContext).then(paginatedBrands => { setBrands(paginatedBrands.results); });
       wishService.getWishes({}, authContext).then(response => {
         setWishes(response.results);
-        setNextUrl(response.next || "");
+        setNextUrl(proccessNextUrl(response.next || ""));
         setLoading(false);
       })
     }, [])
