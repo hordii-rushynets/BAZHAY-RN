@@ -189,4 +189,9 @@ export class AccountService {
         const response = await this.daoService.deletePost(id, authContext);
         return response.ok;
     }
+
+    public async deleteAvatar(authContext: any): Promise<boolean> {
+        const response = await this.daoService.userPhotoDelete(authContext);
+        return response.ok;
+    }
 }

@@ -469,7 +469,8 @@ export default data = {
         },
         updateAvatarScreen: {
             title: "update avatar",
-            delete: "Remove"
+            delete: "Remove",
+            message: "Do you really want to delete your profile avatar?"
         },
         updateLastNameScreen: {
             titleFirst: "what is your",

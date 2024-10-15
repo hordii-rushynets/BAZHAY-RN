@@ -469,7 +469,8 @@ export default data = {
         },
         updateAvatarScreen: {
             title: "оновити аватар",
-            delete: "Видалити"
+            delete: "Видалити",
+            message: "ти дійсно хочеш видалити аватар свого профілю?"
         },
         updateLastNameScreen: {
             titleFirst: "Яке твоє",
