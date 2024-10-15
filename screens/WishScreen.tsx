@@ -33,6 +33,7 @@ import { useMessageContext } from '../contexts/MessageContext';
 import Stick from '../components/ui/icons/Stick';
 import Fulfilled from '../components/ui/icons/Fulfilled';
 import NotFulfilled from '../components/ui/icons/NotFulfilled';
+import { usePopUpMessageContext } from '../contexts/PopUpMessageContext';
 
 const apiUrl = config.apiUrl;
 
@@ -53,6 +54,7 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const { isGuest } = useAuth();
   const { setIsOpen, setText, setOnAccept, setOnCancel } = usePopUpWithTwoOptionsContext();
   const { setIsOpen: setMessageOpen, setText: setMessageText } = useMessageContext();
+  const { setIsOpen: setPopUpOpen, setText: setPopUpText, setButtonText: setPopUpButtonText, setExitAction, setButtonAction } = usePopUpMessageContext();
 
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
@@ -244,8 +246,32 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             {wish.is_user_create && <View style={styles.wishBottom}>
               <DesignedText size="small">{staticData.wishScreen.bottomText}</DesignedText>
               <View style={styles.wishBottomButtonsContainer}>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
+                <SubmitButton onPress={() => {
+                  setPopUpText("Для того, щоб подивитись адресу цього користувача, потрібен дозвіл");
+                  setPopUpButtonText("Запросити дозвіл");
+                  setButtonAction(() => () => {
+                    setMessageText("запит на дозвіл перегляду адреси надіслано");
+                    setMessageOpen(true);
+                    setPopUpOpen(false);
+                  });
+                  setExitAction(() => () => {
+                    setPopUpOpen(false);
+                  });
+                  setPopUpOpen(true);
+                }} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
+                <SubmitButton onPress={() => {
+                  setPopUpText("Для того, щоб подивитись пошту цього користувача, потрібен дозвіл");
+                  setPopUpButtonText("Запросити дозвіл");
+                  setButtonAction(() => () => {
+                    setMessageText("запит на дозвіл перегляду пошти надіслано");
+                    setMessageOpen(true);
+                    setPopUpOpen(false);
+                  });
+                  setExitAction(() => () => {
+                    setPopUpOpen(false);
+                  });
+                  setPopUpOpen(true);
+                }} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
               </View>
             </View>}
         </View>
