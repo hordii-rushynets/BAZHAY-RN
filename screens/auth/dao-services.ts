@@ -83,6 +83,19 @@ export class AccountDAOService {
       return response;
     }
 
+    public async userPhotoDelete(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/photo/`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          photo: null
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      }, authContext)
+      return response;
+    }
+
     public async getUser(authContext: any): Promise<Response> {
         const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/`, {}, authContext)
         return response;
