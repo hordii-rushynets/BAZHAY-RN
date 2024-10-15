@@ -145,11 +145,12 @@ export class AccountDAOService {
       return response;
   }
 
-    public async becomePremium(authContext: any): Promise<Response> {
+    public async becomePremium(isAnnual: boolean, authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/premium/create/`, {
         method: 'POST',
         body: JSON.stringify({
-          code: "0"
+          code: "0",
+          is_an_annual_payment: isAnnual
         }),
         headers: {
           "Content-Type": "application/json",
@@ -161,6 +162,13 @@ export class AccountDAOService {
     public async tryPremium(authContext: any): Promise<Response> {
       const response = await fetchWithAuth(`${this.apiUrl}/api/premium/try/`, {
         method: 'POST',
+      }, authContext)
+      return response;
+    }
+
+    public async getPremium(authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/premium/create/`, {
+
       }, authContext)
       return response;
     }

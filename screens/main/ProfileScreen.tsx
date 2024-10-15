@@ -17,7 +17,7 @@ import { UserFields } from '../auth/interfaces';
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
-import { fromServerDateToFrontDate } from '../../utils/helpers';
+import { fromServerDateToFrontDate, proccessNextUrl } from '../../utils/helpers';
 import { WishService } from '../wishCreating/services';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { RootStackParamList } from '../../components/RootNavigator';
@@ -111,7 +111,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
       if (userId) {
         wishService.getWishes(sortings, authContext, nextUrl).then(response => {
           setWishes(prevWishes => [...prevWishes, ...response.results]);
-          setNextUrl(response.next || "");
+          setNextUrl(proccessNextUrl(response.next || ""));
         }).finally(() => {
           setIsFetching(false);
         });
@@ -119,7 +119,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
       else {
         wishService.getMyWishes(sortings, authContext, nextUrl).then(response => {
           setWishes(prevWishes => [...prevWishes, ...response.results]);
-          setNextUrl(response.next || "");
+          setNextUrl(proccessNextUrl(response.next || ""));
         }).finally(() => {
           setIsFetching(false);
         });
@@ -147,14 +147,14 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
       if (userId) {
         wishService.getWishes(sortings, authContext).then(response => {
           setWishes(response.results);
-          setNextUrl(response.next || "");
+          setNextUrl(proccessNextUrl(response.next || ""));
           setLoading(false);
         })
       }
       else {
         wishService.getMyWishes(sortings, authContext).then(response => {
           setWishes(response.results);
-          setNextUrl(response.next || "");
+          setNextUrl(proccessNextUrl(response.next || ""));
           setLoading(false);
         })
       }

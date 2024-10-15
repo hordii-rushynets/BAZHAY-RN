@@ -18,6 +18,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLocalization } from '../../contexts/LocalizationContext';
 import { WishService } from '../wishCreating/services';
 import Loader from '../../components/ui/Loader';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type ArticleScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Article'>;
 type ArticleScreenRouteProp = RouteProp<RootStackParamList, 'Article'>;
@@ -49,7 +50,7 @@ function ArticleScreen({ navigation, route }: ArticleScreenProps) {
       setIsFetching(true);
       wishService.getArticleWishes(slug, authContext, nextUrl).then(response => {
         setWishes(prevWishes => [...prevWishes, ...response.results]);
-        setNextUrl(response.next || "");
+        setNextUrl(proccessNextUrl(response.next || ""));
       }
     ).finally(() => {
         setIsFetching(false);
@@ -61,7 +62,7 @@ function ArticleScreen({ navigation, route }: ArticleScreenProps) {
     mainService.getArticle(slug, authContext).then(article => { setArticle(article); setLoading(false) });
     wishService.getArticleWishes(slug, authContext, nextUrl).then(response => {
       setWishes(prevWishes => [...prevWishes, ...response.results]);
-      setNextUrl(response.next || "");
+      setNextUrl(proccessNextUrl(response.next || ""));
     })
   }, [slug]);
 

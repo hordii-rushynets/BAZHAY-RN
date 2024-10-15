@@ -22,6 +22,7 @@ import { useLocalization } from '../../contexts/LocalizationContext';
 import { Brand } from '../main/interfaces';
 import { WishService } from '../wishCreating/services';
 import Loader from '../../components/ui/Loader';
+import { proccessNextUrl } from '../../utils/helpers';
 
 type BrandScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Brand'>;
 type BrandScreenRouteProp = RouteProp<RootStackParamList, 'Brand'>;
@@ -53,7 +54,7 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
       setIsFetching(true);
       wishService.getWishes({brand: slug}, authContext, nextUrl).then(response => {
         setWishes(prevWishes => [...prevWishes, ...response.results]);
-        setNextUrl(response.next || "");
+        setNextUrl(proccessNextUrl(response.next || ""));
       }
     ).finally(() => {
         setIsFetching(false);
@@ -64,7 +65,7 @@ function BrandScreen({ navigation, route }: BrandScreenProps) {
   useEffect(() => {
     mainService.getBrand(slug, authContext).then(brand => { setBrand(brand); setLoading(false); });
     mainService.viewBrand(slug, authContext);
-    wishService.getWishes({brand: slug}, authContext).then(response => { setWishes(response.results); setNextUrl(response.next || ""); });
+    wishService.getWishes({brand: slug}, authContext).then(response => { setWishes(response.results); setNextUrl(proccessNextUrl(response.next || "")); });
   }, [slug]);
 
   return (

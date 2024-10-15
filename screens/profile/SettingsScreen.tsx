@@ -80,7 +80,7 @@ function SettingsScreen({ navigation }: SettingsScreenProps) {
               </View>
               <SubmitButton onPress={()=>{
                 setLoading(true);
-                accountService.becomePremium(authContext).then(success => {
+                accountService.tryPremium(authContext).then(success => {
                   if (success) {
                     setIsPremium(true);
                   }
