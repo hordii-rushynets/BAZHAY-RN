@@ -13,7 +13,7 @@ import SortingButton from '../../components/Main/SortingButton';
 import WishCard from '../../components/Main/WishCard';
 import { Wish } from '../wishCreating/interfaces';
 import PremiumProfileAdvert from '../../components/Main/PremiumProfileAdvert';
-import { UserFields } from '../auth/interfaces';
+import { Address, Post, UserFields } from '../auth/interfaces';
 import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { AccountService } from '../auth/services';
 import { useAuth } from '../../contexts/AuthContext';
@@ -26,6 +26,7 @@ import SubmitButton from '../../components/ui/buttons/SubmitButton';
 import { MainService } from './services';
 import { usePopUpMessageContext } from '../../contexts/PopUpMessageContext';
 import Loader from '../../components/ui/Loader';
+import { useMessageContext } from '../../contexts/MessageContext';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'> | StackNavigationProp<RootStackParamList, 'CommunityProfile'>;
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Profile'> | RouteProp<RootStackParamList, 'CommunityProfile'>
@@ -46,6 +47,8 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
   const wishService = new WishService();
   const mainService = new MainService();
   const authContext = useAuth();
+  const [address, setAddress] = useState<Address>();
+  const [post, setPost] = useState<Post>();
   const [isFetching, setIsFetching] = useState(false);
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [sortings, setSortings] = useState<{[key: string]: string}>({
@@ -55,6 +58,7 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
     "is_fully_created": "true"
   });
   const { setIsOpen, setText, setButtonText, setButtonAction, setWidth, setExitAction } = usePopUpMessageContext();
+  const { setIsOpen: setMessageOpen, setText: setMessageText } = useMessageContext();
   const { logout, isGuest } = useAuth();
 
   const scrollViewRef = useRef<ScrollView>(null);
@@ -134,6 +138,14 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
       accountService.getUser(authContext, userId).then(userData => {
         if (!userData.haveErrors) {
           setUser(userData);
+          if (userId) {
+            accountService.getAddress(authContext, userData.is_addresses || "").then(address => {
+              setAddress(address);
+            })
+            accountService.getPost(authContext, userData.is_post_addresses || "").then(post => {
+              setPost(post);
+            })
+          }
         }
         else {
           setText(staticData.main.profileScreen.guestMessage);
@@ -224,8 +236,54 @@ function ProfileScreen({ navigation, route }: ProfileScreenProps) {
               {((userId && user.view_birthday) || (!userId)) && <DesignedText size="small">{user.birthday ? fromServerDateToFrontDate(user.birthday) : ""}</DesignedText>}
             </View>
             {userId && <View style={styles.addressesContainer}>
-              <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.address}</SubmitButton>
-              <SubmitButton height={32} width={120} onPress={() => {}} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.post}</SubmitButton>
+              {user.is_addresses && 
+                <SubmitButton height={32} width={120} onPress={() => {
+                  if (address) {
+                    navigation.navigate("ProfileScreens", { screen: "AddressOrPost", params: { address: address } })
+                  }
+                  else {
+                    setText(staticData.addressAccess.text);
+                    setButtonText(staticData.addressAccess.buttonText);
+                    setButtonAction(() => () => {
+                      accountService.requestAddressAccess(user.id || "", authContext).then(success => {
+                        if (success) {
+                          setMessageText(staticData.addressAccess.message);
+                          setMessageOpen(true);
+                          setIsOpen(false);
+                        }
+                      })
+                    });
+                    setExitAction(() => () => {
+                      setIsOpen(false);
+                    });
+                    setIsOpen(true);
+                  }
+                }} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.address}</SubmitButton>
+              }
+              {user.is_post_addresses && 
+                <SubmitButton height={32} width={120} onPress={() => {
+                  if (post) {
+                    navigation.navigate("ProfileScreens", { screen: "AddressOrPost", params: { post: post } })
+                  }
+                  else {
+                    setText(staticData.postAccess.text);
+                    setButtonText(staticData.postAccess.buttonText);
+                    setButtonAction(() => () => {
+                      accountService.requestPostAccess(user.id || "", authContext).then(success => {
+                        if (success) {
+                          setMessageText(staticData.postAccess.message);
+                          setMessageOpen(true);
+                          setIsOpen(false);
+                        }
+                      })
+                    });
+                    setExitAction(() => () => {
+                      setIsOpen(false);
+                    });
+                    setIsOpen(true);
+                  }
+                }} textStyle={{fontSize: 12}}>{staticData.main.profileScreen.post}</SubmitButton>
+              }
             </View>}
             <View style={styles.subscribersContainer}>
               <TouchableOpacity onPress={() => {!userId && navigation.navigate("ProfileScreens", { screen: "ProfileCommunity", params: { mode: "subscribers" } })}}><View style={styles.subcribeContainer}><DesignedText size="small">{user.subscriber || "0"}</DesignedText><DesignedText size="small">{staticData.main.profileScreen.subscribers}</DesignedText></View></TouchableOpacity>

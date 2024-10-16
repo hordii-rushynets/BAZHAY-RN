@@ -25,6 +25,8 @@ import FAQScreen from '../../screens/profile/FAQScreen';
 import { Question, QuestionCategory } from '../../screens/profile/interfaces';
 import FAQCategoryScreen from '../../screens/profile/FAQCategoryScreen';
 import QuestionScreen from '../../screens/profile/QuestionScreen';
+import { Address, Post } from '../../screens/auth/interfaces';
+import AddressOrPostScreen from '../../screens/profile/AddressOrPostScreen';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -50,6 +52,7 @@ export type ProfileStackParamList = {
   FAQ: undefined;
   FAQCategory: { category: QuestionCategory };
   Question: { question: Question, categoryTitle: string };
+  AddressOrPost: { address?: Address, post?: Post }
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -79,6 +82,7 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="FAQ" component={FAQScreen}/>
     <ProfileStack.Screen name="FAQCategory" component={FAQCategoryScreen}/>
     <ProfileStack.Screen name="Question" component={QuestionScreen}/>
+    <ProfileStack.Screen name="AddressOrPost" component={AddressOrPostScreen}/>
   </ProfileStack.Navigator>
 );
 

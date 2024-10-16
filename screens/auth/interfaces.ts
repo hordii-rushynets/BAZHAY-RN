@@ -14,6 +14,8 @@ export type UserFields = {
     is_subscribed?: boolean;
     is_premium?: boolean;
     haveErrors?: boolean;
+    is_addresses?: string | null;
+    is_post_addresses?: string | null;
 }
 
 export type PaginatedUserFields = {

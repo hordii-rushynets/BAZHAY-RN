@@ -148,11 +148,14 @@ export class AccountService {
         return {};
     }
 
-    public async getAddress(authContext: any): Promise<Address | undefined> {
-        const response = await this.daoService.getAddress(authContext);
+    public async getAddress(authContext: any, addressId?: string): Promise<Address | undefined> {
+        const response = await this.daoService.getAddress(authContext, addressId);
         
         if (response.ok) {
-            const addresses: Address[] = await response.json();
+            const addresses = await response.json();
+            if (addressId) {
+                return addresses;
+            }
             return addresses[0];
         }
     }
@@ -169,11 +172,14 @@ export class AccountService {
         return response.ok;
     }
 
-    public async getPost(authContext: any): Promise<Post | undefined> {
-        const response = await this.daoService.getPost(authContext);
+    public async getPost(authContext: any, postId?: string): Promise<Post | undefined> {
+        const response = await this.daoService.getPost(authContext, postId);
         
         if (response.ok) {
-            const addresses: Post[] = await response.json();
+            const addresses = await response.json();
+            if (postId) {
+                return addresses;
+            }
             return addresses[0];
         }
     }
@@ -192,6 +198,16 @@ export class AccountService {
 
     public async deleteAvatar(authContext: any): Promise<boolean> {
         const response = await this.daoService.userPhotoDelete(authContext);
+        return response.ok;
+    }
+
+    public async requestAddressAccess(askedUserId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.requestAddressAccess(askedUserId, authContext);
+        return response.ok;
+    }
+
+    public async requestPostAccess(askedUserId: string, authContext: any): Promise<boolean> {
+        const response = await this.daoService.requestPostAccess(askedUserId, authContext);
         return response.ok;
     }
 }
