@@ -1482,5 +1482,15 @@ export default data = {
         second: "this wish?"
     },
     yes: "Yes",
-    no: "No"    
+    no: "No",
+    addressAccess: {
+        text: "To view this user's address, permission is required",
+        buttonText: "Request permission",
+        message: "Request to view the address has been sent"
+    },
+    postAccess: {
+        text: "To view this user's email, permission is required",
+        buttonText: "Request permission",
+        message: "Request to view the email has been sent"
+    }
 }

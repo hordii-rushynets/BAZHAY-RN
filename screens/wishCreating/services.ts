@@ -68,17 +68,20 @@ export class WishService {
         if (response.ok) {
             const wishData = await response.json(); 
 
-            if (wishData.non_field_errors) {
-                return { premiumError: true };
-            }
-
             return wishData;
         }
         else if (response.status === 403) {
             return { guestError: true }
         }
         else {
-            throw new Error("Error creating wish");
+            const wishData = await response.json(); 
+
+            if (wishData.non_field_errors) {
+                return { premiumError: true };
+            }   
+            else {
+                throw new Error("Error creating wish");
+            }
         }
     }
 

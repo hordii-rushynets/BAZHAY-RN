@@ -186,8 +186,8 @@ export class AccountDAOService {
       return response;
     }
 
-    public async getAddress(authContext: any): Promise<Response> {
-      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/address/`, {}, authContext);
+    public async getAddress(authContext: any, addressId?: string): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/address/${addressId !== "" && addressId ? addressId + "/" : ""}`, {}, authContext);
       return response;
     }
 
@@ -209,8 +209,8 @@ export class AccountDAOService {
       return response;
     }
 
-    public async getPost(authContext: any): Promise<Response> {
-      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/`, {}, authContext);
+    public async getPost(authContext: any, postId?: string): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/${postId !== "" && postId ? postId + "/" : ""}`, {}, authContext);
       return response;
     }
 
@@ -229,6 +229,34 @@ export class AccountDAOService {
       const response = await fetchWithAuth(`${this.apiUrl}/api/account/user/post-address/${id}/`, {
         method: "DELETE",
       }, authContext);
+      return response;
+    }
+
+    public async requestAddressAccess(askedUserId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/create-access-address/`, {
+        method: "POST",
+        body: JSON.stringify({
+          asked_bazhay_user: askedUserId
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+
+      return response;
+    }
+
+    public async requestPostAccess(askedUserId: string, authContext: any): Promise<Response> {
+      const response = await fetchWithAuth(`${this.apiUrl}/api/account/create-access-post-address/`, {
+        method: "POST",
+        body: JSON.stringify({
+          asked_bazhay_user: askedUserId
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }, authContext);
+
       return response;
     }
 }

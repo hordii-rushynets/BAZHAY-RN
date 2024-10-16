@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import ScreenContainer from '../components/ui/ScreenContainer';
-import { Image, Platform, Share, View, TouchableOpacity } from 'react-native';
+import { Image, Platform, Share, View, TouchableOpacity, ScrollView } from 'react-native';
 import BackButton from '../components/ui/buttons/BackButton';
 import Pen from '../components/ui/icons/Pen';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -12,7 +12,7 @@ import DesignStars from '../components/ui/icons/DesignStars';
 import styles from './styles';
 import mainStyles from "./main/styles"
 import { UserSmallInfo } from '../components/UserSmallInfo';
-import { UserFields } from './auth/interfaces';
+import { Address, Post, UserFields } from './auth/interfaces';
 import DesignedText from '../components/ui/DesignedText';
 import authStyles from "./auth/styles"
 import { openExternalLink } from '../utils/helpers';
@@ -33,6 +33,8 @@ import { useMessageContext } from '../contexts/MessageContext';
 import Stick from '../components/ui/icons/Stick';
 import Fulfilled from '../components/ui/icons/Fulfilled';
 import NotFulfilled from '../components/ui/icons/NotFulfilled';
+import { usePopUpMessageContext } from '../contexts/PopUpMessageContext';
+import { AccountService } from './auth/services';
 
 const apiUrl = config.apiUrl;
 
@@ -49,15 +51,19 @@ function WishScreen({ route, navigation }: WishScreenProps) {
   const { wishId } = route.params;
   const wishService = new WishService();
   const mainService = new MainService();
+  const accountService = new AccountService();
   const authContext = useAuth();
   const { isGuest } = useAuth();
   const { setIsOpen, setText, setOnAccept, setOnCancel } = usePopUpWithTwoOptionsContext();
   const { setIsOpen: setMessageOpen, setText: setMessageText } = useMessageContext();
+  const { setIsOpen: setPopUpOpen, setText: setPopUpText, setButtonText: setPopUpButtonText, setExitAction, setButtonAction } = usePopUpMessageContext();
 
   const [ wish, setWish ] = useState<Wish>({});
   const [ user, setUser ] = useState<UserFields>({});
   const [ loading, setLoading ] = useState(true);
   const { setWishId, setCopyingMode } = useWishCreating();
+  const [address, setAddress] = useState<Address>();
+  const [post, setPost] = useState<Post>();
 
   useFocusEffect(
     useCallback(() => {
@@ -65,6 +71,12 @@ function WishScreen({ route, navigation }: WishScreenProps) {
         setWish(wishData);
         setUser(wishData.author || {});
         setLoading(false);
+        accountService.getAddress(authContext, wishData.author?.is_addresses || "").then(address => {
+          setAddress(address);
+        })
+        accountService.getPost(authContext, wishData.author?.is_post_addresses || "").then(post => {
+          setPost(post);
+        })
       });
       mainService.viewWish(wishId, authContext);
     }, [])
@@ -92,8 +104,8 @@ function WishScreen({ route, navigation }: WishScreenProps) {
           </TouchableOpacity>
           }
         </View>
-        <View style={styles.wishContentContainer}>
-            <View style={[styles.wishImageContainer, { width: 164, aspectRatio: wish.image_size || 3/4 }]} >
+        <ScrollView style={{ overflow: "visible" }} contentContainerStyle={styles.wishContentContainer} showsVerticalScrollIndicator={false}>
+            <View style={[styles.wishImageContainer, { aspectRatio: wish.image_size || 3/4 }]} >
                 {
                 wish.video ? 
                   <Video
@@ -244,11 +256,57 @@ function WishScreen({ route, navigation }: WishScreenProps) {
             {wish.is_user_create && <View style={styles.wishBottom}>
               <DesignedText size="small">{staticData.wishScreen.bottomText}</DesignedText>
               <View style={styles.wishBottomButtonsContainer}>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
-                <SubmitButton onPress={() => {}} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
+                {wish.author?.is_addresses && 
+                  <SubmitButton onPress={() => {
+                    if (address) {
+                      navigation.navigate("ProfileScreens", { screen: "AddressOrPost", params: { address: address } })
+                    }
+                    else {
+                      setPopUpText(staticData.addressAccess.text);
+                      setPopUpButtonText(staticData.addressAccess.buttonText);
+                      setButtonAction(() => () => {
+                        accountService.requestAddressAccess(wish.author?.id || "", authContext).then(success => {
+                          if (success) {
+                            setMessageText(staticData.addressAccess.message);
+                            setMessageOpen(true);
+                            setPopUpOpen(false);
+                          }
+                        })
+                      });
+                      setExitAction(() => () => {
+                        setPopUpOpen(false);
+                      });
+                      setPopUpOpen(true);
+                    }
+                  }} width={120}><DesignedText size="small">{staticData.wishScreen.address}</DesignedText></SubmitButton>
+                }
+                {wish.author?.is_post_addresses && 
+                  <SubmitButton onPress={() => {
+                    if (post) {
+                      navigation.navigate("ProfileScreens", { screen: "AddressOrPost", params: { post: post } })
+                    }
+                    else {
+                      setPopUpText(staticData.postAccess.text);
+                      setPopUpButtonText(staticData.postAccess.buttonText);
+                      setButtonAction(() => () => {
+                        accountService.requestPostAccess(wish.author?.id || "", authContext).then(success => {
+                          if (success) {
+                            setMessageText(staticData.postAccess.message);
+                            setMessageOpen(true);
+                            setPopUpOpen(false);
+                          }
+                        })
+                      });
+                      setExitAction(() => () => {
+                        setPopUpOpen(false);
+                      });
+                      setPopUpOpen(true);
+                    }
+                  }} width={120}><DesignedText size="small">{staticData.wishScreen.post}</DesignedText></SubmitButton>
+                }
               </View>
             </View>}
-        </View>
+        </ScrollView>
     </ScreenContainer>
   );
 };
