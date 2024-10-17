@@ -25,6 +25,11 @@ import FAQScreen from '../../screens/profile/FAQScreen';
 import { Question, QuestionCategory } from '../../screens/profile/interfaces';
 import FAQCategoryScreen from '../../screens/profile/FAQCategoryScreen';
 import QuestionScreen from '../../screens/profile/QuestionScreen';
+import TechSupportScreen from '../../screens/profile/TechSupportScreen';
+import SupportCameraOrGalleryScreen from '../../screens/profile/SupportCameraOrGallery';
+import TechFromGalleryScreen from '../../screens/profile/TechFromGallery';
+import { FileInterface } from '../../screens/wishCreating/interfaces';
+import TechFileConfirmationScreen from '../../screens/profile/TechFileConfirmation';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -50,6 +55,10 @@ export type ProfileStackParamList = {
   FAQ: undefined;
   FAQCategory: { category: QuestionCategory };
   Question: { question: Question, categoryTitle: string };
+  TechSupport: undefined;
+  SupportCameraOrGallery: undefined; 
+  TechFromGallery: undefined;
+  TechFileConfirmation: { file: FileInterface };
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -79,6 +88,10 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="FAQ" component={FAQScreen}/>
     <ProfileStack.Screen name="FAQCategory" component={FAQCategoryScreen}/>
     <ProfileStack.Screen name="Question" component={QuestionScreen}/>
+    <ProfileStack.Screen name="TechSupport" component={TechSupportScreen} />
+    <ProfileStack.Screen name="SupportCameraOrGallery" component={SupportCameraOrGalleryScreen} />
+    <ProfileStack.Screen name="TechFromGallery" component={TechFromGalleryScreen} />
+    <ProfileStack.Screen name="TechFileConfirmation" component={TechFileConfirmationScreen}/>
   </ProfileStack.Navigator>
 );
 

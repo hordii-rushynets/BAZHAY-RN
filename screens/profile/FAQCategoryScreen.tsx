@@ -41,7 +41,7 @@ function FAQCategoryScreen({ navigation, route }: FAQCategoryScreenProps) {
             </View>
         </View>
       </ScrollView>
-      <ButtonWithArrow onPress={() => { }} width="auto" showMoreThanOneLine={true} style={[styles.questionButton, styles.questionButtonBottom]}>{staticData.profile.faqCategoryScreen.supportButton}</ButtonWithArrow>
+      <ButtonWithArrow onPress={() => { navigation.navigate("TechSupport") }} width="auto" showMoreThanOneLine={true} style={[styles.questionButton, styles.questionButtonBottom]}>{staticData.profile.faqCategoryScreen.supportButton}</ButtonWithArrow>
       <VersionBlock style={{ position: "absolute", bottom: 34 }}/>
     </ScreenContainer>
   );

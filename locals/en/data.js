@@ -620,7 +620,19 @@ export default data = {
                     }
                 ]
             }
-          ]
+          ],
+        supportCameraOrGalleryScreen: {
+            gallery: "Choose from the gallery",
+            camera: "Take a picture"
+        },
+        techFileConfirmationScreen: {
+            retook: "Retake",
+            send: "to send"
+        },
+        techSupportScreen: {
+            title: "write to us:",
+            placeholder: "Write a message"
+        }
     },
     home: {
         notificationsScreen: {
