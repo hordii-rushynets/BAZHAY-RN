@@ -31,7 +31,7 @@ function TechSupporOrFAQScreen({ navigation }: TechSupporOrFAQScreenProps) {
         <View style={styles.settingsContainer}>
             <View style={styles.settingsBlockContainer}>
                 <ButtonWithArrow onPress={() => { navigation.navigate("FAQ") }} width="auto">{staticData.profile.techSupportOrFAQScreen.questions}</ButtonWithArrow>
-                <ButtonWithArrow onPress={() => { }} width="auto">{staticData.profile.techSupportOrFAQScreen.support}</ButtonWithArrow>
+                <ButtonWithArrow onPress={() => { navigation.navigate("TechSupport") }} width="auto">{staticData.profile.techSupportOrFAQScreen.support}</ButtonWithArrow>
             </View>
         </View>
       </ScrollView>

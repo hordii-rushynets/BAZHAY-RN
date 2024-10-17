@@ -7,6 +7,7 @@ import { NotificationProvider } from "../contexts/NotificationContext";
 import { PopUpWithTwoOptionsProvider } from "../contexts/PopUpWithTwoOptionsContext";
 import { MessageProvider } from "../contexts/MessageContext";
 import { PremiumButtonsProvider } from "../contexts/PremiumButtonsContext";
+import { SupportFileProvider } from "../contexts/SupportFileContext";
 
 export type ContextProvidersProps = {
   children: React.ReactNode;
@@ -23,7 +24,9 @@ export function Providers(props: ContextProvidersProps) {
               <PopUpWithTwoOptionsProvider>
                 <MessageProvider>
                   <PremiumButtonsProvider>
-                    {children}
+                    <SupportFileProvider>
+                      {children}
+                    </SupportFileProvider>
                   </PremiumButtonsProvider>
                 </MessageProvider>
               </PopUpWithTwoOptionsProvider>

@@ -122,6 +122,33 @@ const styles = StyleSheet.create({
         width: "100%",
         position: "absolute",
         bottom: 188
+    },
+    fileConfirmation: {
+        width: 327,
+        height: 373,
+        backgroundColor: "#8A8A8A",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "black",
+        alignSelf: "center"
+    },
+    fileConfirmationBottom: {
+        position: "absolute",
+        bottom: 100,
+        flexDirection: "row",
+        alignSelf: "center",
+        justifyContent: "space-between",
+        width: "100%",
+    },
+    removeFileButton: {
+        position: "absolute",
+        top: -10,
+        right: -10,
+        backgroundColor: "white",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 30
     }
 });
 
