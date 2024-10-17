@@ -19,7 +19,9 @@ export class HomeDAOService {
           headers: {
             "Content-Type": "application/json"
           }
-        } : {}, authContext)
+        } : {
+          method: request.url.includes("approved") ? "POST" : "GET"
+        }, authContext)
 
         return response;
     }

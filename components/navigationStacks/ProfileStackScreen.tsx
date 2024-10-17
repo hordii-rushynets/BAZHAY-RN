@@ -30,6 +30,8 @@ import SupportCameraOrGalleryScreen from '../../screens/profile/SupportCameraOrG
 import TechFromGalleryScreen from '../../screens/profile/TechFromGallery';
 import { FileInterface } from '../../screens/wishCreating/interfaces';
 import TechFileConfirmationScreen from '../../screens/profile/TechFileConfirmation';
+import { Address, Post } from '../../screens/auth/interfaces';
+import AddressOrPostScreen from '../../screens/profile/AddressOrPostScreen';
 
 export type ProfileStackParamList = {
   Settings: undefined;
@@ -59,6 +61,7 @@ export type ProfileStackParamList = {
   SupportCameraOrGallery: undefined; 
   TechFromGallery: undefined;
   TechFileConfirmation: { file: FileInterface };
+  AddressOrPost: { address?: Address, post?: Post }
 };
 
 const ProfileStack = createStackNavigator<ProfileStackParamList>();
@@ -92,6 +95,7 @@ const ProfileStackScreen: React.FC = () => (
     <ProfileStack.Screen name="SupportCameraOrGallery" component={SupportCameraOrGalleryScreen} />
     <ProfileStack.Screen name="TechFromGallery" component={TechFromGalleryScreen} />
     <ProfileStack.Screen name="TechFileConfirmation" component={TechFileConfirmationScreen}/>
+    <ProfileStack.Screen name="AddressOrPost" component={AddressOrPostScreen}/>
   </ProfileStack.Navigator>
 );
 

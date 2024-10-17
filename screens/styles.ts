@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     wishImageContainer: {
-      width: undefined,
-      height: 343,
+      width: "100%",
+      height: undefined,
       borderColor: "black",
       borderWidth: 1,
       borderStyle: "solid",
@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
       justifyContent: "center",
     },
     wishContentContainer: {
-        gap: 16
+        gap: 16,
+        overflow: "visible",
+        backgroundColor: "white"
     },
     wishBottomButtonsContainer: {
         flexDirection: "row",
