@@ -151,7 +151,7 @@ function ProfilePremiumScreen({ navigation }: ProfilePremiumScreenProps) {
             </View>
             <View style={{ gap: 16, width: 300, alignSelf: "center", position: "absolute", bottom: 150}}>
               <SubmitButton onPress={() => { navigation.navigate("FAQCategory", { category: FAQCategory }) }} width="auto">{staticData.profile.profilePremiumScreen.questions}</SubmitButton>
-              <SubmitButton onPress={() => { }} width="auto">{staticData.profile.profilePremiumScreen.techSupport}</SubmitButton>
+              <SubmitButton onPress={() => { navigation.navigate("TechSupport") }} width="auto">{staticData.profile.profilePremiumScreen.techSupport}</SubmitButton>
           </View>
           </>
         }

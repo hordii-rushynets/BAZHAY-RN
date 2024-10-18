@@ -620,7 +620,19 @@ export default data = {
                     }
                 ]
             }
-          ]
+          ],
+        supportCameraOrGalleryScreen: {
+            gallery: "Вибрати в галереї",
+            camera: "Зробити фото"
+        },
+        techFileConfirmationScreen: {
+            retook: "Перезняти",
+            send: "надіслати"
+        },
+        techSupportScreen: {
+            title: "напишіть нам:",
+            placeholder: "Напиши повідомлення"
+        }
     },
     home: {
         notificationsScreen: {
